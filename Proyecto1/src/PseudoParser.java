@@ -25,21 +25,106 @@ public class PseudoParser extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTextArea1 = new javax.swing.JTextArea();
+        clean = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
+        jMenuBar1 = new javax.swing.JMenuBar();
+        jMenu1 = new javax.swing.JMenu();
+        openFile = new javax.swing.JMenuItem();
+        save = new javax.swing.JMenuItem();
+        saveAs = new javax.swing.JMenuItem();
+        jMenu2 = new javax.swing.JMenu();
+        flowChart = new javax.swing.JMenuItem();
+        errors = new javax.swing.JMenuItem();
+        jMenu3 = new javax.swing.JMenu();
+        userManual = new javax.swing.JMenuItem();
+        technicalManual = new javax.swing.JMenuItem();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("PseudoParser");
+
+        jTextArea1.setColumns(20);
+        jTextArea1.setRows(5);
+        jScrollPane1.setViewportView(jTextArea1);
+
+        clean.setText("Clean");
+
+        jButton1.setBackground(new java.awt.Color(153, 204, 0));
+        jButton1.setText("Run");
+
+        jMenu1.setText("File");
+
+        openFile.setText("Open file");
+        jMenu1.add(openFile);
+
+        save.setText("save");
+        jMenu1.add(save);
+
+        saveAs.setText("Save as ...");
+        saveAs.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                saveAsActionPerformed(evt);
+            }
+        });
+        jMenu1.add(saveAs);
+
+        jMenuBar1.add(jMenu1);
+
+        jMenu2.setText("Report");
+
+        flowChart.setText("Flowchart");
+        jMenu2.add(flowChart);
+
+        errors.setText("Errors");
+        jMenu2.add(errors);
+
+        jMenuBar1.add(jMenu2);
+
+        jMenu3.setText("View");
+
+        userManual.setText("User manual");
+        jMenu3.add(userManual);
+
+        technicalManual.setText("Technical manual");
+        jMenu3.add(technicalManual);
+
+        jMenuBar1.add(jMenu3);
+
+        setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 748, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(clean)
+                        .addGap(18, 18, 18)
+                        .addComponent(jButton1)))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(clean)
+                    .addComponent(jButton1))
+                .addGap(12, 12, 12)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 454, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void saveAsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveAsActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_saveAsActionPerformed
 
     /**
      * @param args the command line arguments
@@ -77,5 +162,20 @@ public class PseudoParser extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton clean;
+    private javax.swing.JMenuItem errors;
+    private javax.swing.JMenuItem flowChart;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenu jMenu2;
+    private javax.swing.JMenu jMenu3;
+    private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTextArea jTextArea1;
+    private javax.swing.JMenuItem openFile;
+    private javax.swing.JMenuItem save;
+    private javax.swing.JMenuItem saveAs;
+    private javax.swing.JMenuItem technicalManual;
+    private javax.swing.JMenuItem userManual;
     // End of variables declaration//GEN-END:variables
 }
