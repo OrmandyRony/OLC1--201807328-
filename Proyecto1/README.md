@@ -4,8 +4,15 @@
 * [Compilador](#compilador)
     * [Estructura de un compilador](#estructura-de-un-compilador)
         * [Análisis](#análisis)
-* 
-
+* [Sintaxis Pseudocodigo](#sintaxis-pseudocodigo)
+    * [Conjunto de caracteres](#conjunto-de-caracteres)
+    * [Palabras Reservadas](#palabras-reservadas)
+    * [Operadores](#operadores)
+    * [Tipos de datos](#tipos-de-datos)
+        * [Carácter](#carácter)
+        * [Número](#número)
+        * [Cadena de caracteres](#cadena-de-caracteres)
+        * [Boolean](#boolean)
 * [Referencias](#referencias)
 
 
@@ -37,7 +44,7 @@ El parser (analizador sintáctico) utiliza los primeros componentes de los token
 
 Para esta fase se usara la herramienta [CUP](http://www2.cs.tum.edu/projects/cup/).
 
-## Sintaxis Pseudo-Parser
+## Sintaxis Pseudocodigo
 
 ### Conjunto de caracteres
 El conjunto basico de caracteres fuente de Pseudo-Parser incluye los caracteres:
@@ -109,7 +116,7 @@ Un carácter dentro de una comilla simple. Es posible ingresar el código ascii 
 94
 ```
 
-#### Cadena
+#### Cadena de caracteres
 Conjunto de caracteres dentro de comillas dobles
 ```C
 “Esta es una cadena”
