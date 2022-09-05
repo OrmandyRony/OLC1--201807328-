@@ -386,9 +386,48 @@ imprimir <expresión>; //impresión sin salto de línea
 imprimir_nl <expresión>; //impresión con salto de línea
 ```
 
-<span style="color:orange">orange</span>  
-<span style="color:lime">lime</span>  
-<font color='red'>rojo</font>
+## Operaciones básicas
+### Suma
+Esta operación usa el carácter “+”
+```Java
+<Operando1> + <operando2>
+```
+
+### Resta
+Esta operación usa el carácter “-”
+```Java
+<Operando1> - <operando2>
+```
+
+### Multiplicación
+Esta operación usa el carácter “*”
+```Java
+<Operando1> * <operando2>
+```
+
+### División
+Esta operación usa el carácter “/”
+```Java
+<Operando1> /<operando2>
+```
+
+### Potencia
+Esta operación usa la palabra reservada “potencia”
+```Java
+<Operando1> potencia [ <operando2> ]
+```
+
+### Módulo
+Esta operación usa la palabra reservada “modulo”
+```Java
+<Operando1> mod <operando2>
+```
+
+### Paréntesis
+Se usará para asociar un conjunto de operaciones aritméticas.
+```Java
+(<Conjunto de operaciones aritmeticas>)
+```
 
 ## Referencias
 <dl compact="compact">
