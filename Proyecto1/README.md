@@ -91,6 +91,7 @@ El conjunto basico de caracteres fuente de Pseudo-Parser incluye los caracteres:
 - fin_funcion
 - ejecutar
 - imprimir
+- imprimir_nl
 - mod
 - ingresar
 
@@ -375,7 +376,15 @@ ejecutar <identificador>(<Lista de parámetros>);
 ```
 
 En ```<Lista de parámetros>``` los parámetros están separados por el carácter
-coma. Y Cada
+coma.
+
+### Impresión
+Esta instrucción muestra el contenido de una expresión o valor de una variable. Para poder utilizarla es necesario una expresión o valor de una variable. Al terminar de realizar la impresión se genera un salto de línea por defecto.
+
+```Java
+imprimir <expresión>; //impresión sin salto de línea
+imprimir_nl <expresión>; //impresión con salto de línea
+```
 
 <span style="color:orange">orange</span>  
 <span style="color:lime">lime</span>  
