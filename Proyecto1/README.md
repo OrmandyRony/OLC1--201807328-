@@ -8,11 +8,21 @@
     * [Conjunto de caracteres](#conjunto-de-caracteres)
     * [Palabras Reservadas](#palabras-reservadas)
     * [Operadores](#operadores)
+    * [Comentarios](#comentarios)
+    * [Declaración de variables](#declaración-de-variables)
+    * [Asignación de variables](#asignación-de-variables)
     * [Tipos de datos](#tipos-de-datos)
         * [Carácter](#carácter)
         * [Número](#número)
         * [Cadena de caracteres](#cadena-de-caracteres)
         * [Boolean](#boolean)
+    * [Condicionales](#condiconales)
+        * [Condicional "Si"](#condicional-si)
+        * [Selección múltiple](#selección-múltiple)
+    * [Ciclos](#ciclos)
+        * [Ciclo "Para"](#ciclo-para)
+        * [Ciclo "Mientras"](#ciclo-mientras)
+        * [Ciclo “Repetir hasta”](#ciclo-repetir-hasta)
 * [Referencias](#referencias)
 
 
@@ -83,12 +93,11 @@ El conjunto basico de caracteres fuente de Pseudo-Parser incluye los caracteres:
 ### Operadores
 
 - aritmética: ```+, -, *, /,%```
-- asignación: ```=```
+- asignación: ```->```
 - lógica booleana : ```!, &&,||```
 - prueba de igualdad:``` ==,!=```
 - funciones de llamada: ```( )```
 - incremento y decremento : ++,--
-selección de miembros : .,->
 - relaciones de orden : ```<, <=, >,>=```
 - secuenciación:,
 agrupación de subexpresiones :( )
@@ -190,6 +199,114 @@ Tipo de dato verdadero o falso.
 Verdadero
 Falso
 
+```
+
+### Condiconales
+
+#### Condicional “Si”
+Esta es una instrucción que permite ejecutar un bloque de instrucciones cuando una condición es válida. La instrucción necesita una condición para ejecutar un bloque asignado, cuando la condición es falsa se ejecuta otro bloque de instrucciones. Es posible que el bloque de instrucciones que ejecuta una condición falsa, sea opcional. Es **obligatorio** que ingrese una condición en esta instrucción.
+
+```C++
+//instrucción con bloque de instrucciones con condición verdadera
+si <condición> entonces
+    <instrucciones>
+fin_si
+//instrucción con bloque de instrucciones con condición verdadera y falsa
+si <condición>
+    <instrucciones>
+de_lo_contrario
+    <instrucciones>
+fin_si
+```
+
+Caso especial: se usará la palabra reservada “``o_si``” cuando una condición es falsa y se trata de volver hacer otra validación con otra condición. Este tipo de ejecución puede ser opcional o repetirse una o muchas veces. A continuación se muestra un ejemplo de este caso especial
+
+```C++
+si <condición>
+    <instrucciones>
+o_si <condición_nueva> entonces
+    <instrucciones>
+de_lo_contrario
+    <instrucciones>
+fin_si
+
+si <condición>
+    <instrucciones>
+o_si <condición_nueva> entonces
+    <instrucciones>
+o_si <condición_nueva> entonces
+    <instrucciones>
+de_lo_contrario
+    <instrucciones>
+fin_si    
+```
+
+#### Selección múltiple
+Este tipo de condición permite ejecutar una lista de instrucciones en base a un valor ingresado, existen varias opciones posibles y cuando el valor coincida con una de las opciones se ejecuta un conjunto de instrucciones. Existe una palabra reservada “```de_lo_contrario```” para ejecutar automáticamente cuando la lista de opciones no se cumple, pero es de forma opcional.
+
+```C++
+segun <valor> hacer
+    ¿ <valor 1> ? entonces
+        <instrucciones para valor 1>
+    ¿ <valor 2> ? entonces
+        <instrucciones para valor 2>
+    ¿ <valor 3> ? entonces
+        <instrucciones para valor 3>
+    de_lo_contrario entonces
+        <instrucciones por default>
+fin_segun
+```
+Donde ```<valor>``` puede ser una variable o una expresión aritmética.
+
+### Ciclos
+Este tipo de instrucción permite realizar tareas repetitivas en base a una condición dada. Cada una de las instrucciones necesita de una condición de forma obligatoria.
+
+#### Ciclo “Para”
+Este ciclo ejecuta un conjunto de instrucciones, con un límite de repeticiones. Es necesario ingresar un *valor inicial* y también un *valor final*, el valor final es el que le indica al ciclo, en momento para terminar de realizar las repeticiones. Otro de los elementos necesarios en este ciclo es el *número de pasos que realizará entre cada repetición*. Cuando el ciclo no tiene definido el número de pasos, se tomará como defecto el incremento en 1. Es posible que la lista de instrucciones esté vacía.
+
+```C++
+//Estructura de ciclo para con salto no definido
+para <variable> -> <valor inicial> hasta <valor final> hacer
+    <instrucciones>
+fin_para
+
+para <variable> -> <valor inicial> hasta <valor final> hacer
+    //null
+fin_para
+
+//Estructura de ciclo para con salto definido
+para <variable> -> <valor inicial> hasta <valor final> con incremental
+    <valor del salto> hacer
+        <instrucciones>
+fin_para
+```
+
+Donde ```<valor inicial>``` y ```<valor final>``` puede ser considerado como el nombre de una *variable, un número o una expresión aritmética*.
+
+#### Ciclo “Mientras”
+Este ciclo ejecuta un conjunto de instrucciones sin límite definido. Para poder realizar una repetición es necesario que exista una condición. Es posible que la lista de instrucciones esté vacía.
+
+```C++
+mientras <condicion> hacer
+    <intrucciones>
+fin_mientas
+
+mientras <condicion> hacer
+    //null
+fin_mientas
+```
+
+#### Ciclo “Repetir hasta”
+Este ciclo ejecuta un conjunto de instrucciones sin límite definido. A diferencia del ciclo anterior, este ciclo realiza una única repetición sin restricción. Para poder realizar las demás repeticiones es necesario que exista una condición. Es posible que la lista de instrucciones esté vacía.
+
+```C++
+repetir
+    <instrucciones>
+hasta_que <condición>
+
+repetir
+    //null
+hasta_que <condición>
 ```
 
 <span style="color:orange">orange</span>  
