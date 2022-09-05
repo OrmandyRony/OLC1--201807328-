@@ -23,6 +23,10 @@
         * [Ciclo "Para"](#ciclo-para)
         * [Ciclo "Mientras"](#ciclo-mientras)
         * [Ciclo “Repetir hasta”](#ciclo-repetir-hasta)
+    * [Retorno](#retorno)
+    * [Método](#método)
+    * [Funciones](#funciones)
+    * [Llamada de funciones y métodos](#llamada-de-funciones-y-métodos)
 * [Referencias](#referencias)
 
 
@@ -201,7 +205,7 @@ Falso
 
 ```
 
-### Condiconales
+### Condicionales
 
 #### Condicional “Si”
 Esta es una instrucción que permite ejecutar un bloque de instrucciones cuando una condición es válida. La instrucción necesita una condición para ejecutar un bloque asignado, cuando la condición es falsa se ejecuta otro bloque de instrucciones. Es posible que el bloque de instrucciones que ejecuta una condición falsa, sea opcional. Es **obligatorio** que ingrese una condición en esta instrucción.
@@ -308,6 +312,70 @@ repetir
     //null
 hasta_que <condición>
 ```
+
+### Retorno
+Esta instrucción está encargada de devolver un valor específicamente. Esta instrucción puede reconocer una ```<condición>``` , un número o una ```<expresión aritmética>```.
+
+```Java
+retornar <expresión aritmética> ;
+retornar <condición>;
+retornar <número>;
+```
+
+### Método
+Esta instrucción permite agrupar un conjunto de instrucciones y asignarles un nombre para identificarlo dentro del contenido del archivo. No necesita una instrucción de “Retorno” y si en caso es reconocido este tipo de instrucción, debe reportar dicho error.
+
+```Java
+metodo <nombre>
+ <instrucciones>
+fin_metodo
+```
+
+Es posible agregar parámetros al método, estos parámetros tendrá definido el tipo de dato y su respectivo nombre. Cada uno de los parámetros estará separado por un
+carácter coma.
+
+```Java
+metodo <nombre> con_parametros (<lista de parametros>)
+    <instrucciones>
+fin_metodo
+
+<lista de parametros> = <nombre> <tipo de dato> , <nombre> <tipo de dato> ,
+<nombre> <tipo de dato> …
+```
+
+### Funciones
+Esta instrucción permite agrupar un conjunto de instrucciones y asignarles un nombre para identificarlo dentro del contenido del archivo. Esta instrucción si es posible reconocer una instrucción de “Retorno'' en su estructura.
+
+```Java
+funcion <nombre> <tipo dato>
+    <instrucciones>
+fin_funcion
+```
+
+Es posible agregar parámetros a la instrucción, estos parámetros tendrá definido el tipo de dato y su respectivo nombre. Cada uno de los parámetros estará separado por un carácter coma.
+
+```Java
+funcion <nombre> <tipo dato> con_parametros (<lista de parámetros>)
+    <instrucciones>
+fin_funcion
+
+<lista de parametros> = <nombre> <tipo de dato> , <nombre> <tipo de dato> ,
+<nombre> <tipo de dato> …
+```
+
+### Llamada de funciones y métodos
+Este tipo de instrucción realiza la ejecución de un método o función, para poder realizarlo es necesario ingresar el identificador de la función o método y la lista de parámetros necesarios.
+
+```Java
+//ejecutar sin parámetros
+ejecutar <identificador>();
+
+//ejecutar con parámetros
+ejecutar <identificador>(<Lista de parámetros>);
+```
+
+En ```<Lista de parámetros>``` los parámetros están separados por el carácter
+coma. Y Cada
 
 <span style="color:orange">orange</span>  
 <span style="color:lime">lime</span>  
