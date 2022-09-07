@@ -487,3 +487,27 @@ Graphics Visualization and Usability Center
 Georgia Institute of Technology
     </dd>
 </dl>
+
+<dl compact="compact">
+    <dt>
+        <a name="manualJFlex" href="https://www.jflex.de/manual.html">[3]</a> 
+    </dt>
+    <dd>
+    <i> JFlex User’s Manual<i>
+by Gerwin Klein, Steve Rowe, and Régis Décamps.
+    </dd>
+</dl>
+
+<dl compact="compact">
+    <dt>
+        <a name="proyecto1">[3]</a> 
+    </dt>
+    <dd>
+    <i>Proyecto 1,<i>
+Universidad San Carlos de Guatemala
+Facultad de Ingeniería
+Escuela de Ciencias y Sistemas
+Organización de Lenguajes y Compiladores 1
+    </dd>
+</dl>
+
