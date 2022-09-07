@@ -75,7 +75,6 @@ El conjunto basico de caracteres fuente de Pseudo-Parser incluye los caracteres:
 - de_lo_contrario
 - fin_si
 - segun
-- de_lo_contrario
 - para
 - fin_para
 - hasta
@@ -94,18 +93,51 @@ El conjunto basico de caracteres fuente de Pseudo-Parser incluye los caracteres:
 - imprimir_nl
 - mod
 - ingresar
+- como
+- con_valor
+- mayor
+- menor
+- mayor_o_igual
+- menor_o_igual
+- es_igual
+- es_diferente
+- or
+- and
+- not
+- numero
+- cadena
+- caracter
+- boolean
+- verdadero
+- falso
 
 ### Operadores
 
 - aritmética: ```+, -, *, /,%```
 - asignación: ```->```
-- lógica booleana : ```!, &&,||```
+
 - prueba de igualdad:``` ==,!=```
 - funciones de llamada: ```( )```
-- incremento y decremento : ++,--
 - relaciones de orden : ```<, <=, >,>=```
 - secuenciación:,
 agrupación de subexpresiones :( )
+
+| Operador | Ejemplo |
+| --- | --- |
+| Mayor | Expresion mayor Expresion |
+| Menor | Expresion mayor Expresion |
+| Mayor o igual que | Expresion mayor_o_igual Expresion |
+| Menor o igual que | Expresion menor_o_igual Expresion |
+| Igual | Expresion es_igual Expresion |
+| Diferente | Expresion es_diferente Expresion |
+
+Operadores lógicos
+
+| Operador | Ejemplo |
+| --- | --- |
+| Or | Expresion or Expresion |
+| And | Enpresion and Expresion |
+| Not | not Expresion |
 
 ### Comentarios
 Esta instrucción puede estar en cualquier parte del archivo. Existen dos tipo de comentarios: de una línea y de dos o más líneas
