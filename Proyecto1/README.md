@@ -463,10 +463,27 @@ Se usará para asociar un conjunto de operaciones aritméticas.
 
 ## Referencias
 <dl compact="compact">
-<dt><a name="dragonbook">[1]</a> 
-</dt><dd>A. Aho, R. Sethi, and J. Ullman, 
+<dt>
+<a name="dragonbook">[1]</a> 
+</dt>
+<dd>
+A. Aho, R. Sethi, and J. Ullman, 
 <i>Compilers: Principles, Techniques, and Tools</i>, 
 Addison-Wesley Publishing,
 Reading, MA, 
 1986.
+</dd>
+</dl>
+
+<dl compact="compact">
+    <dt>
+        <a name="manualcup" href="http://www2.cs.tum.edu/projects/cup/docs.php#intro">[2]</a> 
+    </dt>
+    <dd>
+    <i> CUP User's Manual<i>
+Michael Petter, Technische Universität München
+Scott E. Hudson
+Graphics Visualization and Usability Center
+Georgia Institute of Technology
+    </dd>
 </dl>
