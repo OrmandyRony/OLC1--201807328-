@@ -2,6 +2,7 @@
 # Pseudo-Parser
 ## Tabla de contenido
 * [Abstract](#abstract)
+* [Herramientas requeridas](#herramientas-requeridas)
 * [Compilador](#compilador)
     * [Estructura de un compilador](#estructura-de-un-compilador)
         * [Análisis](#análisis)
@@ -37,6 +38,12 @@ Este proyecto es un traductor de pseudocodigo a los lenguajes Python y Golang, u
 **Palabras clave:**  *Python, Golang, Java, JFlex y Cup*
 
 ----
+
+## Herramientas requeridas
+- Java 8 o una version mayor
+- [Netbeans](https://netbeans.apache.org/download/nb120/nb120.html)
+- [JFlex](https://www.jflex.de/)
+- [Cup](http://www2.cs.tum.edu/projects/cup/index.php)
 
 ## Compilador
 Un compilador es un programa que puede leer un lenguaje (el lenguaje fuente) y traducilo en un programa equivalente  en otro lenguaje (lenguaje destino).
