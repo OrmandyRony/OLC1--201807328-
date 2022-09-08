@@ -28,10 +28,10 @@ Letra = [a-zA-Z]
 Id =  {Letra}({Letra}|{Digito})*
 Variable =  "_" {Id} "_"
 Numero = [1-9]{Digito}* | {Digito}+(\.{Digito}+)
-Caracter = ("'" [^] "'" | ("\'\${" {AscciLetras} "}\'")) // '${111}'
 AscciMayusculas = (6[5-9]|[7-8][0-9]|90)
 AscciMinusculas = (9[7-9]|1[0-1][0-9]|12[0-2])
-AscciLetras = AscciMayusculas | {Digito}
+AscciLetras = {AscciMayusculas} | {AscciMinusculas}
+Caracter = ("'" [^] "'" | ("\'\${" {AscciLetras} "}\'")) // '${111}'
 Cadena = "\"" [^]* "\"" 
 
 %%
