@@ -21,6 +21,7 @@ public class sym {
   public static final int LIT_CARACTER = 20;
   public static final int MAYOR = 13;
   public static final int EOF = 0;
+  public static final int LIT_BOOLEAN = 22;
   public static final int MAYOR_O_IGUAL = 15;
   public static final int ES_DIFERENTE = 18;
   public static final int error = 1;
@@ -52,7 +53,8 @@ public class sym {
   "ES_DIFERENTE",
   "PUNTO_COMA",
   "LIT_CARACTER",
-  "LIT_CADENA"
+  "LIT_CADENA",
+  "LIT_BOOLEAN"
   };
 }
 
