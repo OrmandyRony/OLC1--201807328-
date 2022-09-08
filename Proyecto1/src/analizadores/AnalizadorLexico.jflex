@@ -34,15 +34,18 @@ AscciLetras = {AscciMayusculas} | {AscciMinusculas}
 Caracter = ("'" [^] "'" | ("\'\${" {AscciLetras} "}\'")) // '${111}'
 Cadena = "\"" [^]* "\"" 
 Boolean = "verdadero" | "falso"
+Asignacion = "->"
+
 %%
 
 /* Keywords */
-<YYINITIAL> "inicio"    { System.out.println("Se reconocio inicio"); return new Symbol(sym.INICIO); }
-<YYINITIAL> "fin"       { System.out.println("Se reconocio fin"); return new Symbol(sym.FIN); }
-<YYINITIAL> "ingresar"  { System.out.println("Se reconocio ingresar"); return new Symbol(sym.INGRESAR); }
-<YYINITIAL> {Variable}  { System.out.println("Se reconocio variable"); return new Symbol(sym.VARIABLE); }
-<YYINITIAL> "como"      { System.out.println("Se reconocio como"); return new Symbol(sym.COMO); }
-<YYINITIAL> "con_valor" { System.out.println("Se reconocio con_valor"); return new Symbol(sym.CON_VALOR); }
+<YYINITIAL> "inicio"        { System.out.println("Se reconocio inicio"); return new Symbol(sym.INICIO); }
+<YYINITIAL> "fin"           { System.out.println("Se reconocio fin"); return new Symbol(sym.FIN); }
+<YYINITIAL> "ingresar"      { System.out.println("Se reconocio ingresar"); return new Symbol(sym.INGRESAR); }
+<YYINITIAL> {Variable}      { System.out.println("Se reconocio variable"); return new Symbol(sym.VARIABLE); }
+<YYINITIAL> "como"          { System.out.println("Se reconocio como"); return new Symbol(sym.COMO); }
+<YYINITIAL> "con_valor"     { System.out.println("Se reconocio con_valor"); return new Symbol(sym.CON_VALOR); }
+<YYINITIAL> {Asignacion}    { System.out.println("Se reconocio con_valor"); return new Symbol(sym.ASIGNACION); }
 
 /* Tipos de dato */
 <YYINITIAL> { 

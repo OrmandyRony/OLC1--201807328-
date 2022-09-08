@@ -31,12 +31,13 @@ public class AnalizadorSintactico extends java_cup.runtime.lr_parser {
   /** Production table. */
   protected static final short _production_table[][] = 
     unpackFromStrings(new String[] {
-    "\000\020\000\002\002\005\000\002\002\004\000\002\002" +
+    "\000\023\000\002\002\005\000\002\002\004\000\002\002" +
     "\004\000\002\003\004\000\002\003\003\000\002\007\003" +
     "\000\002\005\003\000\002\005\003\000\002\005\003\000" +
     "\002\005\003\000\002\006\003\000\002\006\003\000\002" +
-    "\004\011\000\002\004\011\000\002\004\011\000\002\004" +
-    "\011" });
+    "\006\003\000\002\006\003\000\002\004\011\000\002\004" +
+    "\011\000\002\004\011\000\002\004\011\000\002\010\006" +
+    "" });
 
   /** Access to production table. */
   public short[][] production_table() {return _production_table;}
@@ -53,12 +54,12 @@ public class AnalizadorSintactico extends java_cup.runtime.lr_parser {
     "\013\017\014\020\015\022\001\002\000\004\011\034\001" +
     "\002\000\004\011\031\001\002\000\004\011\026\001\002" +
     "\000\004\011\023\001\002\000\004\027\024\001\002\000" +
-    "\004\025\025\001\002\000\006\005\ufff3\006\ufff3\001\002" +
+    "\004\025\025\001\002\000\006\005\ufff1\006\ufff1\001\002" +
     "\000\004\030\027\001\002\000\004\025\030\001\002\000" +
-    "\006\005\ufff2\006\ufff2\001\002\000\004\026\032\001\002" +
-    "\000\004\025\033\001\002\000\006\005\ufff4\006\ufff4\001" +
+    "\006\005\ufff0\006\ufff0\001\002\000\004\026\032\001\002" +
+    "\000\004\025\033\001\002\000\006\005\ufff2\006\ufff2\001" +
     "\002\000\004\016\035\001\002\000\004\025\036\001\002" +
-    "\000\006\005\ufff5\006\ufff5\001\002\000\004\002\000\001" +
+    "\000\006\005\ufff3\006\ufff3\001\002\000\004\002\000\001" +
     "\002" });
 
   /** Access to parse-action table. */
@@ -260,7 +261,25 @@ class CUP$AnalizadorSintactico$actions {
           return CUP$AnalizadorSintactico$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 12: // declaracion ::= INGRESAR VARIABLE COMO NUMERO CON_VALOR LIT_NUMERO PUNTO_COMA 
+          case 12: // literal ::= LIT_CADENA 
+            {
+              Object RESULT =null;
+
+              CUP$AnalizadorSintactico$result = parser.getSymbolFactory().newSymbol("literal",4, ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()), RESULT);
+            }
+          return CUP$AnalizadorSintactico$result;
+
+          /*. . . . . . . . . . . . . . . . . . . .*/
+          case 13: // literal ::= LIT_BOOLEAN 
+            {
+              Object RESULT =null;
+
+              CUP$AnalizadorSintactico$result = parser.getSymbolFactory().newSymbol("literal",4, ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()), RESULT);
+            }
+          return CUP$AnalizadorSintactico$result;
+
+          /*. . . . . . . . . . . . . . . . . . . .*/
+          case 14: // declaracion ::= INGRESAR VARIABLE COMO NUMERO CON_VALOR LIT_NUMERO PUNTO_COMA 
             {
               Object RESULT =null;
 
@@ -269,7 +288,7 @@ class CUP$AnalizadorSintactico$actions {
           return CUP$AnalizadorSintactico$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 13: // declaracion ::= INGRESAR VARIABLE COMO CARACTER CON_VALOR LIT_CARACTER PUNTO_COMA 
+          case 15: // declaracion ::= INGRESAR VARIABLE COMO CARACTER CON_VALOR LIT_CARACTER PUNTO_COMA 
             {
               Object RESULT =null;
 
@@ -278,7 +297,7 @@ class CUP$AnalizadorSintactico$actions {
           return CUP$AnalizadorSintactico$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 14: // declaracion ::= INGRESAR VARIABLE COMO CADENA CON_VALOR LIT_CADENA PUNTO_COMA 
+          case 16: // declaracion ::= INGRESAR VARIABLE COMO CADENA CON_VALOR LIT_CADENA PUNTO_COMA 
             {
               Object RESULT =null;
 
@@ -287,11 +306,20 @@ class CUP$AnalizadorSintactico$actions {
           return CUP$AnalizadorSintactico$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 15: // declaracion ::= INGRESAR VARIABLE COMO BOOLEAN CON_VALOR LIT_BOOLEAN PUNTO_COMA 
+          case 17: // declaracion ::= INGRESAR VARIABLE COMO BOOLEAN CON_VALOR LIT_BOOLEAN PUNTO_COMA 
             {
               Object RESULT =null;
 
               CUP$AnalizadorSintactico$result = parser.getSymbolFactory().newSymbol("declaracion",2, ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.elementAt(CUP$AnalizadorSintactico$top-6)), ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()), RESULT);
+            }
+          return CUP$AnalizadorSintactico$result;
+
+          /*. . . . . . . . . . . . . . . . . . . .*/
+          case 18: // asignacion ::= VARIABLE ASIGNACION literal PUNTO_COMA 
+            {
+              Object RESULT =null;
+
+              CUP$AnalizadorSintactico$result = parser.getSymbolFactory().newSymbol("asignacion",6, ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.elementAt(CUP$AnalizadorSintactico$top-3)), ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()), RESULT);
             }
           return CUP$AnalizadorSintactico$result;
 

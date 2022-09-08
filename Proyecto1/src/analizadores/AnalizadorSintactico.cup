@@ -9,11 +9,11 @@ parser code {:
 terminal INICIO, FIN, INGRESAR, VARIABLE, COMO, CON_VALOR, 
 BOOLEAN, NUMERO, CARACTER, CADENA, LIT_NUMERO, MAYOR, MENOR, 
 MAYOR_O_IGUAL, MENOR_O_IGUAL, ES_IGUAL, ES_DIFERENTE, PUNTO_COMA,
-LIT_CARACTER, LIT_CADENA, LIT_BOOLEAN;
+LIT_CARACTER, LIT_CADENA, LIT_BOOLEAN, ASIGNACION;
 
 /* Non terminals */
 non terminal iniciar, lista_expresiones, declaracion, tipo_dato, literal;
-non terminal expresion;
+non terminal expresion, asignacion;
 
 /* Precedences */
 
@@ -37,6 +37,8 @@ tipo_dato ::= BOOLEAN
 
 literal ::= LIT_NUMERO
         | LIT_CARACTER
+        | LIT_CADENA
+        | LIT_BOOLEAN
 ;
 
 declaracion ::= INGRESAR VARIABLE COMO NUMERO CON_VALOR LIT_NUMERO PUNTO_COMA
@@ -44,3 +46,5 @@ declaracion ::= INGRESAR VARIABLE COMO NUMERO CON_VALOR LIT_NUMERO PUNTO_COMA
             | INGRESAR VARIABLE COMO CADENA CON_VALOR LIT_CADENA PUNTO_COMA
             | INGRESAR VARIABLE COMO BOOLEAN CON_VALOR LIT_BOOLEAN PUNTO_COMA
 ;
+
+asignacion ::= VARIABLE ASIGNACION literal PUNTO_COMA;  

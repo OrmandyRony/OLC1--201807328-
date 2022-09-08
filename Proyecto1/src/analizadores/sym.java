@@ -18,6 +18,7 @@ public class sym {
   public static final int VARIABLE = 5;
   public static final int CARACTER = 10;
   public static final int BOOLEAN = 8;
+  public static final int ASIGNACION = 23;
   public static final int LIT_CARACTER = 20;
   public static final int MAYOR = 13;
   public static final int EOF = 0;
@@ -54,7 +55,8 @@ public class sym {
   "PUNTO_COMA",
   "LIT_CARACTER",
   "LIT_CADENA",
-  "LIT_BOOLEAN"
+  "LIT_BOOLEAN",
+  "ASIGNACION"
   };
 }
 
