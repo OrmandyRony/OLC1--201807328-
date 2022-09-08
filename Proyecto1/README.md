@@ -493,6 +493,15 @@ Se escriben con mayuscula
 ```
 INICIO, FIN, INGRESAR, VARIABLE;
 ```
+## Ejecucion de los generadore JFlex y Cup
+### Ejecucion de JFlex
+```Bash
+$ java -jar jflex-full-1.7.0.jar AnalizadorLexico.jflex
+```
+### Ejecucion Cup
+```Bash
+$ java -jar java-cup-11b.jar -parser AnalizadorSintactico  AnalizadorSintactico.cup
+```
 
 ## Referencias
 <dl compact="compact">
