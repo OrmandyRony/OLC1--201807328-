@@ -1,0 +1,45 @@
+package analizadores;
+import java_cup.runtime.*;
+
+parser code {:
+    public String codigoTraducido = "";
+:}
+
+/* Terminals */
+terminal INICIO, FIN, INGRESAR, VARIABLE, COMO, CON_VALOR, 
+BOOLEAN, NUMERO, CARACTER, CADENA, LIT_NUMERO, MAYOR, MENOR, 
+MAYOR_O_IGUAL, MENOR_O_IGUAL, ES_IGUAL, ES_DIFERENTE, PUNTO_COMA,
+LIT_CARACTER, LIT_CADENA;
+
+/* Non terminals */
+non terminal iniciar, lista_expresiones, declaracion, tipo_dato, literal;
+non terminal expresion;
+
+/* Precedences */
+
+/* The grammar rules */
+iniciar ::= INICIO lista_expresiones FIN {: System.out.println("codigo traducido");:}
+            | INICIO FIN
+;
+
+lista_expresiones ::= expresion lista_expresiones
+                    | expresion:e {: System.out.println(e);:}
+;
+
+expresion ::= declaracion
+;
+
+tipo_dato ::= BOOLEAN
+            | NUMERO
+            | CARACTER
+            | CADENA
+;
+
+literal ::= LIT_NUMERO
+        | LIT_CARACTER
+;
+
+declaracion ::= INGRESAR VARIABLE COMO NUMERO CON_VALOR LIT_NUMERO PUNTO_COMA
+            | INGRESAR VARIABLE COMO CARACTER CON_VALOR LIT_CARACTER PUNTO_COMA
+            | INGRESAR VARIABLE COMO CADENA CON_VALOR LIT_CADENA PUNTO_COMA
+;

@@ -1,3 +1,16 @@
+
+import analizadores.AnalizadorLexico;
+import analizadores.AnalizadorSintactico;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JFileChooser;
+
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
@@ -8,7 +21,9 @@
  * @author ormandyrony
  */
 public class PseudoParser extends javax.swing.JFrame {
-
+    private File ficheroActual;
+    AnalizadorLexico lexico;
+    AnalizadorSintactico sintactico;
     /**
      * Creates new form PseudoParser
      */
@@ -26,9 +41,9 @@ public class PseudoParser extends javax.swing.JFrame {
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        txtAreaCodigo = new javax.swing.JTextArea();
         clean = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
+        run = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         openFile = new javax.swing.JMenuItem();
@@ -44,21 +59,41 @@ public class PseudoParser extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("PseudoParser");
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane1.setViewportView(jTextArea1);
+        txtAreaCodigo.setColumns(20);
+        txtAreaCodigo.setRows(5);
+        jScrollPane1.setViewportView(txtAreaCodigo);
 
         clean.setText("Clean");
+        clean.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cleanActionPerformed(evt);
+            }
+        });
 
-        jButton1.setBackground(new java.awt.Color(153, 204, 0));
-        jButton1.setText("Run");
+        run.setBackground(new java.awt.Color(153, 204, 0));
+        run.setText("Run");
+        run.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                runActionPerformed(evt);
+            }
+        });
 
         jMenu1.setText("File");
 
         openFile.setText("Open file");
+        openFile.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                openFileActionPerformed(evt);
+            }
+        });
         jMenu1.add(openFile);
 
-        save.setText("save");
+        save.setText("Save");
+        save.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                saveActionPerformed(evt);
+            }
+        });
         jMenu1.add(save);
 
         saveAs.setText("Save as ...");
@@ -105,7 +140,7 @@ public class PseudoParser extends javax.swing.JFrame {
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(clean)
                         .addGap(18, 18, 18)
-                        .addComponent(jButton1)))
+                        .addComponent(run)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -113,7 +148,7 @@ public class PseudoParser extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(6, 6, 6)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
+                    .addComponent(run)
                     .addComponent(clean))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 454, Short.MAX_VALUE)
@@ -125,7 +160,91 @@ public class PseudoParser extends javax.swing.JFrame {
 
     private void saveAsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveAsActionPerformed
         // TODO add your handling code here:
+        this.abrirVentanaGuardar();
     }//GEN-LAST:event_saveAsActionPerformed
+
+    /**
+     * Open window for choose directorio in that save the file
+     */
+    private void abrirVentanaGuardar() {
+        JFileChooser  fc = new JFileChooser();
+        fc.setMultiSelectionEnabled(false);
+        fc.setFileSelectionMode(JFileChooser.FILES_ONLY);
+        int seleccion = fc.showSaveDialog(this.getContentPane());
+
+        if (seleccion == JFileChooser.APPROVE_OPTION) {
+            this.ficheroActual = fc.getSelectedFile();
+            escribirFichero();
+
+        } 
+    }
+    
+    private void escribirFichero() {
+        try ( FileWriter fw = new FileWriter(this.ficheroActual)) {
+            fw.write(this.txtAreaCodigo.getText());
+        } catch (IOException ex) {
+            Logger.getLogger(PseudoParser.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    private void openFileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_openFileActionPerformed
+        // TODO add your handling code here:
+        JFileChooser fc = new JFileChooser();
+        int seleccion = fc.showOpenDialog(this.getContentPane());
+        fc.setFileSelectionMode(JFileChooser.FILES_ONLY);
+        
+        if (seleccion == JFileChooser.APPROVE_OPTION) {
+            this.ficheroActual = fc.getSelectedFile();
+            
+            try (FileReader fr = new FileReader(this.ficheroActual)) {
+                String cadena = "";
+                int valor = fr.read();
+                while (valor != -1) {
+                    cadena += (char) valor;
+                    valor = fr.read();
+                }
+                
+                this.txtAreaCodigo.setText(cadena);
+                
+            } catch (FileNotFoundException ex) {
+                Logger.getLogger(PseudoParser.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (IOException ex) {
+                Logger.getLogger(PseudoParser.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }//GEN-LAST:event_openFileActionPerformed
+
+    private void saveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveActionPerformed
+        // TODO add your handling code here:
+        if (this.ficheroActual == null) {
+            this.abrirVentanaGuardar();
+        } else {
+            this.escribirFichero();
+        }
+    }//GEN-LAST:event_saveActionPerformed
+
+    private void cleanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cleanActionPerformed
+        // TODO add your handling code here:
+        this.txtAreaCodigo.setText("");
+   
+    }//GEN-LAST:event_cleanActionPerformed
+
+    private void runActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_runActionPerformed
+        // TODO add your handling code here:
+        System.out.println("Analizador");
+        // lexico = new AnalizadorLexico(this.txtAreaCodigo.getText());
+        try {
+            AnalizadorLexico lexico2 = new AnalizadorLexico(
+                    new BufferedReader(new FileReader("./entrada1.olc"))
+            );
+            AnalizadorSintactico sintactico2 = new AnalizadorSintactico(lexico2);
+            sintactico2.parse();
+        } catch (Exception e) {
+        }
+        
+        System.out.println("Finalizar analizador");
+        
+    }//GEN-LAST:event_runActionPerformed
 
     /**
      * @param args the command line arguments
@@ -166,17 +285,17 @@ public class PseudoParser extends javax.swing.JFrame {
     private javax.swing.JButton clean;
     private javax.swing.JMenuItem errors;
     private javax.swing.JMenuItem flowChart;
-    private javax.swing.JButton jButton1;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextArea jTextArea1;
     private javax.swing.JMenuItem openFile;
+    private javax.swing.JButton run;
     private javax.swing.JMenuItem save;
     private javax.swing.JMenuItem saveAs;
     private javax.swing.JMenuItem technicalManual;
+    private javax.swing.JTextArea txtAreaCodigo;
     private javax.swing.JMenuItem userManual;
     // End of variables declaration//GEN-END:variables
 }
