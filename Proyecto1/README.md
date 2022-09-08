@@ -3,6 +3,8 @@
 ## Tabla de contenido
 * [Abstract](#abstract)
 * [Herramientas requeridas](#herramientas-requeridas)
+* [Empezando](#empezando)
+    * [Clone este repositorio](#clone-este-repositorio)
 * [Compilador](#compilador)
     * [Estructura de un compilador](#estructura-de-un-compilador)
         * [Análisis](#análisis)
@@ -44,6 +46,14 @@ Este proyecto es un traductor de pseudocodigo a los lenguajes Python y Golang, u
 - [Netbeans](https://netbeans.apache.org/download/nb120/nb120.html)
 - [JFlex](https://www.jflex.de/)
 - [Cup](http://www2.cs.tum.edu/projects/cup/index.php)
+
+## Empezando
+## Clone este repositorio
+
+```Bash
+git clone https://github.com/OrmandyRony/OLC1--201807328-.git
+
+```
 
 ## Compilador
 Un compilador es un programa que puede leer un lenguaje (el lenguaje fuente) y traducilo en un programa equivalente  en otro lenguaje (lenguaje destino).
