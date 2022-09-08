@@ -1,3 +1,4 @@
+[comment]: # (Documentacion tecnica del proyecto 1 de Organizacion de Lenguajes y Compiladores)
 # Pseudo-Parser
 ## Tabla de contenido
 * [Abstract](#abstract)
