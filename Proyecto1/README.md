@@ -31,6 +31,7 @@
     * [Método](#método)
     * [Funciones](#funciones)
     * [Llamada de funciones y métodos](#llamada-de-funciones-y-métodos)
+* [Convenciones](#convenciones)
 * [Referencias](#referencias)
 
 
@@ -48,7 +49,7 @@ Este proyecto es un traductor de pseudocodigo a los lenguajes Python y Golang, u
 - [Cup](http://www2.cs.tum.edu/projects/cup/index.php)
 
 ## Empezando
-## Clone este repositorio
+### Clone este repositorio
 
 ```Bash
 git clone https://github.com/OrmandyRony/OLC1--201807328-.git
@@ -477,6 +478,20 @@ Esta operación usa la palabra reservada “modulo”
 Se usará para asociar un conjunto de operaciones aritméticas.
 ```Java
 (<Conjunto de operaciones aritmeticas>)
+```
+
+## Convenciones
+### Non-terminal
+Se escriben con minuscula
+
+```
+iniciar, lista_expresiones;
+```
+
+### Terminal
+Se escriben con mayuscula
+```
+INICIO, FIN, INGRESAR, VARIABLE;
 ```
 
 ## Referencias
