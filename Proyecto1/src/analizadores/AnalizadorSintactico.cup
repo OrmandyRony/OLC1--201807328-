@@ -8,7 +8,8 @@ parser code {:
 /* Terminals */
 terminal INICIO, FIN, INGRESAR, VARIABLE, COMO, CON_VALOR, 
 BOOLEAN, NUMERO, CARACTER, CADENA, LIT_NUMERO, MAYOR, MENOR, 
-MAYOR_O_IGUAL, MENOR_O_IGUAL, ES_IGUAL, ES_DIFERENTE, PUNTO_COMA;
+MAYOR_O_IGUAL, MENOR_O_IGUAL, ES_IGUAL, ES_DIFERENTE, PUNTO_COMA,
+SEGUN, IMPRIMIR, IMPRIMIR_NL;
 
 
 terminal LIT_CARACTER, LIT_CADENA, LIT_BOOLEAN, ASIGNACION, SI, FIN_SI, O_SI,
@@ -17,7 +18,7 @@ ENTONCES, DE_LO_CONTRARIO;
 /* Non terminals */
 non terminal iniciar, lista_expresiones, declaracion, tipo_dato, literal;
 non terminal expresion, asignacion, condicionales, operador, literal_booleana, 
-expresion_booleana, osi;
+expresion_booleana, osi, imprimir;
 
 /* Precedences */
 
@@ -34,6 +35,7 @@ lista_expresiones ::= lista_expresiones expresion
 expresion ::= declaracion
             | asignacion
             | condicionales
+            | imprimir
 ;
 
 tipo_dato ::= BOOLEAN
@@ -75,6 +77,8 @@ expresion_booleana ::= expresion_booleana operador literal_booleana
             | literal_booleana
 ;
 
+/* Considerar detectar expreciones aritmeticas*/
+
 /*Expresion booleana o verdadero o falso*/
 condicionales ::= SI expresion_booleana ENTONCES expresion FIN_SI
                 | SI expresion_booleana ENTONCES expresion DE_LO_CONTRARIO expresion FIN_SI
@@ -84,4 +88,8 @@ condicionales ::= SI expresion_booleana ENTONCES expresion FIN_SI
 
 osi ::= osi O_SI expresion_booleana ENTONCES expresion
     | O_SI expresion_booleana ENTONCES expresion
+;
+
+imprimir ::= IMPRIMIR literal_booleana PUNTO_COMA
+            | IMPRIMIR_NL literal_booleana PUNTO_COMA
 ;

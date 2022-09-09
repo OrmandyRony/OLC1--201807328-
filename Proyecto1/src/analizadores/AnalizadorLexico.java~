@@ -780,7 +780,7 @@ public class AnalizadorLexico implements java_cup.runtime.Scanner {
             // fall through
           case 46: break;
           case 17: 
-            { System.out.println("Se reconocio el FinSi") return new Symbol(sym.FIN_SI);
+            { System.out.println("Se reconocio el FinSi"); return new Symbol(sym.FIN_SI);
             } 
             // fall through
           case 47: break;

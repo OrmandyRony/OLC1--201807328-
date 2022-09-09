@@ -86,12 +86,23 @@ Asignacion = "->"
 
 /* Condicionales */
 <YYINITIAL> {
+    /* Condicional Si */
     "si"                { System.out.println("Se reconocio el Si"); return new Symbol(sym.SI); }
     "fin_si"            { System.out.println("Se reconocio el FinSi"); return new Symbol(sym.FIN_SI); }
     "o_si"              { return new Symbol(sym.O_SI); }
     "entonces"          { return new Symbol(sym.ENTONCES); }
     "de_lo_contrario"   { return new Symbol(sym.DE_LO_CONTRARIO); }
-    
+    /* Seleccion Multiple */
+    "segun"             { System.out.println("Se reconocio Segun"); return new Symbol(sym.SEGUN); }
+}
+
+/* Impresion */
+<YYINITIAL> {
+    /* Imprimir sin salto de linea */
+    "imprimir"              { System.out.println("Se reconocio\"imprimir\""); return new Symbol(sym.IMPRIMIR); }
+    /* Imprimir con salto de linea */
+    "imprimir_nl"           { System.out.println("Se reconocio\"imprimir_nl\""); return new Symbol(sym.IMPRIMIR_NL); }
+        
 }
 
 .   {
