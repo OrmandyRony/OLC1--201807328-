@@ -2,6 +2,7 @@
 package analizadores;
 import java_cup.runtime.*;
 
+/* Seccion de declaraciones*/
 %%
 %public
 %class AnalizadorLexico
@@ -12,7 +13,7 @@ import java_cup.runtime.*;
 %column
 %unicode
 
-/* Definiciones regulares*/
+/* Definiciones regulares o reglas de traduccion*/
 DeLim = \t|\r|\n|\f|\r\n
 InputCharacter = [^\r\n]
 WhiteSpace = {DeLim} | [ \t\f]
@@ -32,7 +33,7 @@ AscciMayusculas = (6[5-9]|[7-8][0-9]|90)
 AscciMinusculas = (9[7-9]|1[0-1][0-9]|12[0-2])
 AscciLetras = {AscciMayusculas} | {AscciMinusculas}
 Caracter = ("'" [^] "'" | ("\'\${" {AscciLetras} "}\'")) // '${111}'
-Cadena = "\"" [^\"]* "\"" // Esto esta malo 
+Cadena = "\"" [^\"]* "\"" 
 Boolean = "verdadero" | "falso"
 Asignacion = "->"
 
@@ -60,29 +61,38 @@ Asignacion = "->"
 <YYINITIAL> {Caracter}  { System.out.println("Se reconocio el LITERAL caracter"); return new Symbol(sym.LIT_CARACTER); }
 <YYINITIAL> {Cadena}    { System.out.println("Se reconocio el LITERAL CADENA: " + yytext()); return new Symbol(sym.LIT_CADENA); }
 <YYINITIAL> {Boolean}   { System.out.println("Se reconocio el LITERAL booleana"); return new Symbol(sym.LIT_BOOLEAN); }
-<YYINITIAL> ";" { System.out.println("Se reconocio punto y coma"); return new Symbol(sym.PUNTO_COMA); }
+<YYINITIAL> ";"         { System.out.println("Se reconocio punto y coma"); return new Symbol(sym.PUNTO_COMA); }
 
 
 /* Operadores */
 <YYINITIAL> {
-"mayor"           { return new Symbol(sym.MAYOR); }
-"menor"           { return new Symbol(sym.MENOR); }
-"mayor_o_igual"   { return new Symbol(sym.MAYOR_O_IGUAL); }
-"menor_o_igual"   { return new Symbol(sym.MENOR_O_IGUAL); }
-"es_igual"        { return new Symbol(sym.ES_IGUAL); }
-"es_diferente"    { return new Symbol(sym.ES_DIFERENTE); }
+    "mayor"           { return new Symbol(sym.MAYOR); }
+    "menor"           { return new Symbol(sym.MENOR); }
+    "mayor_o_igual"   { return new Symbol(sym.MAYOR_O_IGUAL); }
+    "menor_o_igual"   { System.out.println("Se reconocio Menor o igual "); return new Symbol(sym.MENOR_O_IGUAL); }
+    "es_igual"        { System.out.println("Se reconocio es igual"); return new Symbol(sym.ES_IGUAL); }
+    "es_diferente"    { return new Symbol(sym.ES_DIFERENTE); }
 
-/* Caracter */
+    /* Caracter */
 
 
-/* whitespace */
-{WhiteSpace}  { /* ignore */ }
+    /* whitespace */
+    {WhiteSpace}  { /* ignore */ }
 
-/* Commentss */
-{Comment} { System.out.println("Se reconocio el comentario");/*ignore*/}
+    /* Commentss */
+    {Comment} { System.out.println("Se reconocio el comentario");/*ignore*/}
 
 }
 
+/* Condicionales */
+<YYINITIAL> {
+    "si"                { System.out.println("Se reconocio el Si"); return new Symbol(sym.SI); }
+    "fin_si"            { System.out.println("Se reconocio el FinSi"); return new Symbol(sym.FIN_SI); }
+    "o_si"              { return new Symbol(sym.O_SI); }
+    "entonces"          { return new Symbol(sym.ENTONCES); }
+    "de_lo_contrario"   { return new Symbol(sym.DE_LO_CONTRARIO); }
+    
+}
 
 .   {
         System.out.println("Error Lexico : " +yytext() + " Linea: " + (yyline + 1) + 

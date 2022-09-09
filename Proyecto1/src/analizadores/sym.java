@@ -8,12 +8,14 @@ package analizadores;
 /** CUP generated class containing symbol constants. */
 public class sym {
   /* terminals */
+  public static final int O_SI = 26;
   public static final int MENOR = 14;
   public static final int INGRESAR = 4;
   public static final int CADENA = 11;
   public static final int LIT_CADENA = 21;
   public static final int CON_VALOR = 7;
   public static final int COMO = 6;
+  public static final int ENTONCES = 27;
   public static final int ES_IGUAL = 17;
   public static final int VARIABLE = 5;
   public static final int CARACTER = 10;
@@ -22,14 +24,17 @@ public class sym {
   public static final int LIT_CARACTER = 20;
   public static final int MAYOR = 13;
   public static final int EOF = 0;
+  public static final int DE_LO_CONTRARIO = 28;
   public static final int LIT_BOOLEAN = 22;
   public static final int MAYOR_O_IGUAL = 15;
   public static final int ES_DIFERENTE = 18;
+  public static final int SI = 24;
   public static final int error = 1;
   public static final int NUMERO = 9;
   public static final int LIT_NUMERO = 12;
   public static final int MENOR_O_IGUAL = 16;
   public static final int PUNTO_COMA = 19;
+  public static final int FIN_SI = 25;
   public static final int FIN = 3;
   public static final int INICIO = 2;
   public static final String[] terminalNames = new String[] {
@@ -56,7 +61,12 @@ public class sym {
   "LIT_CARACTER",
   "LIT_CADENA",
   "LIT_BOOLEAN",
-  "ASIGNACION"
+  "ASIGNACION",
+  "SI",
+  "FIN_SI",
+  "O_SI",
+  "ENTONCES",
+  "DE_LO_CONTRARIO"
   };
 }
 

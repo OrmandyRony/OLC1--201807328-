@@ -8,12 +8,16 @@ parser code {:
 /* Terminals */
 terminal INICIO, FIN, INGRESAR, VARIABLE, COMO, CON_VALOR, 
 BOOLEAN, NUMERO, CARACTER, CADENA, LIT_NUMERO, MAYOR, MENOR, 
-MAYOR_O_IGUAL, MENOR_O_IGUAL, ES_IGUAL, ES_DIFERENTE, PUNTO_COMA,
-LIT_CARACTER, LIT_CADENA, LIT_BOOLEAN, ASIGNACION;
+MAYOR_O_IGUAL, MENOR_O_IGUAL, ES_IGUAL, ES_DIFERENTE, PUNTO_COMA;
+
+
+terminal LIT_CARACTER, LIT_CADENA, LIT_BOOLEAN, ASIGNACION, SI, FIN_SI, O_SI,
+ENTONCES, DE_LO_CONTRARIO;
 
 /* Non terminals */
 non terminal iniciar, lista_expresiones, declaracion, tipo_dato, literal;
-non terminal expresion, asignacion;
+non terminal expresion, asignacion, condicionales, operador, literal_booleana, 
+expresion_booleana, osi;
 
 /* Precedences */
 
@@ -26,8 +30,10 @@ lista_expresiones ::= lista_expresiones expresion
                     | expresion:e {: System.out.println(e);:}
 ;
 
+/*Considerar cambiar nombre de expresion a instruncion instruccion*/
 expresion ::= declaracion
             | asignacion
+            | condicionales
 ;
 
 tipo_dato ::= BOOLEAN
@@ -42,6 +48,13 @@ literal ::= LIT_NUMERO
         | LIT_BOOLEAN
 ;
 
+/* Literales aceptados de una expresion booleana */
+literal_booleana ::= LIT_NUMERO
+        | LIT_CARACTER
+        | LIT_CADENA
+        | VARIABLE
+;
+
 declaracion ::= INGRESAR VARIABLE COMO NUMERO CON_VALOR LIT_NUMERO PUNTO_COMA
             | INGRESAR VARIABLE COMO CARACTER CON_VALOR LIT_CARACTER PUNTO_COMA
             | INGRESAR VARIABLE COMO CADENA CON_VALOR LIT_CADENA PUNTO_COMA
@@ -49,3 +62,26 @@ declaracion ::= INGRESAR VARIABLE COMO NUMERO CON_VALOR LIT_NUMERO PUNTO_COMA
 ;
 
 asignacion ::= VARIABLE ASIGNACION literal PUNTO_COMA {: System.out.println("Reconoci una asignacion");:};  
+
+operador ::= MAYOR
+            | MENOR
+            | MAYOR_O_IGUAL
+            | MENOR_O_IGUAL
+            | ES_IGUAL 
+            | ES_DIFERENTE
+;
+
+expresion_booleana ::= expresion_booleana operador literal_booleana
+            | literal_booleana
+;
+
+/*Expresion booleana o verdadero o falso*/
+condicionales ::= SI expresion_booleana ENTONCES expresion FIN_SI
+                | SI expresion_booleana ENTONCES expresion DE_LO_CONTRARIO expresion FIN_SI
+                | SI expresion_booleana ENTONCES expresion osi DE_LO_CONTRARIO expresion FIN_SI
+;
+
+
+osi ::= osi O_SI expresion_booleana ENTONCES expresion
+    | O_SI expresion_booleana ENTONCES expresion
+;
