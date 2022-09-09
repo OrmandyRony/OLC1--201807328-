@@ -31,13 +31,13 @@ public class AnalizadorSintactico extends java_cup.runtime.lr_parser {
   /** Production table. */
   protected static final short _production_table[][] = 
     unpackFromStrings(new String[] {
-    "\000\023\000\002\002\005\000\002\002\004\000\002\002" +
+    "\000\024\000\002\002\005\000\002\002\004\000\002\002" +
     "\004\000\002\003\004\000\002\003\003\000\002\007\003" +
-    "\000\002\005\003\000\002\005\003\000\002\005\003\000" +
-    "\002\005\003\000\002\006\003\000\002\006\003\000\002" +
-    "\006\003\000\002\006\003\000\002\004\011\000\002\004" +
-    "\011\000\002\004\011\000\002\004\011\000\002\010\006" +
-    "" });
+    "\000\002\007\003\000\002\005\003\000\002\005\003\000" +
+    "\002\005\003\000\002\005\003\000\002\006\003\000\002" +
+    "\006\003\000\002\006\003\000\002\006\003\000\002\004" +
+    "\011\000\002\004\011\000\002\004\011\000\002\004\011" +
+    "\000\002\010\006" });
 
   /** Access to production table. */
   public short[][] production_table() {return _production_table;}
@@ -45,22 +45,29 @@ public class AnalizadorSintactico extends java_cup.runtime.lr_parser {
   /** Parse-action table. */
   protected static final short[][] _action_table = 
     unpackFromStrings(new String[] {
-    "\000\035\000\004\004\005\001\002\000\004\002\037\001" +
-    "\002\000\006\005\011\006\006\001\002\000\004\007\015" +
-    "\001\002\000\004\005\014\001\002\000\006\005\ufffc\006" +
-    "\ufffc\001\002\000\004\002\uffff\001\002\000\006\005\ufffd" +
-    "\006\006\001\002\000\004\005\ufffe\001\002\000\004\002" +
-    "\001\001\002\000\004\010\016\001\002\000\012\012\021" +
-    "\013\017\014\020\015\022\001\002\000\004\011\034\001" +
-    "\002\000\004\011\031\001\002\000\004\011\026\001\002" +
-    "\000\004\011\023\001\002\000\004\027\024\001\002\000" +
-    "\004\025\025\001\002\000\006\005\ufff1\006\ufff1\001\002" +
-    "\000\004\030\027\001\002\000\004\025\030\001\002\000" +
-    "\006\005\ufff0\006\ufff0\001\002\000\004\026\032\001\002" +
-    "\000\004\025\033\001\002\000\006\005\ufff2\006\ufff2\001" +
-    "\002\000\004\016\035\001\002\000\004\025\036\001\002" +
-    "\000\006\005\ufff3\006\ufff3\001\002\000\004\002\000\001" +
-    "\002" });
+    "\000\046\000\004\004\005\001\002\000\004\002\050\001" +
+    "\002\000\010\005\011\006\006\007\014\001\002\000\004" +
+    "\007\026\001\002\000\010\005\024\006\006\007\014\001" +
+    "\002\000\010\005\ufffc\006\ufffc\007\ufffc\001\002\000\004" +
+    "\002\uffff\001\002\000\010\005\ufffb\006\ufffb\007\ufffb\001" +
+    "\002\000\010\005\ufffd\006\ufffd\007\ufffd\001\002\000\004" +
+    "\031\015\001\002\000\012\016\020\026\021\027\017\030" +
+    "\022\001\002\000\004\025\023\001\002\000\004\025\ufff4" +
+    "\001\002\000\004\025\ufff6\001\002\000\004\025\ufff5\001" +
+    "\002\000\004\025\ufff3\001\002\000\010\005\uffee\006\uffee" +
+    "\007\uffee\001\002\000\004\002\001\001\002\000\010\005" +
+    "\ufffe\006\ufffe\007\ufffe\001\002\000\004\010\027\001\002" +
+    "\000\012\012\032\013\030\014\031\015\033\001\002\000" +
+    "\004\011\045\001\002\000\004\011\042\001\002\000\004" +
+    "\011\037\001\002\000\004\011\034\001\002\000\004\027" +
+    "\035\001\002\000\004\025\036\001\002\000\010\005\ufff0" +
+    "\006\ufff0\007\ufff0\001\002\000\004\030\040\001\002\000" +
+    "\004\025\041\001\002\000\010\005\uffef\006\uffef\007\uffef" +
+    "\001\002\000\004\026\043\001\002\000\004\025\044\001" +
+    "\002\000\010\005\ufff1\006\ufff1\007\ufff1\001\002\000\004" +
+    "\016\046\001\002\000\004\025\047\001\002\000\010\005" +
+    "\ufff2\006\ufff2\007\ufff2\001\002\000\004\002\000\001\002" +
+    "" });
 
   /** Access to parse-action table. */
   public short[][] action_table() {return _action_table;}
@@ -68,17 +75,20 @@ public class AnalizadorSintactico extends java_cup.runtime.lr_parser {
   /** <code>reduce_goto</code> table. */
   protected static final short[][] _reduce_table = 
     unpackFromStrings(new String[] {
-    "\000\035\000\004\002\003\001\001\000\002\001\001\000" +
-    "\010\003\006\004\007\007\011\001\001\000\002\001\001" +
-    "\000\002\001\001\000\002\001\001\000\002\001\001\000" +
-    "\010\003\012\004\007\007\011\001\001\000\002\001\001" +
-    "\000\002\001\001\000\002\001\001\000\002\001\001\000" +
+    "\000\046\000\004\002\003\001\001\000\002\001\001\000" +
+    "\012\003\006\004\007\007\012\010\011\001\001\000\002" +
+    "\001\001\000\010\004\007\007\024\010\011\001\001\000" +
+    "\002\001\001\000\002\001\001\000\002\001\001\000\002" +
+    "\001\001\000\002\001\001\000\004\006\015\001\001\000" +
     "\002\001\001\000\002\001\001\000\002\001\001\000\002" +
     "\001\001\000\002\001\001\000\002\001\001\000\002\001" +
     "\001\000\002\001\001\000\002\001\001\000\002\001\001" +
     "\000\002\001\001\000\002\001\001\000\002\001\001\000" +
     "\002\001\001\000\002\001\001\000\002\001\001\000\002" +
-    "\001\001" });
+    "\001\001\000\002\001\001\000\002\001\001\000\002\001" +
+    "\001\000\002\001\001\000\002\001\001\000\002\001\001" +
+    "\000\002\001\001\000\002\001\001\000\002\001\001\000" +
+    "\002\001\001" });
 
   /** Access to <code>reduce_goto</code> table. */
   public short[][] reduce_table() {return _reduce_table;}
@@ -177,7 +187,7 @@ class CUP$AnalizadorSintactico$actions {
           return CUP$AnalizadorSintactico$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 3: // lista_expresiones ::= expresion lista_expresiones 
+          case 3: // lista_expresiones ::= lista_expresiones expresion 
             {
               Object RESULT =null;
 
@@ -207,7 +217,16 @@ class CUP$AnalizadorSintactico$actions {
           return CUP$AnalizadorSintactico$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 6: // tipo_dato ::= BOOLEAN 
+          case 6: // expresion ::= asignacion 
+            {
+              Object RESULT =null;
+
+              CUP$AnalizadorSintactico$result = parser.getSymbolFactory().newSymbol("expresion",5, ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()), RESULT);
+            }
+          return CUP$AnalizadorSintactico$result;
+
+          /*. . . . . . . . . . . . . . . . . . . .*/
+          case 7: // tipo_dato ::= BOOLEAN 
             {
               Object RESULT =null;
 
@@ -216,7 +235,7 @@ class CUP$AnalizadorSintactico$actions {
           return CUP$AnalizadorSintactico$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 7: // tipo_dato ::= NUMERO 
+          case 8: // tipo_dato ::= NUMERO 
             {
               Object RESULT =null;
 
@@ -225,7 +244,7 @@ class CUP$AnalizadorSintactico$actions {
           return CUP$AnalizadorSintactico$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 8: // tipo_dato ::= CARACTER 
+          case 9: // tipo_dato ::= CARACTER 
             {
               Object RESULT =null;
 
@@ -234,7 +253,7 @@ class CUP$AnalizadorSintactico$actions {
           return CUP$AnalizadorSintactico$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 9: // tipo_dato ::= CADENA 
+          case 10: // tipo_dato ::= CADENA 
             {
               Object RESULT =null;
 
@@ -243,7 +262,7 @@ class CUP$AnalizadorSintactico$actions {
           return CUP$AnalizadorSintactico$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 10: // literal ::= LIT_NUMERO 
+          case 11: // literal ::= LIT_NUMERO 
             {
               Object RESULT =null;
 
@@ -252,7 +271,7 @@ class CUP$AnalizadorSintactico$actions {
           return CUP$AnalizadorSintactico$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 11: // literal ::= LIT_CARACTER 
+          case 12: // literal ::= LIT_CARACTER 
             {
               Object RESULT =null;
 
@@ -261,7 +280,7 @@ class CUP$AnalizadorSintactico$actions {
           return CUP$AnalizadorSintactico$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 12: // literal ::= LIT_CADENA 
+          case 13: // literal ::= LIT_CADENA 
             {
               Object RESULT =null;
 
@@ -270,7 +289,7 @@ class CUP$AnalizadorSintactico$actions {
           return CUP$AnalizadorSintactico$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 13: // literal ::= LIT_BOOLEAN 
+          case 14: // literal ::= LIT_BOOLEAN 
             {
               Object RESULT =null;
 
@@ -279,7 +298,7 @@ class CUP$AnalizadorSintactico$actions {
           return CUP$AnalizadorSintactico$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 14: // declaracion ::= INGRESAR VARIABLE COMO NUMERO CON_VALOR LIT_NUMERO PUNTO_COMA 
+          case 15: // declaracion ::= INGRESAR VARIABLE COMO NUMERO CON_VALOR LIT_NUMERO PUNTO_COMA 
             {
               Object RESULT =null;
 
@@ -288,7 +307,7 @@ class CUP$AnalizadorSintactico$actions {
           return CUP$AnalizadorSintactico$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 15: // declaracion ::= INGRESAR VARIABLE COMO CARACTER CON_VALOR LIT_CARACTER PUNTO_COMA 
+          case 16: // declaracion ::= INGRESAR VARIABLE COMO CARACTER CON_VALOR LIT_CARACTER PUNTO_COMA 
             {
               Object RESULT =null;
 
@@ -297,7 +316,7 @@ class CUP$AnalizadorSintactico$actions {
           return CUP$AnalizadorSintactico$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 16: // declaracion ::= INGRESAR VARIABLE COMO CADENA CON_VALOR LIT_CADENA PUNTO_COMA 
+          case 17: // declaracion ::= INGRESAR VARIABLE COMO CADENA CON_VALOR LIT_CADENA PUNTO_COMA 
             {
               Object RESULT =null;
 
@@ -306,7 +325,7 @@ class CUP$AnalizadorSintactico$actions {
           return CUP$AnalizadorSintactico$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 17: // declaracion ::= INGRESAR VARIABLE COMO BOOLEAN CON_VALOR LIT_BOOLEAN PUNTO_COMA 
+          case 18: // declaracion ::= INGRESAR VARIABLE COMO BOOLEAN CON_VALOR LIT_BOOLEAN PUNTO_COMA 
             {
               Object RESULT =null;
 
@@ -315,10 +334,10 @@ class CUP$AnalizadorSintactico$actions {
           return CUP$AnalizadorSintactico$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 18: // asignacion ::= VARIABLE ASIGNACION literal PUNTO_COMA 
+          case 19: // asignacion ::= VARIABLE ASIGNACION literal PUNTO_COMA 
             {
               Object RESULT =null;
-
+		 System.out.println("Reconoci una asignacion");
               CUP$AnalizadorSintactico$result = parser.getSymbolFactory().newSymbol("asignacion",6, ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.elementAt(CUP$AnalizadorSintactico$top-3)), ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()), RESULT);
             }
           return CUP$AnalizadorSintactico$result;

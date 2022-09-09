@@ -93,7 +93,7 @@ public class AnalizadorLexico implements java_cup.runtime.Scanner {
     "\0\0\0\56\0\56\0\134\0\212\0\270\0\346\0\u0114"+
     "\0\u0142\0\u0170\0\u019e\0\u01cc\0\u01fa\0\u0228\0\u0256\0\u0284"+
     "\0\u02b2\0\u02e0\0\u030e\0\56\0\u033c\0\u036a\0\270\0\u0398"+
-    "\0\u03c6\0\u03f4\0\u0422\0\u0170\0\u0170\0\u0450\0\u047e\0\u04ac"+
+    "\0\u03c6\0\u03f4\0\u0422\0\u0170\0\56\0\u0450\0\u047e\0\u04ac"+
     "\0\u04da\0\56\0\u0508\0\u0536\0\u0564\0\u0592\0\u05c0\0\u05ee"+
     "\0\u061c\0\u064a\0\56\0\u0678\0\u06a6\0\u0398\0\56\0\56"+
     "\0\u06d4\0\u0702\0\u0730\0\u075e\0\56\0\u078c\0\u07ba\0\u07e8"+
@@ -215,7 +215,7 @@ public class AnalizadorLexico implements java_cup.runtime.Scanner {
   private static final int [] ZZ_ATTRIBUTE = zzUnpackAttribute();
 
   private static final String ZZ_ATTRIBUTE_PACKED_0 =
-    "\1\0\2\11\20\1\1\11\1\1\7\0\1\1\4\0"+
+    "\1\0\2\11\20\1\1\11\1\1\7\0\1\11\4\0"+
     "\1\11\7\0\1\1\1\11\2\0\1\1\2\11\4\0"+
     "\1\11\31\0\1\11\10\0\1\11\6\0\2\1\4\0"+
     "\1\11\1\0\1\11\1\0\1\11\14\0\1\11\1\0"+
@@ -710,7 +710,7 @@ public class AnalizadorLexico implements java_cup.runtime.Scanner {
             // fall through
           case 30: break;
           case 6: 
-            { System.out.println("Se reconocio el LITERAL CADENA"); return new Symbol(sym.LIT_CADENA);
+            { System.out.println("Se reconocio el LITERAL CADENA: " + yytext()); return new Symbol(sym.LIT_CADENA);
             } 
             // fall through
           case 31: break;

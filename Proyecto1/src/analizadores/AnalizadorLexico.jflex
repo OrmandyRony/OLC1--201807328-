@@ -32,7 +32,7 @@ AscciMayusculas = (6[5-9]|[7-8][0-9]|90)
 AscciMinusculas = (9[7-9]|1[0-1][0-9]|12[0-2])
 AscciLetras = {AscciMayusculas} | {AscciMinusculas}
 Caracter = ("'" [^] "'" | ("\'\${" {AscciLetras} "}\'")) // '${111}'
-Cadena = "\"" [^]* "\"" 
+Cadena = "\"" [^\"]* "\"" // Esto esta malo 
 Boolean = "verdadero" | "falso"
 Asignacion = "->"
 
@@ -58,7 +58,7 @@ Asignacion = "->"
 /* Literales */
 <YYINITIAL> {Numero}    { System.out.println("Se reconocio literalNumero"); return new Symbol(sym.LIT_NUMERO); }
 <YYINITIAL> {Caracter}  { System.out.println("Se reconocio el LITERAL caracter"); return new Symbol(sym.LIT_CARACTER); }
-<YYINITIAL> {Cadena}    { System.out.println("Se reconocio el LITERAL CADENA"); return new Symbol(sym.LIT_CADENA); }
+<YYINITIAL> {Cadena}    { System.out.println("Se reconocio el LITERAL CADENA: " + yytext()); return new Symbol(sym.LIT_CADENA); }
 <YYINITIAL> {Boolean}   { System.out.println("Se reconocio el LITERAL booleana"); return new Symbol(sym.LIT_BOOLEAN); }
 <YYINITIAL> ";" { System.out.println("Se reconocio punto y coma"); return new Symbol(sym.PUNTO_COMA); }
 

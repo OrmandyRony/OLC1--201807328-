@@ -22,11 +22,12 @@ iniciar ::= INICIO lista_expresiones FIN {: System.out.println("codigo traducido
             | INICIO FIN
 ;
 
-lista_expresiones ::= expresion lista_expresiones
+lista_expresiones ::= lista_expresiones expresion
                     | expresion:e {: System.out.println(e);:}
 ;
 
 expresion ::= declaracion
+            | asignacion
 ;
 
 tipo_dato ::= BOOLEAN
@@ -47,4 +48,4 @@ declaracion ::= INGRESAR VARIABLE COMO NUMERO CON_VALOR LIT_NUMERO PUNTO_COMA
             | INGRESAR VARIABLE COMO BOOLEAN CON_VALOR LIT_BOOLEAN PUNTO_COMA
 ;
 
-asignacion ::= VARIABLE ASIGNACION literal PUNTO_COMA;  
+asignacion ::= VARIABLE ASIGNACION literal PUNTO_COMA {: System.out.println("Reconoci una asignacion");:};  
