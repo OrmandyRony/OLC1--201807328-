@@ -8,17 +8,18 @@ parser code {:
 /* Terminals */
 terminal INICIO, FIN, INGRESAR, VARIABLE, COMO, CON_VALOR, 
 BOOLEAN, NUMERO, CARACTER, CADENA, LIT_NUMERO, MAYOR, MENOR, 
-MAYOR_O_IGUAL, MENOR_O_IGUAL, ES_IGUAL, ES_DIFERENTE, PUNTO_COMA,
-SEGUN, IMPRIMIR, IMPRIMIR_NL;
+MAYOR_O_IGUAL, MENOR_O_IGUAL, ES_IGUAL, ES_DIFERENTE, PUNTO_COMA
+;
 
 
 terminal LIT_CARACTER, LIT_CADENA, LIT_BOOLEAN, ASIGNACION, SI, FIN_SI, O_SI,
-ENTONCES, DE_LO_CONTRARIO;
+ENTONCES, DE_LO_CONTRARIO, SEGUN, HACER, INTERROGACION_ABRE, INTERROGACION_CIERRA,
+FIN_SEGUN, IMPRIMIR, IMPRIMIR_NL;
 
 /* Non terminals */
 non terminal iniciar, lista_expresiones, declaracion, tipo_dato, literal;
 non terminal expresion, asignacion, condicionales, operador, literal_booleana, 
-expresion_booleana, osi, imprimir;
+expresion_booleana, osi, imprimir, valor, casos;
 
 /* Precedences */
 
@@ -38,11 +39,13 @@ expresion ::= declaracion
             | imprimir
 ;
 
+/*
 tipo_dato ::= BOOLEAN
             | NUMERO
             | CARACTER
             | CADENA
 ;
+*/
 
 literal ::= LIT_NUMERO
         | LIT_CARACTER
@@ -83,8 +86,16 @@ expresion_booleana ::= expresion_booleana operador literal_booleana
 condicionales ::= SI expresion_booleana ENTONCES expresion FIN_SI
                 | SI expresion_booleana ENTONCES expresion DE_LO_CONTRARIO expresion FIN_SI
                 | SI expresion_booleana ENTONCES expresion osi DE_LO_CONTRARIO expresion FIN_SI
+                | SEGUN valor HACER casos FIN_SEGUN
 ;
 
+valor ::= VARIABLE 
+        | LIT_NUMERO
+;
+
+casos ::= casos INTERROGACION_ABRE valor INTERROGACION_CIERRA ENTONCES expresion 
+        | INTERROGACION_ABRE valor INTERROGACION_CIERRA ENTONCES expresion 
+;
 
 osi ::= osi O_SI expresion_booleana ENTONCES expresion
     | O_SI expresion_booleana ENTONCES expresion

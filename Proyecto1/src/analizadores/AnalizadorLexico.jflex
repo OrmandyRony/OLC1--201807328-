@@ -28,7 +28,7 @@ Digito = [0-9]
 Letra = [a-zA-Z]
 Id =  {Letra}({Letra}|{Digito})*
 Variable =  "_" {Id} "_"
-Numero = [1-9]{Digito}* | {Digito}+(\.{Digito}+)
+Numero = {Digito}{Digito}* | {Digito}+(\.{Digito}+)
 AscciMayusculas = (6[5-9]|[7-8][0-9]|90)
 AscciMinusculas = (9[7-9]|1[0-1][0-9]|12[0-2])
 AscciLetras = {AscciMayusculas} | {AscciMinusculas}
@@ -94,6 +94,10 @@ Asignacion = "->"
     "de_lo_contrario"   { return new Symbol(sym.DE_LO_CONTRARIO); }
     /* Seleccion Multiple */
     "segun"             { System.out.println("Se reconocio Segun"); return new Symbol(sym.SEGUN); }
+    "hacer"             { System.out.println("Se reconocio Hacer"); return new Symbol(sym.HACER); }
+    "\¿"                 { System.out.println("Se reconocio ¿"); return new Symbol(sym.INTERROGACION_ABRE); }
+    "\?"                 { System.out.println("Se reconocio ?"); return new Symbol(sym.INTERROGACION_CIERRA); }
+    "fin_segun"         { System.out.println("Se reconocio fin_segun"); return new Symbol(sym.FIN_SEGUN); }
 }
 
 /* Impresion */

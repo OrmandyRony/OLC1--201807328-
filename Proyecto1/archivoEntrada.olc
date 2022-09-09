@@ -113,7 +113,7 @@ if _varB_ entonces
 	segun _varaux_ hacer
 		¿0? entonces
 			imprimir_nl "el valor es mayor a 0 y menos a 2";
-		¡2? entonces
+		¿2? entonces
 			imprimir_nl "el valor es mayor a 2";
 	fin_segun
 fin_si
