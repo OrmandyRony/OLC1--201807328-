@@ -8,42 +8,72 @@ package analizadores;
 /** CUP generated class containing symbol constants. */
 public class sym {
   /* terminals */
-  public static final int INTERROGACION_ABRE = 31;
+  public static final int INTERROGACION_ABRE = 34;
   public static final int NUMERO = 9;
-  public static final int DE_LO_CONTRARIO = 28;
-  public static final int LIT_BOOLEAN = 22;
-  public static final int LIT_CARACTER = 20;
-  public static final int IMPRIMIR = 34;
-  public static final int SI = 24;
+  public static final int DE_LO_CONTRARIO = 31;
+  public static final int LIT_BOOLEAN = 25;
+  public static final int LIT_CARACTER = 23;
+  public static final int NOMBRE = 49;
+  public static final int IMPRIMIR = 37;
+  public static final int FIN_METODO = 51;
+  public static final int SI = 27;
+  public static final int FUNCION = 52;
   public static final int MAYOR_O_IGUAL = 15;
-  public static final int ENTONCES = 27;
+  public static final int RESTA = 55;
+  public static final int METODO = 48;
+  public static final int ENTONCES = 30;
   public static final int FIN = 3;
-  public static final int LIT_CADENA = 21;
-  public static final int FIN_SI = 25;
+  public static final int LIT_CADENA = 24;
+  public static final int HASTA = 40;
+  public static final int FIN_SI = 28;
+  public static final int NOT = 21;
+  public static final int AND = 20;
   public static final int ES_DIFERENTE = 18;
   public static final int CARACTER = 10;
+  public static final int OR = 19;
+  public static final int CORCHETE_CIERRA = 64;
+  public static final int MIENTRAS = 43;
   public static final int COMO = 6;
-  public static final int PUNTO_COMA = 19;
+  public static final int SUMA = 56;
+  public static final int PUNTO_COMA = 22;
   public static final int EOF = 0;
   public static final int BOOLEAN = 8;
   public static final int MENOR_O_IGUAL = 16;
   public static final int error = 1;
+  public static final int COMA = 65;
+  public static final int FIN_FUNCION = 53;
   public static final int CADENA = 11;
-  public static final int FIN_SEGUN = 33;
+  public static final int MODULO = 60;
+  public static final int FIN_SEGUN = 36;
   public static final int MENOR = 14;
-  public static final int O_SI = 26;
-  public static final int ASIGNACION = 23;
+  public static final int O_SI = 29;
+  public static final int FIN_MIENTRAS = 44;
+  public static final int ASIGNACION = 26;
   public static final int MAYOR = 13;
   public static final int CON_VALOR = 7;
-  public static final int IMPRIMIR_NL = 35;
+  public static final int POTENCIA = 59;
+  public static final int CORCHETE_ABRE = 63;
+  public static final int HASTA_QUE = 46;
+  public static final int PARENTECIS_ABRE = 61;
+  public static final int IMPRIMIR_NL = 38;
   public static final int LIT_NUMERO = 12;
   public static final int VARIABLE = 5;
   public static final int INGRESAR = 4;
-  public static final int INTERROGACION_CIERRA = 32;
-  public static final int SEGUN = 29;
-  public static final int HACER = 30;
+  public static final int PARENTECIS_CIERRA = 62;
+  public static final int CON_INCREMENTAL = 41;
+  public static final int FIN_PARA = 42;
+  public static final int REPETIR = 45;
+  public static final int INTERROGACION_CIERRA = 35;
+  public static final int SEGUN = 32;
+  public static final int CON_PARAMETROS = 50;
+  public static final int HACER = 33;
+  public static final int PARA = 39;
+  public static final int RETORNAR = 47;
   public static final int INICIO = 2;
+  public static final int DIVISION = 57;
+  public static final int EJECUTAR = 54;
   public static final int ES_IGUAL = 17;
+  public static final int MULTIPLICACION = 58;
   public static final String[] terminalNames = new String[] {
   "EOF",
   "error",
@@ -64,6 +94,9 @@ public class sym {
   "MENOR_O_IGUAL",
   "ES_IGUAL",
   "ES_DIFERENTE",
+  "OR",
+  "AND",
+  "NOT",
   "PUNTO_COMA",
   "LIT_CARACTER",
   "LIT_CADENA",
@@ -80,7 +113,34 @@ public class sym {
   "INTERROGACION_CIERRA",
   "FIN_SEGUN",
   "IMPRIMIR",
-  "IMPRIMIR_NL"
+  "IMPRIMIR_NL",
+  "PARA",
+  "HASTA",
+  "CON_INCREMENTAL",
+  "FIN_PARA",
+  "MIENTRAS",
+  "FIN_MIENTRAS",
+  "REPETIR",
+  "HASTA_QUE",
+  "RETORNAR",
+  "METODO",
+  "NOMBRE",
+  "CON_PARAMETROS",
+  "FIN_METODO",
+  "FUNCION",
+  "FIN_FUNCION",
+  "EJECUTAR",
+  "RESTA",
+  "SUMA",
+  "DIVISION",
+  "MULTIPLICACION",
+  "POTENCIA",
+  "MODULO",
+  "PARENTECIS_ABRE",
+  "PARENTECIS_CIERRA",
+  "CORCHETE_ABRE",
+  "CORCHETE_CIERRA",
+  "COMA"
   };
 }
 

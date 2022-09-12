@@ -44,7 +44,7 @@ ingresar _operaciones1Avanzadas1_  ComO numeRo con_valor ((15+9)*8+200/8*3+9);  
 ingresar _operaciones1Avanzadas2_  coMo numero con_valor 30 potencia [22.2-2.2] + (2);   
 ingresar _operaciones1Avanzadas3_  como nuMero con_valor (30 potencia [2]) + (2);   
 ingresar _operaciones1Avanzadas4_  Como numeRo con_valor (30 potencia [10-8+9-4*2-1]) + (2) ;  
-ingresar _operaciones1Avanzadas5_  coMo nUmero con_valor 30 potencia [10-8+9-4*2-1]) + (2) ;  
+ingresar _operaciones1Avanzadas5_  coMo nUmero con_valor 30 potencia [10-8+9-4*2-1]) + (2) ;  // Error lexico
 ingresar _operaciones1Avanzadas6_  Como numeRo con_valor (5*8) mod (1+5+6);   //4 es el resultado
 
 ingresar _operacionRela1_ como BooleaNa con_valor 5+5>5;
@@ -125,7 +125,7 @@ fin_si
 metodo _potenciaManual_ con_parametros (_base_ Numero, _exponenete_ Numero)
 	ingresar _i_ como Numero con_valor 0;
 	ingresar _acumulado_ como Numero con_valor 0;
-	para _i_->0 hasta _exponente_-1 hacer
+	para _i_-> 0 hasta _exponente_-1 hacer
 		_acumulado_ -> _acumulado_ + _acumulado_;
 	fin_para	
 	imprimir _acumulado_;

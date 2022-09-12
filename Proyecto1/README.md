@@ -298,7 +298,7 @@ fin_si
 ```
 
 #### Selección múltiple
-Este tipo de condición permite ejecutar una lista de instrucciones en base a un valor ingresado, existen varias opciones posibles y cuando el valor coincida con una de las opciones se ejecuta un conjunto de instrucciones. Existe una palabra reservada “```de_lo_contrario```” para ejecutar automáticamente cuando la lista de opciones no se cumple, pero es de forma opcional.
+Este tipo de condición permite ejecutar una lista de instrucciones en base a un valor ingresado, existen varias opciones posibles y cuando el valor coincida con una de las opciones se ejecuta un conjunto de instrucciones. Existe una palabra reservada “```de_lo_contrario```” para ejecutar automáticamente cuando la lista de opciones no se cumple, pero es de *forma opcional*.
 
 ```C++
 segun <valor> hacer
@@ -438,6 +438,7 @@ imprimir_nl <expresión>; //impresión con salto de línea
 ```
 
 ## Operaciones básicas
+Donde el operando puede ser un numero o un variable.
 ### Suma
 Esta operación usa el carácter “+”
 ```Java

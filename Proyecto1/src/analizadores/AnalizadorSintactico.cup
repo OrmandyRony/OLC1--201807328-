@@ -1,74 +1,81 @@
 package analizadores;
+import java.beans.Statement;
+import java.util.LinkedList;
 import java_cup.runtime.*;
+import java_cup.runtime.XMLElement;
 
 parser code {:
     public String codigoTraducido = "";
+
 :}
 
 /* Terminals */
 terminal INICIO, FIN, INGRESAR, VARIABLE, COMO, CON_VALOR, 
 BOOLEAN, NUMERO, CARACTER, CADENA, LIT_NUMERO, MAYOR, MENOR, 
-MAYOR_O_IGUAL, MENOR_O_IGUAL, ES_IGUAL, ES_DIFERENTE, PUNTO_COMA
-;
+MAYOR_O_IGUAL, MENOR_O_IGUAL, ES_IGUAL, ES_DIFERENTE, OR, AND, NOT, PUNTO_COMA;
 
 
 terminal LIT_CARACTER, LIT_CADENA, LIT_BOOLEAN, ASIGNACION, SI, FIN_SI, O_SI,
 ENTONCES, DE_LO_CONTRARIO, SEGUN, HACER, INTERROGACION_ABRE, INTERROGACION_CIERRA,
-FIN_SEGUN, IMPRIMIR, IMPRIMIR_NL;
+FIN_SEGUN, IMPRIMIR, IMPRIMIR_NL, PARA, HASTA, CON_INCREMENTAL, FIN_PARA, MIENTRAS, FIN_MIENTRAS, 
+REPETIR, HASTA_QUE, RETORNAR, METODO, NOMBRE, CON_PARAMETROS, FIN_METODO, FUNCION, FIN_FUNCION, EJECUTAR;
+
+// Simbolos para operaciones basicas
+terminal RESTA, SUMA, DIVISION, MULTIPLICACION, POTENCIA, MODULO, PARENTECIS_ABRE,
+PARENTECIS_CIERRA, CORCHETE_ABRE, CORCHETE_CIERRA, COMA;
 
 /* Non terminals */
-non terminal iniciar, lista_expresiones, declaracion, tipo_dato, literal;
-non terminal expresion, asignacion, condicionales, operador, literal_booleana, 
-expresion_booleana, osi, imprimir, valor, casos;
+non terminal iniciar, lista_instrucciones, expresion, declaracion;
+non terminal instrucciones, asignacion, condicionales, literal_booleana, operador_relacionales,
+expresion_booleana, osi, imprimir, casos, ciclos, expresion_aritmetica, operadores_logicos, tipo_dato;
+
+/*test*/
+non terminal declaracion1, var, tipo_valor, retorno, metodo, funciones, ejecutar;
 
 /* Precedences */
+precedence left SUMA, RESTA;
+precedence left MULTIPLICACION, DIVISION;
+precedence left POTENCIA, MODULO;
 
 /* The grammar rules */
-iniciar ::= INICIO lista_expresiones FIN {: System.out.println("codigo traducido");:}
+start with iniciar;
+
+iniciar ::= INICIO lista_instrucciones FIN {: System.out.println("codigo traducido");:}
             | INICIO FIN
 ;
 
-lista_expresiones ::= lista_expresiones expresion
-                    | expresion:e {: System.out.println(e);:}
+lista_instrucciones ::= lista_instrucciones instrucciones
+                    | instrucciones 
 ;
 
-/*Considerar cambiar nombre de expresion a instruncion instruccion*/
-expresion ::= declaracion
+instrucciones ::= declaracion
+            | declaracion1
             | asignacion
             | condicionales
+            | ciclos
+            | metodo
+            | funciones
+            | ejecutar
             | imprimir
+
 ;
 
-/*
-tipo_dato ::= BOOLEAN
-            | NUMERO
-            | CARACTER
-            | CADENA
-;
-*/
-
-literal ::= LIT_NUMERO
-        | LIT_CARACTER
-        | LIT_CADENA
-        | LIT_BOOLEAN
-;
-
-/* Literales aceptados de una expresion booleana */
-literal_booleana ::= LIT_NUMERO
-        | LIT_CARACTER
-        | LIT_CADENA
-        | VARIABLE
+/* Operaciones basicas */
+expresion_aritmetica ::= LIT_NUMERO
+                        | LIT_CADENA
+                        | LIT_CARACTER
+                        | VARIABLE
+                        | expresion_aritmetica SUMA expresion_aritmetica
+                        | expresion_aritmetica RESTA expresion_aritmetica
+                        | expresion_aritmetica MULTIPLICACION expresion_aritmetica
+                        | expresion_aritmetica DIVISION expresion_aritmetica
+                        | expresion_aritmetica POTENCIA CORCHETE_ABRE expresion_aritmetica CORCHETE_CIERRA
+                        | expresion_aritmetica MODULO expresion_aritmetica
+                        | PARENTECIS_ABRE expresion_aritmetica PARENTECIS_CIERRA
 ;
 
-declaracion ::= INGRESAR VARIABLE COMO NUMERO CON_VALOR LIT_NUMERO PUNTO_COMA
-            | INGRESAR VARIABLE COMO CARACTER CON_VALOR LIT_CARACTER PUNTO_COMA
-            | INGRESAR VARIABLE COMO CADENA CON_VALOR LIT_CADENA PUNTO_COMA
-            | INGRESAR VARIABLE COMO BOOLEAN CON_VALOR LIT_BOOLEAN PUNTO_COMA
-;
-
-asignacion ::= VARIABLE ASIGNACION literal PUNTO_COMA {: System.out.println("Reconoci una asignacion");:};  
-
-operador ::= MAYOR
+/* operadores relacionales */
+operador_relacionales ::= MAYOR
             | MENOR
             | MAYOR_O_IGUAL
             | MENOR_O_IGUAL
@@ -76,29 +83,89 @@ operador ::= MAYOR
             | ES_DIFERENTE
 ;
 
-expresion_booleana ::= expresion_booleana operador literal_booleana
-            | literal_booleana
+/* operadores logicos */
+operadores_logicos ::= OR
+                    | AND
+                    | NOT
 ;
 
-/* Considerar detectar expreciones aritmeticas*/
-
-/*Expresion booleana o verdadero o falso*/
-condicionales ::= SI expresion_booleana ENTONCES expresion FIN_SI
-                | SI expresion_booleana ENTONCES expresion DE_LO_CONTRARIO expresion FIN_SI
-                | SI expresion_booleana ENTONCES expresion osi DE_LO_CONTRARIO expresion FIN_SI
-                | SEGUN valor HACER casos FIN_SEGUN
+declaracion1 ::= INGRESAR var tipo_valor PUNTO_COMA
 ;
 
-valor ::= VARIABLE 
-        | LIT_NUMERO
+var ::= var COMA VARIABLE
+    | VARIABLE
 ;
 
-casos ::= casos INTERROGACION_ABRE valor INTERROGACION_CIERRA ENTONCES expresion 
-        | INTERROGACION_ABRE valor INTERROGACION_CIERRA ENTONCES expresion 
+tipo_valor ::= COMO CARACTER CON_VALOR LIT_CARACTER
+            | COMO CADENA CON_VALOR LIT_CADENA
+            | COMO BOOLEAN CON_VALOR LIT_BOOLEAN
 ;
 
-osi ::= osi O_SI expresion_booleana ENTONCES expresion
-    | O_SI expresion_booleana ENTONCES expresion
+/* Declaracion de variables con operaciones basicas */
+declaracion ::= INGRESAR var COMO NUMERO CON_VALOR expresion_aritmetica PUNTO_COMA
+;
+
+asignacion ::= var ASIGNACION expresion PUNTO_COMA {: System.out.println("Reconoci una asignacion");:}
+; 
+
+
+/* expresion para las declaraciones de varibles, en considercion si se usarara*/
+expresion ::=  expresion_aritmetica
+            | LIT_BOOLEAN
+;
+
+/*Expresion booleana o verdadero o falso trbodsd rl entonces*/
+condicionales ::= SI expresion_booleana ENTONCES instrucciones FIN_SI
+                | SI expresion_booleana ENTONCES instrucciones DE_LO_CONTRARIO instrucciones FIN_SI
+                | SI expresion_booleana ENTONCES instrucciones osi DE_LO_CONTRARIO instrucciones FIN_SI
+                | SEGUN expresion_aritmetica HACER casos FIN_SEGUN
+;
+
+/* Considerar operadores logicos */
+expresion_booleana ::= expresion_booleana operador_relacionales expresion_aritmetica
+            | expresion_aritmetica
+;
+
+casos ::= casos INTERROGACION_ABRE expresion_aritmetica INTERROGACION_CIERRA ENTONCES instrucciones 
+        | INTERROGACION_ABRE expresion_aritmetica INTERROGACION_CIERRA ENTONCES instrucciones 
+        | DE_LO_CONTRARIO ENTONCES instrucciones
+;
+
+osi ::= osi O_SI expresion_booleana ENTONCES instrucciones
+    | O_SI expresion_booleana ENTONCES instrucciones
+;
+
+ciclos ::= PARA VARIABLE ASIGNACION expresion_aritmetica HASTA expresion_aritmetica HACER instrucciones FIN_PARA
+        | PARA VARIABLE ASIGNACION expresion_aritmetica HASTA expresion_aritmetica HACER FIN_PARA
+        | PARA VARIABLE ASIGNACION expresion_aritmetica HASTA expresion_aritmetica CON_INCREMENTAL expresion_aritmetica HACER instrucciones FIN_PARA
+        | MIENTRAS expresion_booleana HACER instrucciones FIN_MIENTRAS
+        | MIENTRAS expresion_booleana HACER FIN_MIENTRAS
+        | REPETIR instrucciones HASTA_QUE expresion_booleana
+        | REPETIR HASTA_QUE expresion_booleana
+;
+
+retorno ::= RETORNAR expresion_aritmetica PUNTO_COMA
+        | RETORNAR expresion_booleana PUNTO_COMA
+;
+
+metodo ::= METODO NOMBRE instrucciones FIN_METODO
+        | METODO NOMBRE CON_PARAMETROS instrucciones FIN_METODO
+;
+
+funciones ::= FUNCION NOMBRE tipo_dato instrucciones FIN_FUNCION
+            | FUNCION NOMBRE tipo_dato CON_PARAMETROS instrucciones FIN_FUNCION
+           /* | FUNCION NOMBRE tipo_dato instrucciones retorno FIN_FUNCION
+            | FUNCION NOMBRE tipo_dato CON_PARAMETROS instrucciones retorno FIN_FUNCION*/
+;
+
+tipo_dato ::= BOOLEAN
+            | NUMERO
+            | CARACTER
+            | CADENA
+;
+
+
+ejecutar ::= EJECUTAR NOMBRE PARENTECIS_ABRE PARENTECIS_CIERRA PUNTO_COMA
 ;
 
 imprimir ::= IMPRIMIR literal_booleana PUNTO_COMA
