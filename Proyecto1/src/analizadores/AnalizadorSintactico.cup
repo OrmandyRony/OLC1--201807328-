@@ -1,3 +1,7 @@
+/**
+ * Implementacion de la gramatica del pseudo parser, el archivo de disenio esta en Gramatica.md
+ * @author ormandyrony
+ */
 package analizadores;
 import java.beans.Statement;
 import java.util.LinkedList;
@@ -18,7 +22,7 @@ MAYOR_O_IGUAL, MENOR_O_IGUAL, ES_IGUAL, ES_DIFERENTE, OR, AND, NOT, PUNTO_COMA;
 terminal LIT_CARACTER, LIT_CADENA, LIT_BOOLEAN, ASIGNACION, SI, FIN_SI, O_SI,
 ENTONCES, DE_LO_CONTRARIO, SEGUN, HACER, INTERROGACION_ABRE, INTERROGACION_CIERRA,
 FIN_SEGUN, IMPRIMIR, IMPRIMIR_NL, PARA, HASTA, CON_INCREMENTAL, FIN_PARA, MIENTRAS, FIN_MIENTRAS, 
-REPETIR, HASTA_QUE, RETORNAR, METODO, NOMBRE, CON_PARAMETROS, FIN_METODO, FUNCION, FIN_FUNCION, EJECUTAR;
+REPETIR, HASTA_QUE, RETORNAR, METODO, CON_PARAMETROS, FIN_METODO, FUNCION, FIN_FUNCION, EJECUTAR;
 
 // Simbolos para operaciones basicas
 terminal RESTA, SUMA, DIVISION, MULTIPLICACION, POTENCIA, MODULO, PARENTECIS_ABRE,
@@ -33,6 +37,7 @@ expresion_booleana, osi, imprimir, casos, ciclos, expresion_aritmetica, operador
 non terminal declaracion1, var, tipo_valor, retorno, metodo, funciones, ejecutar;
 
 /* Precedences */
+precedence left MAYOR, MENOR, MAYOR_O_IGUAL, MENOR_O_IGUAL, ES_IGUAL, ES_DIFERENTE;
 precedence left SUMA, RESTA;
 precedence left MULTIPLICACION, DIVISION;
 precedence left POTENCIA, MODULO;
@@ -71,6 +76,7 @@ expresion_aritmetica ::= LIT_NUMERO
                         | expresion_aritmetica DIVISION expresion_aritmetica
                         | expresion_aritmetica POTENCIA CORCHETE_ABRE expresion_aritmetica CORCHETE_CIERRA
                         | expresion_aritmetica MODULO expresion_aritmetica
+                        | expresion_aritmetica operador_relacionales expresion_aritmetica
                         | PARENTECIS_ABRE expresion_aritmetica PARENTECIS_CIERRA
 ;
 
@@ -114,6 +120,7 @@ expresion ::=  expresion_aritmetica
             | LIT_BOOLEAN
 ;
 
+
 /*Expresion booleana o verdadero o falso trbodsd rl entonces*/
 condicionales ::= SI expresion_booleana ENTONCES instrucciones FIN_SI
                 | SI expresion_booleana ENTONCES instrucciones DE_LO_CONTRARIO instrucciones FIN_SI
@@ -148,14 +155,14 @@ retorno ::= RETORNAR expresion_aritmetica PUNTO_COMA
         | RETORNAR expresion_booleana PUNTO_COMA
 ;
 
-metodo ::= METODO NOMBRE instrucciones FIN_METODO
-        | METODO NOMBRE CON_PARAMETROS instrucciones FIN_METODO
+metodo ::= METODO VARIABLE instrucciones FIN_METODO
+        | METODO VARIABLE CON_PARAMETROS instrucciones FIN_METODO
 ;
 
-funciones ::= FUNCION NOMBRE tipo_dato instrucciones FIN_FUNCION
-            | FUNCION NOMBRE tipo_dato CON_PARAMETROS instrucciones FIN_FUNCION
-           /* | FUNCION NOMBRE tipo_dato instrucciones retorno FIN_FUNCION
-            | FUNCION NOMBRE tipo_dato CON_PARAMETROS instrucciones retorno FIN_FUNCION*/
+funciones ::= FUNCION VARIABLE tipo_dato instrucciones FIN_FUNCION
+            | FUNCION VARIABLE tipo_dato CON_PARAMETROS instrucciones FIN_FUNCION
+           /* | FUNCION VARIABLE tipo_dato instrucciones retorno FIN_FUNCION
+            | FUNCION VARIABLE tipo_dato CON_PARAMETROS instrucciones retorno FIN_FUNCION*/
 ;
 
 tipo_dato ::= BOOLEAN
@@ -165,7 +172,7 @@ tipo_dato ::= BOOLEAN
 ;
 
 
-ejecutar ::= EJECUTAR NOMBRE PARENTECIS_ABRE PARENTECIS_CIERRA PUNTO_COMA
+ejecutar ::= EJECUTAR VARIABLE PARENTECIS_ABRE PARENTECIS_CIERRA PUNTO_COMA
 ;
 
 imprimir ::= IMPRIMIR literal_booleana PUNTO_COMA

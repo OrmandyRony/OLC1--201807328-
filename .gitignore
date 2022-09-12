@@ -3,3 +3,4 @@
 /Proyecto1/entrada*.olc
 /Proyecto1/archivoEntrada.olc
 /Proyecto1/src/analizadores/AnalizadorSintactico2.cup
+/Proyecto1/src/analizadores/lexico.jflex

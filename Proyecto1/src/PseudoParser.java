@@ -235,7 +235,7 @@ public class PseudoParser extends javax.swing.JFrame {
         // lexico = new AnalizadorLexico(this.txtAreaCodigo.getText());
         try {
             AnalizadorLexico lexico2 = new AnalizadorLexico(
-                    new BufferedReader(new FileReader("./entrada4.olc"))
+                    new BufferedReader(new FileReader("./entrada2.olc"))
             );
             AnalizadorSintactico sintactico2 = new AnalizadorSintactico(lexico2);
             sintactico2.parse();

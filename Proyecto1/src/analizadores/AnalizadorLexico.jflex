@@ -40,8 +40,6 @@ Asignacion = "->"
 %%
 
 
-<YYINITIAL> {Id}            {System.out.println("Se reconocio inicio"); return new Symbol(sym.NOMBRE); }
-
 /* Keywords */
 <YYINITIAL> "inicio"        { System.out.println("Se reconocio inicio"); return new Symbol(sym.INICIO); }
 <YYINITIAL> "fin"           { System.out.println("Se reconocio fin"); return new Symbol(sym.FIN); }
@@ -91,12 +89,13 @@ Asignacion = "->"
 
 /* Operadores relacionales */
 <YYINITIAL> {
-    "mayor"           { return new Symbol(sym.MAYOR); }
-    "menor"           { return new Symbol(sym.MENOR); }
-    "mayor_o_igual"   { return new Symbol(sym.MAYOR_O_IGUAL); }
+
+    "mayor"           { System.out.println("Se reconocio mayor "); return new Symbol(sym.MAYOR); }
+    "menor"           { System.out.println("Se reconocio menor "); return new Symbol(sym.MENOR); }
+    "mayor_o_igual"   { System.out.println("Se reconocio Mayor o igual "); return new Symbol(sym.MAYOR_O_IGUAL); }
     "menor_o_igual"   { System.out.println("Se reconocio Menor o igual "); return new Symbol(sym.MENOR_O_IGUAL); }
     "es_igual"        { System.out.println("Se reconocio es igual"); return new Symbol(sym.ES_IGUAL); }
-    "es_diferente"    { return new Symbol(sym.ES_DIFERENTE); }
+    "es_diferente"    { System.out.println("Se reconocio es diferente "); return new Symbol(sym.ES_DIFERENTE); }
 
     /* Caracter */
 
