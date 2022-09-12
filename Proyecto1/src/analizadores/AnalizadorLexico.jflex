@@ -88,9 +88,11 @@ Asignacion = "->"
 <YYINITIAL> ","         { System.out.println("Se reconocio coma"); return new Symbol(sym.COMA); }
 
 /* Operadores relacionales */
+<YYINITIAL> "mayor"    { System.out.println("Se reconocio mayor "); return new Symbol(sym.MAYOR); }
+
 <YYINITIAL> {
 
-    "mayor"           { System.out.println("Se reconocio mayor "); return new Symbol(sym.MAYOR); }
+    
     "menor"           { System.out.println("Se reconocio menor "); return new Symbol(sym.MENOR); }
     "mayor_o_igual"   { System.out.println("Se reconocio Mayor o igual "); return new Symbol(sym.MAYOR_O_IGUAL); }
     "menor_o_igual"   { System.out.println("Se reconocio Menor o igual "); return new Symbol(sym.MENOR_O_IGUAL); }

@@ -11,6 +11,13 @@ import java_cup.runtime.XMLElement;
 parser code {:
     public String codigoTraducido = "";
 
+    public void syntax_error(Symbol s){
+            System.err.println("Error Sintáctico en la linea: " + (s.left) + " y columna : " + s.right + ". No se esperaba este token: " + s.value + "."); 
+    } 
+    public void unrecovered_syntax_error(Symbol s) throws java.lang.Exception{ 
+            System.err.println("Error síntactico irrecuperable en la línea " + (s.left) + " y columna " + s.right + ". Componente " + s.value + " no reconocido."); 
+    }  
+
 :}
 
 /* Terminals */
@@ -38,6 +45,7 @@ non terminal declaracion1, var, tipo_valor, retorno, metodo, funciones, ejecutar
 
 /* Precedences */
 precedence left MAYOR, MENOR, MAYOR_O_IGUAL, MENOR_O_IGUAL, ES_IGUAL, ES_DIFERENTE;
+precedence left AND, OR;
 precedence left SUMA, RESTA;
 precedence left MULTIPLICACION, DIVISION;
 precedence left POTENCIA, MODULO;
@@ -69,14 +77,22 @@ instrucciones ::= declaracion
 expresion_aritmetica ::= LIT_NUMERO
                         | LIT_CADENA
                         | LIT_CARACTER
-                        | VARIABLE
+                        | VARIABLE 
+                        | NOT expresion_aritmetica
                         | expresion_aritmetica SUMA expresion_aritmetica
                         | expresion_aritmetica RESTA expresion_aritmetica
                         | expresion_aritmetica MULTIPLICACION expresion_aritmetica
                         | expresion_aritmetica DIVISION expresion_aritmetica
                         | expresion_aritmetica POTENCIA CORCHETE_ABRE expresion_aritmetica CORCHETE_CIERRA
                         | expresion_aritmetica MODULO expresion_aritmetica
-                        | expresion_aritmetica operador_relacionales expresion_aritmetica
+                        | expresion_aritmetica MAYOR expresion_aritmetica
+                        | expresion_aritmetica MENOR  expresion_aritmetica
+                        | expresion_aritmetica MAYOR_O_IGUAL expresion_aritmetica
+                        | expresion_aritmetica MENOR_O_IGUAL expresion_aritmetica
+                        | expresion_aritmetica ES_IGUAL expresion_aritmetica
+                        | expresion_aritmetica ES_DIFERENTE expresion_aritmetica
+                        | expresion_aritmetica AND expresion_aritmetica
+                        | expresion_aritmetica OR expresion_aritmetica
                         | PARENTECIS_ABRE expresion_aritmetica PARENTECIS_CIERRA
 ;
 
@@ -109,6 +125,7 @@ tipo_valor ::= COMO CARACTER CON_VALOR LIT_CARACTER
 
 /* Declaracion de variables con operaciones basicas */
 declaracion ::= INGRESAR var COMO NUMERO CON_VALOR expresion_aritmetica PUNTO_COMA
+            | INGRESAR var COMO BOOLEAN CON_VALOR expresion_aritmetica PUNTO_COMA
 ;
 
 asignacion ::= var ASIGNACION expresion PUNTO_COMA {: System.out.println("Reconoci una asignacion");:}
@@ -175,6 +192,6 @@ tipo_dato ::= BOOLEAN
 ejecutar ::= EJECUTAR VARIABLE PARENTECIS_ABRE PARENTECIS_CIERRA PUNTO_COMA
 ;
 
-imprimir ::= IMPRIMIR literal_booleana PUNTO_COMA
-            | IMPRIMIR_NL literal_booleana PUNTO_COMA
+imprimir ::= IMPRIMIR expresion PUNTO_COMA
+            | IMPRIMIR_NL expresion PUNTO_COMA
 ;
