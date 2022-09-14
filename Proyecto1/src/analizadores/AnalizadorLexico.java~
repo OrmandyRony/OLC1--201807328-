@@ -381,6 +381,8 @@ public class AnalizadorLexico implements java_cup.runtime.Scanner {
    * @param   in  the java.io.Reader to read input from.
    */
   public AnalizadorLexico(java.io.Reader in) {
+      yyline = 1; 
+    yychar = 1; 
     this.zzReader = in;
   }
 
@@ -761,8 +763,8 @@ public class AnalizadorLexico implements java_cup.runtime.Scanner {
       else {
         switch (zzAction < 0 ? zzAction : ZZ_ACTION[zzAction]) {
           case 1: 
-            { System.out.println("Error Lexico : " +yytext() + " Linea: " + (yyline + 1) + 
-        " Columna: " + (yycolumn + 1));
+            { System.out.println("Error Lexico : " +yytext() + " Linea: " + yyline + 
+        " Columna: " + yycolumn);
             } 
             // fall through
           case 67: break;

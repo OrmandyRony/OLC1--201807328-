@@ -13,6 +13,11 @@ import java_cup.runtime.*;
 %column
 %unicode
 
+%init{ 
+    yyline = 1; 
+    yychar = 1; 
+%init} 
+
 /* Definiciones regulares o reglas de traduccion*/
 DeLim = \t|\r|\n|\f|\r\n
 InputCharacter = [^\r\n]
@@ -183,8 +188,8 @@ Asignacion = "->"
 
 
 .   {
-        System.out.println("Error Lexico : " +yytext() + " Linea: " + (yyline + 1) + 
-        " Columna: " + (yycolumn + 1));
+        System.out.println("Error Lexico : " +yytext() + " Linea: " + yyline + 
+        " Columna: " + yycolumn);
 
     }
 

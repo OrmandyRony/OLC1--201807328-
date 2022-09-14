@@ -7,6 +7,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.StringReader;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
@@ -234,9 +235,7 @@ public class PseudoParser extends javax.swing.JFrame {
         System.out.println("Analizador");
         // lexico = new AnalizadorLexico(this.txtAreaCodigo.getText());
         try {
-            AnalizadorLexico lexico2 = new AnalizadorLexico(
-                    new BufferedReader(new FileReader("./entrada2.olc"))
-            );
+            AnalizadorLexico lexico2 = new AnalizadorLexico(new StringReader(this.txtAreaCodigo.getText()));
             AnalizadorSintactico sintactico2 = new AnalizadorSintactico(lexico2);
             sintactico2.parse();
         } catch (Exception e) {
