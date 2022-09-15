@@ -4,6 +4,8 @@
  */
 package proyecto1v2;
 
+import GUI.PseudoParser;
+
 /**
  *
  * @author ormandyrony
@@ -15,6 +17,8 @@ public class Proyecto1V2 {
      */
     public static void main(String[] args) {
         // TODO code application logic here
+        PseudoParser p = new PseudoParser();
+        p.setVisible(true);
     }
     
 }

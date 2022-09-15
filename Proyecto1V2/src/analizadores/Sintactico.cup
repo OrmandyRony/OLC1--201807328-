@@ -1,0 +1,130 @@
+/**
+ * Implementacion de la gramatica del pseudo parser, el archivo de disenio esta en Gramatica.md
+ * @author ormandyrony
+ */
+package analizadores;
+
+import Estructuras.Produccion;
+import Estructuras.Nodo;
+import Estructuras.Arbol;
+
+import Estructuras.Instrucciones.Instruccion;
+import Estructuras.Instrucciones.Operacion;
+import Estructuras.Instrucciones.Evaluar;
+import java.util.LinkedList;
+import java_cup.runtime.*;
+import java_cup.runtime.XMLElement;
+
+parser code {:
+    public LinkedList<Instruccion> AST;
+    public Arbol arbol;
+
+    public void syntax_error(Symbol s){
+            System.err.println("Error Sintáctico en la linea: " + (s.left) + " y columna : " + s.right + ". No se esperaba este token: " + s.value + "."); 
+    } 
+
+    public void unrecovered_syntax_error(Symbol s) throws java.lang.Exception{ 
+            System.err.println("Error síntactico irrecuperable en la línea " + (s.left) + " y columna " + s.right + ". Componente " + s.value + " no reconocido."); 
+    }  
+
+    public Arbol getArbol() {
+        return arbol;
+    }
+    
+    public LinkedList<Instruccion> getAST() {
+        return AST;
+    }
+
+:}
+
+/* Terminals */
+terminal INICIO, FIN, INGRESAR, VARIABLE, COMO, CON_VALOR, 
+BOOLEAN, NUMERO, CARACTER, CADENA,  MAYOR, MENOR, 
+MAYOR_O_IGUAL, MENOR_O_IGUAL, ES_IGUAL, ES_DIFERENTE, OR, AND, NOT;
+
+
+terminal LIT_CARACTER, LIT_CADENA, LIT_BOOLEAN, ASIGNACION, SI, FIN_SI, O_SI,
+ENTONCES, DE_LO_CONTRARIO, SEGUN, HACER, INTERROGACION_ABRE, INTERROGACION_CIERRA,
+FIN_SEGUN, IMPRIMIR, IMPRIMIR_NL, PARA, HASTA, CON_INCREMENTAL, FIN_PARA, MIENTRAS, FIN_MIENTRAS, 
+REPETIR, HASTA_QUE, RETORNAR, METODO, CON_PARAMETROS, FIN_METODO, FUNCION, FIN_FUNCION, EJECUTAR;
+
+
+terminal String PUNTO_COMA, PARENTECIS_ABRE, PARENTECIS_CIERRA, SUMA, LIT_NUMERO;
+
+// Simbolos para operaciones basicas
+terminal RESTA, DIVISION, MULTIPLICACION, POTENCIA, MODULO, CORCHETE_ABRE, CORCHETE_CIERRA, COMA;
+
+/* Non terminals */
+non terminal iniciar;
+non terminal Produccion lista_instrucciones;
+non terminal declaracion;
+non terminal Produccion instrucciones; 
+non terminal asignacion, condicionales,
+osi, imprimir, casos, ciclos, expresion_aritmetica, tipo_dato;
+non terminal Produccion expresion;
+/*test*/
+/*
+non terminal declaracion1, var, tipo_valor, retorno, metodo, funciones, ejecutar;
+*/
+/* Precedences */
+
+precedence left SUMA, RESTA;
+
+/* The grammar rules */
+start with iniciar;
+
+
+iniciar ::= INICIO lista_instrucciones:a FIN    {:
+                                                   
+                                                    parser.AST = a.getInstrucciones();
+                                                    Nodo nodoRaiz = new Nodo("Iniciar"); nodoRaiz.addHijo(a.getNodo());
+                                                    parser.arbol = new Arbol(nodoRaiz);
+                                                :}
+            | INICIO FIN {: System.out.println("No hay intrucciones que procesar."); :}
+;
+
+lista_instrucciones ::= lista_instrucciones:a instrucciones:b   {: 
+                                                                    RESULT = new Produccion(new Nodo("Lista Instrucciones"), a.getInstrucciones());
+                                                                    RESULT.addInstruccion(b.getInstruccion());
+                                                                    RESULT.addHijo(a);
+                                                                    RESULT.addHijo(b);
+                                                                :}
+                    | instrucciones:a {: 
+                                            RESULT = new Produccion(new Nodo("Instrucciones"), new LinkedList<>()); 
+                                            RESULT.addInstruccion(a.getInstruccion());
+                                            RESULT.addHijo(a);
+                                        :} 
+;
+
+instrucciones ::=
+    expresion:e PUNTO_COMA {: 
+                                RESULT = new Produccion(new Nodo("Instruccion"), new Evaluar((Operacion)e.getInstruccion()));
+                                RESULT.addHijo(e);
+                                RESULT.addHijo(";");
+                            :} 
+;
+
+expresion ::= expresion:a SUMA expresion:b {:
+                                                RESULT = new Produccion(new Nodo("Expresion"),
+                                                 new Operacion((Operacion)a.getInstruccion(),
+                                                (Operacion)b.getInstruccion(), Operacion.TipoOperacion.SUMA));
+                                                RESULT.addHijo(a);
+                                                RESULT.addHijo("+");
+                                                RESULT.addHijo(b);
+                                            :}
+            | expresion:a RESTA expresion:b {:
+                                                RESULT = new Produccion(new Nodo("Expresion"),
+                                                 new Operacion((Operacion)a.getInstruccion(), 
+                                                 (Operacion)b.getInstruccion(), Operacion.TipoOperacion.RESTA));
+                                                RESULT.addHijo(a);
+                                                RESULT.addHijo("-");
+                                                RESULT.addHijo(b);
+                                            :}
+            | LIT_NUMERO:a {: 
+                        RESULT = new Produccion(new Nodo(null, a), new Operacion(a, Operacion.TipoOperacion.NUMERO)); 
+
+                    :}
+;
+
+
+

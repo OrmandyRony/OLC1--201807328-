@@ -44,8 +44,8 @@ Asignacion = "->"
 
 
 /* Keywords */
-<YYINITIAL> "inicio"        {return new Symbol(sym.INICIO,yyline,yychar, yytext()); }
-<YYINITIAL> "fin"           {return new Symbol(sym.FIN, yyline, yychar, yytext()); }
+<YYINITIAL> "inicio"        { System.out.println("Se reconocio inicio"); return new Symbol(sym.INICIO,yyline,yychar, yytext()); }
+<YYINITIAL> "fin"           { System.out.println("Se reconocio fin"); return new Symbol(sym.FIN, yyline, yychar, yytext()); }
 <YYINITIAL> "ingresar"      {return new Symbol(sym.INGRESAR, yyline, yychar, yytext()); }
 
 <YYINITIAL> "como"          {return new Symbol(sym.COMO, yyline, yychar, yytext()); }
@@ -83,11 +83,11 @@ Asignacion = "->"
 }
 
 /* Literales */
-<YYINITIAL> {Numero}    { return new Symbol(sym.LIT_NUMERO, yyline, yychar, yytext()); }
+<YYINITIAL> {Numero}    { System.out.println("Se reconocio numero"); return new Symbol(sym.LIT_NUMERO, yyline, yychar, yytext()); }
 <YYINITIAL> {Caracter}  { return new Symbol(sym.LIT_CARACTER, yyline, yychar, yytext()); }
 <YYINITIAL> {Cadena}    { return new Symbol(sym.LIT_CADENA, yyline, yychar, yytext()); }
 <YYINITIAL> {Boolean}   { return new Symbol(sym.LIT_BOOLEAN, yyline, yychar, yytext()); }
-<YYINITIAL> ";"         { return new Symbol(sym.PUNTO_COMA); }
+<YYINITIAL> ";"         { System.out.println("Se reconocio punto coma"); return new Symbol(sym.PUNTO_COMA); }
 <YYINITIAL> ","         { return new Symbol(sym.COMA, yyline, yychar, yytext()); }
 
 /* Operadores relacionales */
@@ -96,7 +96,7 @@ Asignacion = "->"
 <YYINITIAL> {
 
     
-    "menor"           { return new Symbol(sym.MENOR, yyline, yychar, yytext(); }
+    "menor"           { return new Symbol(sym.MENOR, yyline, yychar, yytext()); }
     "mayor_o_igual"   { return new Symbol(sym.MAYOR_O_IGUAL, yyline, yychar, yytext()); }
     "menor_o_igual"   { return new Symbol(sym.MENOR_O_IGUAL, yyline, yychar, yytext()); }
     "es_igual"        { return new Symbol(sym.ES_IGUAL, yyline, yychar, yytext()); }
@@ -172,12 +172,12 @@ Asignacion = "->"
 <YYINITIAL>{
 
     "-"           { return new Symbol(sym.RESTA, yyline, yychar, yytext()); }
-    "+"           { return new Symbol(sym.SUMA, yyline, yychar, yytext()); }
+    "+"           { System.out.println("Se reconocio suma "); return new Symbol(sym.SUMA, yyline, yychar, yytext()); }
     "/"           { return new Symbol(sym.DIVISION, yyline, yychar, yytext()); }
     "*"           { return new Symbol(sym.MULTIPLICACION, yyline, yychar, yytext()); }
 "potencia"        { return new Symbol(sym.POTENCIA, yyline, yychar, yytext()); }
     "mod"      { return new Symbol(sym.MODULO, yyline, yychar, yytext()); }
-    "("           { return new Symbol(sym.PARENTECIS_ABRE, yyline, yychar, yytext()); }
+    "("           { System.out.println("Se reconocio parentesis que abre"); return new Symbol(sym.PARENTECIS_ABRE, yyline, yychar, yytext()); }
     ")"           { return new Symbol(sym.PARENTECIS_CIERRA, yyline, yychar, yytext()); }
     "["           { return new Symbol(sym.CORCHETE_ABRE, yyline, yychar, yytext()); }
     "]"           { return new Symbol(sym.CORCHETE_CIERRA, yyline, yychar, yytext()); }
