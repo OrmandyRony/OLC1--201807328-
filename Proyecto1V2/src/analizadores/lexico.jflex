@@ -44,7 +44,7 @@ Asignacion = "->"
 
 
 /* Keywords */
-<YYINITIAL> "inicio"        { System.out.println("Se reconocio inicio"); return new Symbol(sym.INICIO,yyline,yychar, yytext()); }
+<YYINITIAL> "inicio"        { System.out.println("Se reconocio inicio llll"); return new Symbol(sym.INICIO,yyline,yychar, yytext()); }
 <YYINITIAL> "fin"           { System.out.println("Se reconocio fin"); return new Symbol(sym.FIN, yyline, yychar, yytext()); }
 <YYINITIAL> "ingresar"      {return new Symbol(sym.INGRESAR, yyline, yychar, yytext()); }
 
@@ -91,7 +91,7 @@ Asignacion = "->"
 <YYINITIAL> ","         { return new Symbol(sym.COMA, yyline, yychar, yytext()); }
 
 /* Operadores relacionales */
-<YYINITIAL> "mayor"    { return new Symbol(sym.MAYOR, yyline, yychar, yytext()); }
+<YYINITIAL> "mayor"    { System.out.println("Se reconocio mayor"); return new Symbol(sym.MAYOR, yyline, yychar, yytext()); }
 
 <YYINITIAL> {
 
@@ -124,9 +124,9 @@ Asignacion = "->"
 /* Condicionales */
 <YYINITIAL> {
     /* Condicional Si */
-    "si"                { return new Symbol(sym.SI, yyline, yychar, yytext()); }
+    "si"                { System.out.println("Se reconocio si"); return new Symbol(sym.SI, yyline, yychar, yytext()); }
     "fin_si"            { return new Symbol(sym.FIN_SI, yyline, yychar, yytext()); }
-    "o_si"              { return new Symbol(sym.O_SI, yyline, yychar, yytext()); }
+    "o_si"              { System.out.println("Se reconocio osi "); return new Symbol(sym.O_SI, yyline, yychar, yytext()); }
     "entonces"          { return new Symbol(sym.ENTONCES, yyline, yychar, yytext()); }
     "de_lo_contrario"   { return new Symbol(sym.DE_LO_CONTRARIO, yyline, yychar, yytext()); }
     /* Seleccion Multiple */

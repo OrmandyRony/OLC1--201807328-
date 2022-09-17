@@ -8,70 +8,70 @@ package analizadores;
 /** CUP generated class containing symbol constants. */
 public class sym {
   /* terminals */
-  public static final int INTERROGACION_ABRE = 32;
-  public static final int NUMERO = 9;
-  public static final int DE_LO_CONTRARIO = 29;
-  public static final int LIT_BOOLEAN = 23;
-  public static final int LIT_CARACTER = 21;
-  public static final int IMPRIMIR = 35;
-  public static final int FIN_METODO = 48;
-  public static final int SI = 25;
-  public static final int FUNCION = 49;
-  public static final int MAYOR_O_IGUAL = 14;
+  public static final int INTERROGACION_ABRE = 25;
+  public static final int NUMERO = 8;
+  public static final int DE_LO_CONTRARIO = 56;
+  public static final int LIT_BOOLEAN = 21;
+  public static final int LIT_CARACTER = 20;
+  public static final int IMPRIMIR = 28;
+  public static final int FIN_METODO = 41;
+  public static final int SI = 52;
+  public static final int FUNCION = 42;
+  public static final int MAYOR_O_IGUAL = 13;
   public static final int RESTA = 57;
-  public static final int METODO = 46;
-  public static final int ENTONCES = 28;
+  public static final int METODO = 39;
+  public static final int ENTONCES = 55;
+  public static final int LIT_CADENA = 45;
   public static final int FIN = 3;
-  public static final int LIT_CADENA = 22;
-  public static final int HASTA = 38;
-  public static final int FIN_SI = 26;
-  public static final int NOT = 20;
-  public static final int AND = 19;
-  public static final int ES_DIFERENTE = 17;
-  public static final int CARACTER = 10;
-  public static final int OR = 18;
+  public static final int HASTA = 31;
+  public static final int FIN_SI = 53;
+  public static final int NOT = 19;
+  public static final int AND = 18;
+  public static final int ES_DIFERENTE = 16;
+  public static final int CARACTER = 9;
+  public static final int OR = 17;
   public static final int CORCHETE_CIERRA = 63;
-  public static final int MIENTRAS = 41;
-  public static final int COMO = 6;
-  public static final int SUMA = 55;
-  public static final int PUNTO_COMA = 52;
+  public static final int MIENTRAS = 34;
+  public static final int COMO = 5;
+  public static final int SUMA = 50;
+  public static final int PUNTO_COMA = 47;
   public static final int EOF = 0;
-  public static final int BOOLEAN = 8;
-  public static final int MENOR_O_IGUAL = 15;
+  public static final int BOOLEAN = 7;
+  public static final int MENOR_O_IGUAL = 14;
   public static final int error = 1;
   public static final int COMA = 64;
-  public static final int FIN_FUNCION = 50;
-  public static final int CADENA = 11;
+  public static final int FIN_FUNCION = 43;
+  public static final int CADENA = 10;
   public static final int MODULO = 61;
-  public static final int FIN_SEGUN = 34;
-  public static final int MENOR = 13;
-  public static final int O_SI = 27;
-  public static final int FIN_MIENTRAS = 42;
-  public static final int ASIGNACION = 24;
-  public static final int MAYOR = 12;
-  public static final int CON_VALOR = 7;
+  public static final int O_SI = 54;
+  public static final int FIN_SEGUN = 27;
+  public static final int MENOR = 12;
+  public static final int FIN_MIENTRAS = 35;
+  public static final int ASIGNACION = 22;
+  public static final int MAYOR = 11;
+  public static final int CON_VALOR = 6;
   public static final int POTENCIA = 60;
   public static final int CORCHETE_ABRE = 62;
-  public static final int HASTA_QUE = 44;
-  public static final int PARENTECIS_ABRE = 53;
-  public static final int LIT_NUMERO = 56;
-  public static final int IMPRIMIR_NL = 36;
-  public static final int VARIABLE = 5;
+  public static final int HASTA_QUE = 37;
+  public static final int PARENTECIS_ABRE = 48;
+  public static final int LIT_NUMERO = 51;
+  public static final int IMPRIMIR_NL = 29;
+  public static final int VARIABLE = 46;
   public static final int INGRESAR = 4;
-  public static final int PARENTECIS_CIERRA = 54;
-  public static final int CON_INCREMENTAL = 39;
-  public static final int FIN_PARA = 40;
-  public static final int REPETIR = 43;
-  public static final int INTERROGACION_CIERRA = 33;
-  public static final int SEGUN = 30;
-  public static final int CON_PARAMETROS = 47;
-  public static final int HACER = 31;
-  public static final int PARA = 37;
-  public static final int RETORNAR = 45;
+  public static final int PARENTECIS_CIERRA = 49;
+  public static final int CON_INCREMENTAL = 32;
+  public static final int FIN_PARA = 33;
+  public static final int REPETIR = 36;
+  public static final int INTERROGACION_CIERRA = 26;
+  public static final int SEGUN = 23;
+  public static final int CON_PARAMETROS = 40;
+  public static final int HACER = 24;
+  public static final int PARA = 30;
+  public static final int RETORNAR = 38;
   public static final int INICIO = 2;
   public static final int DIVISION = 58;
-  public static final int EJECUTAR = 51;
-  public static final int ES_IGUAL = 16;
+  public static final int EJECUTAR = 44;
+  public static final int ES_IGUAL = 15;
   public static final int MULTIPLICACION = 59;
   public static final String[] terminalNames = new String[] {
   "EOF",
@@ -79,7 +79,6 @@ public class sym {
   "INICIO",
   "FIN",
   "INGRESAR",
-  "VARIABLE",
   "COMO",
   "CON_VALOR",
   "BOOLEAN",
@@ -96,14 +95,8 @@ public class sym {
   "AND",
   "NOT",
   "LIT_CARACTER",
-  "LIT_CADENA",
   "LIT_BOOLEAN",
   "ASIGNACION",
-  "SI",
-  "FIN_SI",
-  "O_SI",
-  "ENTONCES",
-  "DE_LO_CONTRARIO",
   "SEGUN",
   "HACER",
   "INTERROGACION_ABRE",
@@ -126,11 +119,18 @@ public class sym {
   "FUNCION",
   "FIN_FUNCION",
   "EJECUTAR",
+  "LIT_CADENA",
+  "VARIABLE",
   "PUNTO_COMA",
   "PARENTECIS_ABRE",
   "PARENTECIS_CIERRA",
   "SUMA",
   "LIT_NUMERO",
+  "SI",
+  "FIN_SI",
+  "O_SI",
+  "ENTONCES",
+  "DE_LO_CONTRARIO",
   "RESTA",
   "DIVISION",
   "MULTIPLICACION",

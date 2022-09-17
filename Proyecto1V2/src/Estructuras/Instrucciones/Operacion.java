@@ -10,8 +10,21 @@ package Estructuras.Instrucciones;
  */
 public class Operacion implements Instruccion {
     public static enum TipoOperacion {
-        SUMA, 
-        NUMERO
+        NUMERO,
+        CADENA,
+        CARACTER,
+        BOOLEAN,
+        // Fuciones
+        IMPRIMIR,
+        // Operadores logicos
+        MAYOR,
+        
+        // Operadores aritmeticos
+        DIVISION,
+        MULTIPLICACION,
+        RESTA,
+        SUMA
+      
     }
     
     private final TipoOperacion tipo;
@@ -37,12 +50,29 @@ public class Operacion implements Instruccion {
     
     @Override
     public String traducir() {
-        if (tipo== TipoOperacion.SUMA) {
+        // Operadores aritmeticos
+        if (tipo == TipoOperacion.SUMA) {
             return operadorIzq.traducir() + "+" + operadorDer.traducir();
-        } /* ======== OPERACIONES UNARIOS ======== */
+        } else if (tipo == TipoOperacion.RESTA) {
+            return operadorIzq.traducir() + "-" + operadorDer.traducir();
+        } else if (tipo == TipoOperacion.MULTIPLICACION) {
+            return operadorIzq.traducir() + "*" + operadorDer.traducir();
+        } else if (tipo == TipoOperacion.DIVISION) {
+            return operadorIzq.traducir() + "/" + operadorDer.traducir();
+        }
+        // Operadores logicos
+        else if (tipo == TipoOperacion.MAYOR) {
+            return operadorIzq.traducir() + ">" + operadorDer.traducir();
+        }
+        // Operadores unarios
         else if (tipo == TipoOperacion.NUMERO) {
             return valor.toString();
-        } else{
+        } 
+        // CADENA
+        else if (tipo == TipoOperacion.CADENA) {
+            return valor.toString();
+        }
+        else{
             return "";
         }
         

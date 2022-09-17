@@ -11,6 +11,8 @@ import Estructuras.Arbol;
 import Estructuras.Instrucciones.Instruccion;
 import Estructuras.Instrucciones.Operacion;
 import Estructuras.Instrucciones.Evaluar;
+import Estructuras.Instrucciones.SiEntonces;
+import Estructuras.Instrucciones.Imprimir;
 import java.util.LinkedList;
 import java_cup.runtime.*;
 import java_cup.runtime.XMLElement;
@@ -39,9 +41,13 @@ public class Sintactico extends java_cup.runtime.lr_parser {
   /** Production table. */
   protected static final short _production_table[][] = 
     unpackFromStrings(new String[] {
-    "\000\010\000\002\002\004\000\002\002\005\000\002\002" +
-    "\004\000\002\003\004\000\002\003\003\000\002\005\004" +
-    "\000\002\016\005\000\002\016\003" });
+    "\000\025\000\002\002\004\000\002\002\005\000\002\002" +
+    "\004\000\002\003\004\000\002\003\003\000\002\005\006" +
+    "\000\002\005\007\000\002\005\012\000\002\005\003\000" +
+    "\002\020\007\000\002\020\006\000\002\017\005\000\002" +
+    "\015\005\000\002\015\003\000\002\013\005\000\002\013" +
+    "\005\000\002\013\005\000\002\013\005\000\002\013\005" +
+    "\000\002\013\003\000\002\016\005" });
 
   /** Access to production table. */
   public short[][] production_table() {return _production_table;}
@@ -49,14 +55,53 @@ public class Sintactico extends java_cup.runtime.lr_parser {
   /** Parse-action table. */
   protected static final short[][] _action_table = 
     unpackFromStrings(new String[] {
-    "\000\016\000\004\004\005\001\002\000\004\002\020\001" +
-    "\002\000\006\005\011\072\010\001\002\000\006\005\017" +
-    "\072\010\001\002\000\006\005\ufffd\072\ufffd\001\002\000" +
-    "\006\066\ufffa\071\ufffa\001\002\000\004\002\uffff\001\002" +
-    "\000\006\066\013\071\014\001\002\000\006\005\ufffc\072" +
-    "\ufffc\001\002\000\004\072\010\001\002\000\006\066\ufffb" +
-    "\071\ufffb\001\002\000\006\005\ufffe\072\ufffe\001\002\000" +
-    "\004\002\000\001\002\000\004\002\001\001\002" });
+    "\000\064\000\004\004\005\001\002\000\004\002\066\001" +
+    "\002\000\012\005\012\006\010\036\013\066\011\001\002" +
+    "\000\012\005\065\006\010\036\013\066\011\001\002\000" +
+    "\020\005\ufffd\006\ufffd\036\ufffd\066\ufffd\067\ufffd\070\ufffd" +
+    "\072\ufffd\001\002\000\004\060\060\001\002\000\006\062" +
+    "\017\065\021\001\002\000\004\002\uffff\001\002\000\004" +
+    "\057\015\001\002\000\020\005\ufff9\006\ufff9\036\ufff9\066" +
+    "\ufff9\067\ufff9\070\ufff9\072\ufff9\001\002\000\004\061\016" +
+    "\001\002\000\020\005\ufff6\006\ufff6\036\ufff6\066\ufff6\067" +
+    "\ufff6\070\ufff6\072\ufff6\001\002\000\006\062\017\065\021" +
+    "\001\002\000\004\071\035\001\002\000\022\015\uffee\061" +
+    "\uffee\063\uffee\064\uffee\071\uffee\073\uffee\074\uffee\075\uffee" +
+    "\001\002\000\014\015\027\064\025\073\023\074\026\075" +
+    "\024\001\002\000\006\062\017\065\021\001\002\000\006" +
+    "\062\017\065\021\001\002\000\006\062\017\065\021\001" +
+    "\002\000\006\062\017\065\021\001\002\000\006\062\017" +
+    "\065\021\001\002\000\014\064\025\071\uffed\073\023\074" +
+    "\026\075\024\001\002\000\022\015\ufff0\061\ufff0\063\ufff0" +
+    "\064\ufff0\071\ufff0\073\ufff0\074\ufff0\075\ufff0\001\002\000" +
+    "\022\015\ufff3\061\ufff3\063\ufff3\064\ufff3\071\ufff3\073\ufff3" +
+    "\074\026\075\024\001\002\000\022\015\ufff1\061\ufff1\063" +
+    "\ufff1\064\ufff1\071\ufff1\073\ufff1\074\ufff1\075\ufff1\001\002" +
+    "\000\022\015\ufff2\061\ufff2\063\ufff2\064\ufff2\071\ufff2\073" +
+    "\ufff2\074\026\075\024\001\002\000\010\006\010\036\013" +
+    "\066\011\001\002\000\014\006\010\036\013\066\011\067" +
+    "\037\070\041\001\002\000\020\005\ufffb\006\ufffb\036\ufffb" +
+    "\066\ufffb\067\ufffb\070\ufffb\072\ufffb\001\002\000\020\005" +
+    "\ufffe\006\ufffe\036\ufffe\066\ufffe\067\ufffe\070\ufffe\072\ufffe" +
+    "\001\002\000\006\062\017\065\021\001\002\000\006\070" +
+    "\044\072\043\001\002\000\010\006\010\036\013\066\011" +
+    "\001\002\000\006\062\017\065\021\001\002\000\004\071" +
+    "\046\001\002\000\010\006\010\036\013\066\011\001\002" +
+    "\000\014\006\010\036\013\066\011\070\ufff8\072\ufff8\001" +
+    "\002\000\012\006\010\036\013\066\011\067\051\001\002" +
+    "\000\020\005\ufffa\006\ufffa\036\ufffa\066\ufffa\067\ufffa\070" +
+    "\ufffa\072\ufffa\001\002\000\004\071\053\001\002\000\010" +
+    "\006\010\036\013\066\011\001\002\000\014\006\010\036" +
+    "\013\066\011\070\ufff7\072\ufff7\001\002\000\014\063\056" +
+    "\064\025\073\023\074\026\075\024\001\002\000\022\015" +
+    "\uffef\061\uffef\063\uffef\064\uffef\071\uffef\073\uffef\074\uffef" +
+    "\075\uffef\001\002\000\010\062\017\065\021\102\061\001" +
+    "\002\000\010\062\ufff4\065\ufff4\102\ufff4\001\002\000\004" +
+    "\060\064\001\002\000\014\061\063\064\025\073\023\074" +
+    "\026\075\024\001\002\000\020\005\ufffc\006\ufffc\036\ufffc" +
+    "\066\ufffc\067\ufffc\070\ufffc\072\ufffc\001\002\000\010\062" +
+    "\ufff5\065\ufff5\102\ufff5\001\002\000\004\002\000\001\002" +
+    "\000\004\002\001\001\002" });
 
   /** Access to parse-action table. */
   public short[][] action_table() {return _action_table;}
@@ -64,12 +109,29 @@ public class Sintactico extends java_cup.runtime.lr_parser {
   /** <code>reduce_goto</code> table. */
   protected static final short[][] _reduce_table = 
     unpackFromStrings(new String[] {
-    "\000\016\000\004\002\003\001\001\000\002\001\001\000" +
-    "\010\003\005\005\006\016\011\001\001\000\006\005\015" +
-    "\016\011\001\001\000\002\001\001\000\002\001\001\000" +
-    "\002\001\001\000\002\001\001\000\002\001\001\000\004" +
-    "\016\014\001\001\000\002\001\001\000\002\001\001\000" +
-    "\002\001\001\000\002\001\001" });
+    "\000\064\000\004\002\003\001\001\000\002\001\001\000" +
+    "\010\003\005\005\006\017\013\001\001\000\006\005\037" +
+    "\017\013\001\001\000\002\001\001\000\004\015\056\001" +
+    "\001\000\006\013\021\016\017\001\001\000\002\001\001" +
+    "\000\002\001\001\000\002\001\001\000\002\001\001\000" +
+    "\002\001\001\000\004\013\054\001\001\000\002\001\001" +
+    "\000\002\001\001\000\002\001\001\000\004\013\033\001" +
+    "\001\000\004\013\032\001\001\000\004\013\031\001\001" +
+    "\000\004\013\030\001\001\000\004\013\027\001\001\000" +
+    "\002\001\001\000\002\001\001\000\002\001\001\000\002" +
+    "\001\001\000\002\001\001\000\010\003\035\005\006\017" +
+    "\013\001\001\000\010\005\037\017\013\020\041\001\001" +
+    "\000\002\001\001\000\002\001\001\000\006\013\021\016" +
+    "\051\001\001\000\002\001\001\000\010\003\047\005\006" +
+    "\017\013\001\001\000\006\013\021\016\044\001\001\000" +
+    "\002\001\001\000\010\003\046\005\006\017\013\001\001" +
+    "\000\006\005\037\017\013\001\001\000\006\005\037\017" +
+    "\013\001\001\000\002\001\001\000\002\001\001\000\010" +
+    "\003\053\005\006\017\013\001\001\000\006\005\037\017" +
+    "\013\001\001\000\002\001\001\000\002\001\001\000\004" +
+    "\013\061\001\001\000\002\001\001\000\002\001\001\000" +
+    "\002\001\001\000\002\001\001\000\002\001\001\000\002" +
+    "\001\001\000\002\001\001" });
 
   /** Access to <code>reduce_goto</code> table. */
   public short[][] reduce_table() {return _reduce_table;}
@@ -110,6 +172,7 @@ public class Sintactico extends java_cup.runtime.lr_parser {
 
     public LinkedList<Instruccion> AST;
     public Arbol arbol;
+    /*Aca puedo colocar una variable global para ir contado los numeros de ifs anidados  para dar saltos de linea */
 
     public void syntax_error(Symbol s){
             System.err.println("Error Sintáctico en la linea: " + (s.left) + " y columna : " + s.right + ". No se esperaba este token: " + s.value + "."); 
@@ -122,7 +185,7 @@ public class Sintactico extends java_cup.runtime.lr_parser {
     public Arbol getArbol() {
         return arbol;
     }
-    
+
     public LinkedList<Instruccion> getAST() {
         return AST;
     }
@@ -230,23 +293,190 @@ class CUP$Sintactico$actions {
           return CUP$Sintactico$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 5: // instrucciones ::= expresion PUNTO_COMA 
+          case 5: // instrucciones ::= INGRESAR var expresion PUNTO_COMA 
             {
               Produccion RESULT =null;
+		int vleft = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-2)).left;
+		int vright = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-2)).right;
+		LinkedList<String> v = (LinkedList<String>)((java_cup.runtime.Symbol) CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-2)).value;
 		int eleft = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-1)).left;
 		int eright = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-1)).right;
 		Produccion e = (Produccion)((java_cup.runtime.Symbol) CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-1)).value;
 		 
-                                RESULT = new Produccion(new Nodo("Instruccion"), new Evaluar((Operacion)e.getInstruccion()));
-                                RESULT.addHijo(e);
-                                RESULT.addHijo(";");
-                            
-              CUP$Sintactico$result = parser.getSymbolFactory().newSymbol("instrucciones",3, ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-1)), ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), RESULT);
+                                                RESULT = new Produccion(new Nodo("Declaracion"), new Evaluar((Operacion)e.getInstruccion()));
+                                                RESULT.addHijo("Variables");
+                                                RESULT.addHijo(e);
+                                                RESULT.addHijo(";");
+                                            
+              CUP$Sintactico$result = parser.getSymbolFactory().newSymbol("instrucciones",3, ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-3)), ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), RESULT);
             }
           return CUP$Sintactico$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 6: // expresion ::= expresion SUMA expresion 
+          case 6: // instrucciones ::= SI expresion_relacional ENTONCES lista_instrucciones FIN_SI 
+            {
+              Produccion RESULT =null;
+		int aleft = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-3)).left;
+		int aright = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-3)).right;
+		Produccion a = (Produccion)((java_cup.runtime.Symbol) CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-3)).value;
+		int bleft = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-1)).left;
+		int bright = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-1)).right;
+		Produccion b = (Produccion)((java_cup.runtime.Symbol) CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-1)).value;
+		
+                                                                    RESULT = new Produccion(new Nodo("Condicional"), 
+                                                                            new SiEntonces((Operacion)a.getInstruccion(), b.getInstrucciones()));
+                                                                    RESULT.addHijo("Si");
+                                                                    RESULT.addHijo(a);
+                                                                    RESULT.addHijo("Entonces");
+                                                                    RESULT.addHijo(b);
+                                                                
+              CUP$Sintactico$result = parser.getSymbolFactory().newSymbol("instrucciones",3, ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-4)), ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), RESULT);
+            }
+          return CUP$Sintactico$result;
+
+          /*. . . . . . . . . . . . . . . . . . . .*/
+          case 7: // instrucciones ::= SI expresion_relacional ENTONCES lista_instrucciones osi DE_LO_CONTRARIO lista_instrucciones FIN_SI 
+            {
+              Produccion RESULT =null;
+		int eleft = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-6)).left;
+		int eright = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-6)).right;
+		Produccion e = (Produccion)((java_cup.runtime.Symbol) CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-6)).value;
+		int lleft = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-4)).left;
+		int lright = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-4)).right;
+		Produccion l = (Produccion)((java_cup.runtime.Symbol) CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-4)).value;
+		int oleft = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-3)).left;
+		int oright = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-3)).right;
+		Produccion o = (Produccion)((java_cup.runtime.Symbol) CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-3)).value;
+		int l2left = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-1)).left;
+		int l2right = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-1)).right;
+		Produccion l2 = (Produccion)((java_cup.runtime.Symbol) CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-1)).value;
+		
+                                                                                                                        RESULT = new Produccion(new Nodo("Condicional"),
+                                                                                                                            new SiEntonces((Operacion)e.getInstruccion(), l.getInstrucciones(), o.getInstrucciones(), l2.getInstrucciones()));
+                                                                                                                        RESULT.addHijo("Si");
+                                                                                                                        RESULT.addHijo(e);
+                                                                                                                        RESULT.addHijo("Entonces");
+                                                                                                                        RESULT.addHijo(l);
+                                                                                                                        RESULT.addHijo(o);
+                                                                                                                        RESULT.addHijo("DeLoContrario");
+                                                                                                                        RESULT.addHijo(l2);
+                                                                                                                    
+              CUP$Sintactico$result = parser.getSymbolFactory().newSymbol("instrucciones",3, ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-7)), ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), RESULT);
+            }
+          return CUP$Sintactico$result;
+
+          /*. . . . . . . . . . . . . . . . . . . .*/
+          case 8: // instrucciones ::= imprimir 
+            {
+              Produccion RESULT =null;
+		int aleft = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()).left;
+		int aright = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()).right;
+		Produccion a = (Produccion)((java_cup.runtime.Symbol) CUP$Sintactico$stack.peek()).value;
+		 RESULT = new Produccion(new Nodo("Imprimir"), 
+                                        new Imprimir((Operacion)a.getInstruccion()));
+                                        RESULT.addHijo(a);
+                
+              CUP$Sintactico$result = parser.getSymbolFactory().newSymbol("instrucciones",3, ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), RESULT);
+            }
+          return CUP$Sintactico$result;
+
+          /*. . . . . . . . . . . . . . . . . . . .*/
+          case 9: // osi ::= osi O_SI expresion_relacional ENTONCES lista_instrucciones 
+            {
+              Produccion RESULT =null;
+		int oleft = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-4)).left;
+		int oright = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-4)).right;
+		Produccion o = (Produccion)((java_cup.runtime.Symbol) CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-4)).value;
+		int eleft = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-2)).left;
+		int eright = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-2)).right;
+		Produccion e = (Produccion)((java_cup.runtime.Symbol) CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-2)).value;
+		int ileft = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()).left;
+		int iright = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()).right;
+		Produccion i = (Produccion)((java_cup.runtime.Symbol) CUP$Sintactico$stack.peek()).value;
+		
+                                                                        RESULT = new Produccion(new Nodo("O_si"), o.getInstrucciones());
+                                                                        RESULT.addInstruccion(new SiEntonces((Operacion)e.getInstruccion(), i.getInstrucciones()));
+                                                                        RESULT.addHijo(o);
+                                                                        RESULT.addHijo("o_si");
+                                                                        RESULT.addHijo(e);
+                                                                        RESULT.addHijo("entonces");
+                                                                        RESULT.addHijo(i);
+                                                                    
+              CUP$Sintactico$result = parser.getSymbolFactory().newSymbol("osi",14, ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-4)), ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), RESULT);
+            }
+          return CUP$Sintactico$result;
+
+          /*. . . . . . . . . . . . . . . . . . . .*/
+          case 10: // osi ::= O_SI expresion_relacional ENTONCES lista_instrucciones 
+            {
+              Produccion RESULT =null;
+		int eleft = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-2)).left;
+		int eright = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-2)).right;
+		Produccion e = (Produccion)((java_cup.runtime.Symbol) CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-2)).value;
+		int ileft = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()).left;
+		int iright = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()).right;
+		Produccion i = (Produccion)((java_cup.runtime.Symbol) CUP$Sintactico$stack.peek()).value;
+		
+                                                                        RESULT = new Produccion(new Nodo("O_si"), new LinkedList<>());
+                                                                        RESULT.addInstruccion(new SiEntonces((Operacion)e.getInstruccion(), i.getInstrucciones()));
+                                                                        RESULT.addHijo("o_si");
+                                                                        RESULT.addHijo(e);
+                                                                        RESULT.addHijo("entonces");
+                                                                        RESULT.addHijo(i);
+                                                                    
+              CUP$Sintactico$result = parser.getSymbolFactory().newSymbol("osi",14, ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-3)), ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), RESULT);
+            }
+          return CUP$Sintactico$result;
+
+          /*. . . . . . . . . . . . . . . . . . . .*/
+          case 11: // imprimir ::= IMPRIMIR LIT_CADENA PUNTO_COMA 
+            {
+              Produccion RESULT =null;
+		int aleft = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-1)).left;
+		int aright = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-1)).right;
+		String a = (String)((java_cup.runtime.Symbol) CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-1)).value;
+		
+                                                    RESULT = new Produccion(new Nodo(null, a), new Operacion(a, Operacion.TipoOperacion.CADENA));
+                                                
+              CUP$Sintactico$result = parser.getSymbolFactory().newSymbol("imprimir",13, ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-2)), ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), RESULT);
+            }
+          return CUP$Sintactico$result;
+
+          /*. . . . . . . . . . . . . . . . . . . .*/
+          case 12: // var ::= var COMA VARIABLE 
+            {
+              LinkedList<String> RESULT =null;
+		int vleft = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-2)).left;
+		int vright = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-2)).right;
+		LinkedList<String> v = (LinkedList<String>)((java_cup.runtime.Symbol) CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-2)).value;
+		int vuleft = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()).left;
+		int vuright = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()).right;
+		String vu = (String)((java_cup.runtime.Symbol) CUP$Sintactico$stack.peek()).value;
+		 
+                                RESULT =  v;
+                                RESULT.add(vu);
+                                
+              CUP$Sintactico$result = parser.getSymbolFactory().newSymbol("var",11, ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-2)), ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), RESULT);
+            }
+          return CUP$Sintactico$result;
+
+          /*. . . . . . . . . . . . . . . . . . . .*/
+          case 13: // var ::= VARIABLE 
+            {
+              LinkedList<String> RESULT =null;
+		int vleft = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()).left;
+		int vright = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()).right;
+		String v = (String)((java_cup.runtime.Symbol) CUP$Sintactico$stack.peek()).value;
+		 
+                        RESULT = new LinkedList<String>();
+                        RESULT.add(v);
+                    
+              CUP$Sintactico$result = parser.getSymbolFactory().newSymbol("var",11, ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), RESULT);
+            }
+          return CUP$Sintactico$result;
+
+          /*. . . . . . . . . . . . . . . . . . . .*/
+          case 14: // expresion ::= expresion SUMA expresion 
             {
               Produccion RESULT =null;
 		int aleft = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-2)).left;
@@ -256,17 +486,103 @@ class CUP$Sintactico$actions {
 		int bright = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()).right;
 		Produccion b = (Produccion)((java_cup.runtime.Symbol) CUP$Sintactico$stack.peek()).value;
 		
-                                                RESULT = new Produccion(new Nodo("Expresion"), new Operacion((Operacion)a.getInstruccion(), (Operacion)b.getInstruccion(), Operacion.TipoOperacion.SUMA));
+                                                RESULT = new Produccion(new Nodo("Expresion Arimetica"),
+                                                 new Operacion((Operacion)a.getInstruccion(),
+                                                (Operacion)b.getInstruccion(), Operacion.TipoOperacion.SUMA));
                                                 RESULT.addHijo(a);
                                                 RESULT.addHijo("+");
                                                 RESULT.addHijo(b);
                                             
-              CUP$Sintactico$result = parser.getSymbolFactory().newSymbol("expresion",12, ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-2)), ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), RESULT);
+              CUP$Sintactico$result = parser.getSymbolFactory().newSymbol("expresion",9, ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-2)), ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), RESULT);
             }
           return CUP$Sintactico$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 7: // expresion ::= LIT_NUMERO 
+          case 15: // expresion ::= expresion RESTA expresion 
+            {
+              Produccion RESULT =null;
+		int aleft = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-2)).left;
+		int aright = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-2)).right;
+		Produccion a = (Produccion)((java_cup.runtime.Symbol) CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-2)).value;
+		int bleft = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()).left;
+		int bright = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()).right;
+		Produccion b = (Produccion)((java_cup.runtime.Symbol) CUP$Sintactico$stack.peek()).value;
+		
+                                                RESULT = new Produccion(new Nodo("Expresion Aritmetica"),
+                                                 new Operacion((Operacion)a.getInstruccion(), 
+                                                 (Operacion)b.getInstruccion(), Operacion.TipoOperacion.RESTA));
+                                                RESULT.addHijo(a);
+                                                RESULT.addHijo("-");
+                                                RESULT.addHijo(b);
+                                            
+              CUP$Sintactico$result = parser.getSymbolFactory().newSymbol("expresion",9, ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-2)), ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), RESULT);
+            }
+          return CUP$Sintactico$result;
+
+          /*. . . . . . . . . . . . . . . . . . . .*/
+          case 16: // expresion ::= expresion MULTIPLICACION expresion 
+            {
+              Produccion RESULT =null;
+		int aleft = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-2)).left;
+		int aright = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-2)).right;
+		Produccion a = (Produccion)((java_cup.runtime.Symbol) CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-2)).value;
+		int bleft = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()).left;
+		int bright = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()).right;
+		Produccion b = (Produccion)((java_cup.runtime.Symbol) CUP$Sintactico$stack.peek()).value;
+		
+                                                RESULT = new Produccion(new Nodo("Expresion Aritmetica"),
+                                                 new Operacion((Operacion)a.getInstruccion(), 
+                                                 (Operacion)b.getInstruccion(), Operacion.TipoOperacion.RESTA));
+                                                RESULT.addHijo(a);
+                                                RESULT.addHijo("-");
+                                                RESULT.addHijo(b);
+                                            
+              CUP$Sintactico$result = parser.getSymbolFactory().newSymbol("expresion",9, ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-2)), ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), RESULT);
+            }
+          return CUP$Sintactico$result;
+
+          /*. . . . . . . . . . . . . . . . . . . .*/
+          case 17: // expresion ::= expresion DIVISION expresion 
+            {
+              Produccion RESULT =null;
+		int aleft = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-2)).left;
+		int aright = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-2)).right;
+		Produccion a = (Produccion)((java_cup.runtime.Symbol) CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-2)).value;
+		int bleft = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()).left;
+		int bright = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()).right;
+		Produccion b = (Produccion)((java_cup.runtime.Symbol) CUP$Sintactico$stack.peek()).value;
+		
+                                                RESULT = new Produccion(new Nodo("Expresion Aritmetica"),
+                                                 new Operacion((Operacion)a.getInstruccion(), 
+                                                 (Operacion)b.getInstruccion(), Operacion.TipoOperacion.RESTA));
+                                                RESULT.addHijo(a);
+                                                RESULT.addHijo("/");
+                                                RESULT.addHijo(b);
+                                            
+              CUP$Sintactico$result = parser.getSymbolFactory().newSymbol("expresion",9, ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-2)), ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), RESULT);
+            }
+          return CUP$Sintactico$result;
+
+          /*. . . . . . . . . . . . . . . . . . . .*/
+          case 18: // expresion ::= PARENTECIS_ABRE expresion PARENTECIS_CIERRA 
+            {
+              Produccion RESULT =null;
+		int eleft = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-1)).left;
+		int eright = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-1)).right;
+		Produccion e = (Produccion)((java_cup.runtime.Symbol) CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-1)).value;
+		
+                                                                RESULT = new Produccion(new Nodo("Expresion Aritmetica"),
+                                                                    e.getInstruccion());
+                                                                RESULT.addHijo("(");
+                                                                RESULT.addHijo(e);
+                                                                RESULT.addHijo(")");
+                                                            
+              CUP$Sintactico$result = parser.getSymbolFactory().newSymbol("expresion",9, ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-2)), ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), RESULT);
+            }
+          return CUP$Sintactico$result;
+
+          /*. . . . . . . . . . . . . . . . . . . .*/
+          case 19: // expresion ::= LIT_NUMERO 
             {
               Produccion RESULT =null;
 		int aleft = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()).left;
@@ -274,9 +590,27 @@ class CUP$Sintactico$actions {
 		String a = (String)((java_cup.runtime.Symbol) CUP$Sintactico$stack.peek()).value;
 		 
                         RESULT = new Produccion(new Nodo(null, a), new Operacion(a, Operacion.TipoOperacion.NUMERO)); 
-
                     
-              CUP$Sintactico$result = parser.getSymbolFactory().newSymbol("expresion",12, ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), RESULT);
+              CUP$Sintactico$result = parser.getSymbolFactory().newSymbol("expresion",9, ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), RESULT);
+            }
+          return CUP$Sintactico$result;
+
+          /*. . . . . . . . . . . . . . . . . . . .*/
+          case 20: // expresion_relacional ::= expresion MAYOR expresion 
+            {
+              Produccion RESULT =null;
+		int aleft = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-2)).left;
+		int aright = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-2)).right;
+		Produccion a = (Produccion)((java_cup.runtime.Symbol) CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-2)).value;
+		int bleft = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()).left;
+		int bright = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()).right;
+		Produccion b = (Produccion)((java_cup.runtime.Symbol) CUP$Sintactico$stack.peek()).value;
+		
+                                                            RESULT = new Produccion(new Nodo("Expresion Relacional"),
+                                                                    new Operacion((Operacion)a.getInstruccion(), (Operacion)b.getInstruccion(),
+                                                                    Operacion.TipoOperacion.MAYOR));
+                                                        
+              CUP$Sintactico$result = parser.getSymbolFactory().newSymbol("expresion_relacional",12, ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-2)), ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), RESULT);
             }
           return CUP$Sintactico$result;
 

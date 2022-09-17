@@ -852,7 +852,7 @@ public class Lexico implements java_cup.runtime.Scanner {
             // fall through
           case 84: break;
           case 19: 
-            { return new Symbol(sym.SI, yyline, yychar, yytext());
+            { System.out.println("Se reconocio si"); return new Symbol(sym.SI, yyline, yychar, yytext());
             } 
             // fall through
           case 85: break;
@@ -892,7 +892,7 @@ public class Lexico implements java_cup.runtime.Scanner {
             // fall through
           case 92: break;
           case 27: 
-            { return new Symbol(sym.O_SI, yyline, yychar, yytext());
+            { System.out.println("Se reconocio osi "); return new Symbol(sym.O_SI, yyline, yychar, yytext());
             } 
             // fall through
           case 93: break;
@@ -922,7 +922,7 @@ public class Lexico implements java_cup.runtime.Scanner {
             // fall through
           case 98: break;
           case 33: 
-            { return new Symbol(sym.MAYOR, yyline, yychar, yytext());
+            { System.out.println("Se reconocio mayor"); return new Symbol(sym.MAYOR, yyline, yychar, yytext());
             } 
             // fall through
           case 99: break;
@@ -942,7 +942,7 @@ public class Lexico implements java_cup.runtime.Scanner {
             // fall through
           case 102: break;
           case 37: 
-            { System.out.println("Se reconocio inicio"); return new Symbol(sym.INICIO,yyline,yychar, yytext());
+            { System.out.println("Se reconocio inicio llll"); return new Symbol(sym.INICIO,yyline,yychar, yytext());
             } 
             // fall through
           case 103: break;

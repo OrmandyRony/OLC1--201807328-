@@ -1,0 +1,25 @@
+digraph G{
+"node1259744895" [ label = "Iniciar",];
+"node551166987" [ label = "Instrucciones",];
+"node157948690" [ label = "Condicional",];
+"node2026626100" [ label = "Si",];
+"node157948690" -> "node2026626100" [ label = "",];
+"node47476868" [ label = "Expresion Relacional",];
+"node157948690" -> "node47476868" [ label = "",];
+"node1944053417" [ label = "Declaracion",];
+"node708104523" [ label = "Variables",];
+"node1944053417" -> "node708104523" [ label = "",];
+"node213418565" [ label = "Expresion Arimetica",];
+"node768185094" [ label = "1",];
+"node213418565" -> "node768185094" [ label = "",];
+"node565166776" [ label = "+",];
+"node213418565" -> "node565166776" [ label = "",];
+"node765325647" [ label = "1",];
+"node213418565" -> "node765325647" [ label = "",];
+"node1944053417" -> "node213418565" [ label = "",];
+"node1702880275" [ label = ";",];
+"node1944053417" -> "node1702880275" [ label = "",];
+"node157948690" -> "node1944053417" [ label = "",];
+"node551166987" -> "node157948690" [ label = "",];
+"node1259744895" -> "node551166987" [ label = "",];
+}

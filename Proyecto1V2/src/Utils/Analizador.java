@@ -50,7 +50,7 @@ public class Analizador {
                     + "el árbol no fue cargado de forma adecuada por la existencia\r\n"
                     + "de errores léxicos o sintácticos.");
         }
-        //Se ejecuta cada instruccion en el ast, es decir, cada instruccion de 
+        //Se traduce cada instruccion en el ast, es decir, cada instruccion de 
         //la lista principal de instrucciones.
         
         String traduccion = "";
@@ -63,7 +63,10 @@ public class Analizador {
                 traduccion += ins.traducir();
         }
         
+        System.out.println("/*========= Python ==========*/");
+        
         return traduccion;
+        
     }
 
     public Arbol getArbol() {

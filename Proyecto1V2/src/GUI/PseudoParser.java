@@ -239,7 +239,10 @@ public class PseudoParser extends javax.swing.JFrame {
         System.out.println("Analizador");
         try {
             // lexico = new AnalizadorLexico(this.txtAreaCodigo.getText());
-            System.out.println(a.interpretar(new StringReader(this.txtAreaCodigo.getText())));
+            // retorna el codigo traducido
+            String traduccionPython = a.interpretar(new StringReader(this.txtAreaCodigo.getText()));
+            System.out.println(traduccionPython);
+            System.out.println("/*=========== Fin Python =============*/");
             a.getArbol().graficar();
         } catch (FileNotFoundException ex) {
             Logger.getLogger(PseudoParser.class.getName()).log(Level.SEVERE, null, ex);

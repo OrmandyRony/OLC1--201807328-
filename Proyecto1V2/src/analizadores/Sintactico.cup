@@ -11,6 +11,8 @@ import Estructuras.Arbol;
 import Estructuras.Instrucciones.Instruccion;
 import Estructuras.Instrucciones.Operacion;
 import Estructuras.Instrucciones.Evaluar;
+import Estructuras.Instrucciones.SiEntonces;
+import Estructuras.Instrucciones.Imprimir;
 import java.util.LinkedList;
 import java_cup.runtime.*;
 import java_cup.runtime.XMLElement;
@@ -18,6 +20,7 @@ import java_cup.runtime.XMLElement;
 parser code {:
     public LinkedList<Instruccion> AST;
     public Arbol arbol;
+    /*Aca puedo colocar una variable global para ir contado los numeros de ifs anidados  para dar saltos de linea */
 
     public void syntax_error(Symbol s){
             System.err.println("Error Sintáctico en la linea: " + (s.left) + " y columna : " + s.right + ". No se esperaba este token: " + s.value + "."); 
@@ -30,7 +33,7 @@ parser code {:
     public Arbol getArbol() {
         return arbol;
     }
-    
+
     public LinkedList<Instruccion> getAST() {
         return AST;
     }
@@ -38,19 +41,19 @@ parser code {:
 :}
 
 /* Terminals */
-terminal INICIO, FIN, INGRESAR, VARIABLE, COMO, CON_VALOR, 
+terminal INICIO, FIN, INGRESAR, COMO, CON_VALOR, 
 BOOLEAN, NUMERO, CARACTER, CADENA,  MAYOR, MENOR, 
 MAYOR_O_IGUAL, MENOR_O_IGUAL, ES_IGUAL, ES_DIFERENTE, OR, AND, NOT;
 
 
-terminal LIT_CARACTER, LIT_CADENA, LIT_BOOLEAN, ASIGNACION, SI, FIN_SI, O_SI,
-ENTONCES, DE_LO_CONTRARIO, SEGUN, HACER, INTERROGACION_ABRE, INTERROGACION_CIERRA,
+terminal LIT_CARACTER, LIT_BOOLEAN, ASIGNACION, SEGUN, HACER, INTERROGACION_ABRE, INTERROGACION_CIERRA,
 FIN_SEGUN, IMPRIMIR, IMPRIMIR_NL, PARA, HASTA, CON_INCREMENTAL, FIN_PARA, MIENTRAS, FIN_MIENTRAS, 
 REPETIR, HASTA_QUE, RETORNAR, METODO, CON_PARAMETROS, FIN_METODO, FUNCION, FIN_FUNCION, EJECUTAR;
 
-
+terminal String LIT_CADENA;
+terminal String VARIABLE;
 terminal String PUNTO_COMA, PARENTECIS_ABRE, PARENTECIS_CIERRA, SUMA, LIT_NUMERO;
-
+terminal String SI, FIN_SI, O_SI, ENTONCES, DE_LO_CONTRARIO;
 // Simbolos para operaciones basicas
 terminal RESTA, DIVISION, MULTIPLICACION, POTENCIA, MODULO, CORCHETE_ABRE, CORCHETE_CIERRA, COMA;
 
@@ -59,9 +62,13 @@ non terminal iniciar;
 non terminal Produccion lista_instrucciones;
 non terminal declaracion;
 non terminal Produccion instrucciones; 
-non terminal asignacion, condicionales,
-osi, imprimir, casos, ciclos, expresion_aritmetica, tipo_dato;
+non terminal asignacion, condicionales, casos, ciclos, tipo_dato;
 non terminal Produccion expresion;
+non terminal Produccion litCadena;
+non terminal LinkedList<String> var;
+non terminal Produccion expresion_relacional;
+non terminal Produccion imprimir;
+non terminal Produccion osi;
 /*test*/
 /*
 non terminal declaracion1, var, tipo_valor, retorno, metodo, funciones, ejecutar;
@@ -69,6 +76,7 @@ non terminal declaracion1, var, tipo_valor, retorno, metodo, funciones, ejecutar
 /* Precedences */
 
 precedence left SUMA, RESTA;
+precedence left MULTIPLICACION, DIVISION;
 
 /* The grammar rules */
 start with iniciar;
@@ -97,15 +105,80 @@ lista_instrucciones ::= lista_instrucciones:a instrucciones:b   {:
 ;
 
 instrucciones ::=
-    expresion:e PUNTO_COMA {: 
-                                RESULT = new Produccion(new Nodo("Instruccion"), new Evaluar((Operacion)e.getInstruccion()));
-                                RESULT.addHijo(e);
-                                RESULT.addHijo(";");
-                            :} 
+    INGRESAR var:v expresion:e PUNTO_COMA {: 
+                                                RESULT = new Produccion(new Nodo("Declaracion"), new Evaluar((Operacion)e.getInstruccion()));
+                                                RESULT.addHijo("Variables");
+                                                RESULT.addHijo(e);
+                                                RESULT.addHijo(";");
+                                            :} 
+    /*Condicionales*/                                           
+    | SI expresion_relacional:a ENTONCES lista_instrucciones:b FIN_SI {:
+                                                                    RESULT = new Produccion(new Nodo("Condicional"), 
+                                                                            new SiEntonces((Operacion)a.getInstruccion(), b.getInstrucciones()));
+                                                                    RESULT.addHijo("Si");
+                                                                    RESULT.addHijo(a);
+                                                                    RESULT.addHijo("Entonces");
+                                                                    RESULT.addHijo(b);
+                                                                :}
+
+    | SI expresion_relacional:e ENTONCES lista_instrucciones:l osi:o DE_LO_CONTRARIO lista_instrucciones:l2 FIN_SI {:
+                                                                                                                        RESULT = new Produccion(new Nodo("Condicional"),
+                                                                                                                            new SiEntonces((Operacion)e.getInstruccion(), l.getInstrucciones(), o.getInstrucciones(), l2.getInstrucciones()));
+                                                                                                                        RESULT.addHijo("Si");
+                                                                                                                        RESULT.addHijo(e);
+                                                                                                                        RESULT.addHijo("Entonces");
+                                                                                                                        RESULT.addHijo(l);
+                                                                                                                        RESULT.addHijo(o);
+                                                                                                                        RESULT.addHijo("DeLoContrario");
+                                                                                                                        RESULT.addHijo(l2);
+                                                                                                                    :}
+
+    | imprimir:a {: RESULT = new Produccion(new Nodo("Imprimir"), 
+                                        new Imprimir((Operacion)a.getInstruccion()));
+                                        RESULT.addHijo(a);
+                :}
 ;
 
+osi ::= osi:o O_SI expresion_relacional:e ENTONCES lista_instrucciones:i  {:
+                                                                        RESULT = new Produccion(new Nodo("O_si"), o.getInstrucciones());
+                                                                        RESULT.addInstruccion(new SiEntonces((Operacion)e.getInstruccion(), i.getInstrucciones()));
+                                                                        RESULT.addHijo(o);
+                                                                        RESULT.addHijo("o_si");
+                                                                        RESULT.addHijo(e);
+                                                                        RESULT.addHijo("entonces");
+                                                                        RESULT.addHijo(i);
+                                                                    :}
+
+    | O_SI expresion_relacional:e ENTONCES lista_instrucciones:i        {:
+                                                                        RESULT = new Produccion(new Nodo("O_si"), new LinkedList<>());
+                                                                        RESULT.addInstruccion(new SiEntonces((Operacion)e.getInstruccion(), i.getInstrucciones()));
+                                                                        RESULT.addHijo("o_si");
+                                                                        RESULT.addHijo(e);
+                                                                        RESULT.addHijo("entonces");
+                                                                        RESULT.addHijo(i);
+                                                                    :}
+;
+
+
+imprimir ::=  IMPRIMIR LIT_CADENA:a PUNTO_COMA  {:
+                                                    RESULT = new Produccion(new Nodo(null, a), new Operacion(a, Operacion.TipoOperacion.CADENA));
+                                                :}
+;
+
+
+var ::= var:v COMA VARIABLE:vu {: 
+                                RESULT =  v;
+                                RESULT.add(vu);
+                                :}
+    | VARIABLE:v     {: 
+                        RESULT = new LinkedList<String>();
+                        RESULT.add(v);
+                    :}
+;
+
+
 expresion ::= expresion:a SUMA expresion:b {:
-                                                RESULT = new Produccion(new Nodo("Expresion"),
+                                                RESULT = new Produccion(new Nodo("Expresion Arimetica"),
                                                  new Operacion((Operacion)a.getInstruccion(),
                                                 (Operacion)b.getInstruccion(), Operacion.TipoOperacion.SUMA));
                                                 RESULT.addHijo(a);
@@ -113,18 +186,48 @@ expresion ::= expresion:a SUMA expresion:b {:
                                                 RESULT.addHijo(b);
                                             :}
             | expresion:a RESTA expresion:b {:
-                                                RESULT = new Produccion(new Nodo("Expresion"),
+                                                RESULT = new Produccion(new Nodo("Expresion Aritmetica"),
                                                  new Operacion((Operacion)a.getInstruccion(), 
                                                  (Operacion)b.getInstruccion(), Operacion.TipoOperacion.RESTA));
                                                 RESULT.addHijo(a);
                                                 RESULT.addHijo("-");
                                                 RESULT.addHijo(b);
                                             :}
+
+            | expresion:a MULTIPLICACION expresion:b {:
+                                                RESULT = new Produccion(new Nodo("Expresion Aritmetica"),
+                                                 new Operacion((Operacion)a.getInstruccion(), 
+                                                 (Operacion)b.getInstruccion(), Operacion.TipoOperacion.RESTA));
+                                                RESULT.addHijo(a);
+                                                RESULT.addHijo("-");
+                                                RESULT.addHijo(b);
+                                            :}
+
+            | expresion:a DIVISION expresion:b {:
+                                                RESULT = new Produccion(new Nodo("Expresion Aritmetica"),
+                                                 new Operacion((Operacion)a.getInstruccion(), 
+                                                 (Operacion)b.getInstruccion(), Operacion.TipoOperacion.RESTA));
+                                                RESULT.addHijo(a);
+                                                RESULT.addHijo("/");
+                                                RESULT.addHijo(b);
+                                            :}
+
+            | PARENTECIS_ABRE expresion:e PARENTECIS_CIERRA {:
+                                                                RESULT = new Produccion(new Nodo("Expresion Aritmetica"),
+                                                                    e.getInstruccion());
+                                                                RESULT.addHijo("(");
+                                                                RESULT.addHijo(e);
+                                                                RESULT.addHijo(")");
+                                                            :} 
             | LIT_NUMERO:a {: 
                         RESULT = new Produccion(new Nodo(null, a), new Operacion(a, Operacion.TipoOperacion.NUMERO)); 
-
                     :}
 ;
 
 
-
+expresion_relacional ::= expresion:a MAYOR expresion:b {:
+                                                            RESULT = new Produccion(new Nodo("Expresion Relacional"),
+                                                                    new Operacion((Operacion)a.getInstruccion(), (Operacion)b.getInstruccion(),
+                                                                    Operacion.TipoOperacion.MAYOR));
+                                                        :}
+;
