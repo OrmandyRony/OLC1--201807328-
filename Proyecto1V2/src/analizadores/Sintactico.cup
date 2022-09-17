@@ -41,18 +41,21 @@ parser code {:
 :}
 
 /* Terminals */
-terminal INICIO, FIN, INGRESAR, COMO, CON_VALOR, 
-BOOLEAN, NUMERO, CARACTER, CADENA,  MAYOR, MENOR, 
+terminal INICIO, FIN, INGRESAR, COMO, CON_VALOR,  
 MAYOR_O_IGUAL, MENOR_O_IGUAL, ES_IGUAL, ES_DIFERENTE, OR, AND, NOT;
 
 
-terminal LIT_CARACTER, LIT_BOOLEAN, ASIGNACION, SEGUN, HACER, INTERROGACION_ABRE, INTERROGACION_CIERRA,
+terminal ASIGNACION, SEGUN, HACER, INTERROGACION_ABRE, INTERROGACION_CIERRA,
 FIN_SEGUN, IMPRIMIR, IMPRIMIR_NL, PARA, HASTA, CON_INCREMENTAL, FIN_PARA, MIENTRAS, FIN_MIENTRAS, 
 REPETIR, HASTA_QUE, RETORNAR, METODO, CON_PARAMETROS, FIN_METODO, FUNCION, FIN_FUNCION, EJECUTAR;
 
+terminal String BOOLEAN, NUMERO, CARACTER, CADENA,  MAYOR, MENOR;
 terminal String LIT_CADENA;
+terminal String LIT_CARACTER;
+terminal String LIT_BOOLEAN;
+terminal String LIT_NUMERO;
 terminal String VARIABLE;
-terminal String PUNTO_COMA, PARENTECIS_ABRE, PARENTECIS_CIERRA, SUMA, LIT_NUMERO;
+terminal String PUNTO_COMA, PARENTECIS_ABRE, PARENTECIS_CIERRA, SUMA;
 terminal String SI, FIN_SI, O_SI, ENTONCES, DE_LO_CONTRARIO;
 // Simbolos para operaciones basicas
 terminal RESTA, DIVISION, MULTIPLICACION, POTENCIA, MODULO, CORCHETE_ABRE, CORCHETE_CIERRA, COMA;
@@ -62,13 +65,15 @@ non terminal iniciar;
 non terminal Produccion lista_instrucciones;
 non terminal declaracion;
 non terminal Produccion instrucciones; 
-non terminal asignacion, condicionales, casos, ciclos, tipo_dato;
+non terminal asignacion, condicionales, casos, ciclos;
 non terminal Produccion expresion;
 non terminal Produccion litCadena;
-non terminal LinkedList<String> var;
+non terminal Produccion var;
 non terminal Produccion expresion_relacional;
 non terminal Produccion imprimir;
 non terminal Produccion osi;
+non terminal Produccion literales;
+non terminal String tipo_dato; 
 /*test*/
 /*
 non terminal declaracion1, var, tipo_valor, retorno, metodo, funciones, ejecutar;
@@ -82,8 +87,7 @@ precedence left MULTIPLICACION, DIVISION;
 start with iniciar;
 
 
-iniciar ::= INICIO lista_instrucciones:a FIN    {:
-                                                   
+iniciar ::= INICIO lista_instrucciones:a FIN    {:                                                
                                                     parser.AST = a.getInstrucciones();
                                                     Nodo nodoRaiz = new Nodo("Iniciar"); nodoRaiz.addHijo(a.getNodo());
                                                     parser.arbol = new Arbol(nodoRaiz);
@@ -105,12 +109,19 @@ lista_instrucciones ::= lista_instrucciones:a instrucciones:b   {:
 ;
 
 instrucciones ::=
-    INGRESAR var:v expresion:e PUNTO_COMA {: 
-                                                RESULT = new Produccion(new Nodo("Declaracion"), new Evaluar((Operacion)e.getInstruccion()));
-                                                RESULT.addHijo("Variables");
-                                                RESULT.addHijo(e);
-                                                RESULT.addHijo(";");
-                                            :} 
+    INGRESAR var:v COMO tipo_dato:tp CON_VALOR  expresion:e PUNTO_COMA {: 
+                                                                            RESULT = new Produccion(new Nodo("Declaracion"), 
+                                                                            new Evaluar(v.getInstrucciones(), (Operacion)e.getInstruccion()));
+
+                                                                            RESULT.addHijo("Ingresar");
+                                                                            RESULT.addHijo(v);
+                                                                            RESULT.addHijo("Como");
+                                                                            RESULT.addHijo(tp);
+                                                                            RESULT.addHijo("Con_valor");
+                                                                            RESULT.addHijo(e);
+                                                                            RESULT.addHijo(";");
+
+                                                                        :} 
     /*Condicionales*/                                           
     | SI expresion_relacional:a ENTONCES lista_instrucciones:b FIN_SI {:
                                                                     RESULT = new Produccion(new Nodo("Condicional"), 
@@ -137,6 +148,72 @@ instrucciones ::=
                                         new Imprimir((Operacion)a.getInstruccion()));
                                         RESULT.addHijo(a);
                 :}
+;
+
+tipo_dato ::= BOOLEAN:b {:RESULT = b;:}
+            | NUMERO:n  {:RESULT = n;:}
+            | CARACTER:car {:RESULT = car;:}
+            | CADENA:cad {:RESULT = cad;:}
+;
+
+literales ::= LIT_NUMERO:a {: 
+                            RESULT = new Produccion(new Nodo(null, a), new Operacion(a, Operacion.TipoOperacion.NUMERO)); 
+                        :}
+            | LIT_CADENA:c  {: 
+                                RESULT = new Produccion(new Nodo(null, c),
+                                 new Operacion(c, Operacion.TipoOperacion.CADENA)); 
+                            :}
+            | LIT_CARACTER:ca   {: 
+                                    RESULT = new Produccion(new Nodo(null, ca), 
+                                    new Operacion(ca, Operacion.TipoOperacion.CARACTER)); 
+                                :}
+            | LIT_BOOLEAN:b {: 
+                                RESULT = new Produccion(new Nodo(null, b), 
+                                new Operacion(b, Operacion.TipoOperacion.BOOLEAN)); 
+                            :}
+;
+
+var ::= var:v COMA VARIABLE:vu {:
+                                    RESULT = v;
+                                    RESULT.addInstruccion( new Operacion(vu, Operacion.TipoOperacion.VARIABLE));
+                                    RESULT.addHijo(vu);
+                                    /*
+                                    RESULT = new Produccion(new Nodo("Variables"),
+                                                 new LinkedList<>());
+                                    RESULT.addInstruccion((Operacion)v.getInstruccion());
+
+                                    System.out.println("Soy: " + RESULT.getInstrucciones());*/
+                                    /*
+                                    RESULT = new Produccion(new Nodo("Variables"), 
+                                    v.getInstruccion);*/
+                                    //RESULT.addInstruccion(vu.getInstruccion());
+                                    //RESULT.addHijo(vu);
+                                    
+                                    /*Este jala
+                                    RESULT = new Produccion(new Nodo("Variables"),
+                                                 new Operacion((Operacion)v.getInstruccion(), Operacion.TipoOperacion.VARIABLE));
+                                     System.out.println("Voy aca");
+                                    Produccion TEM = new Produccion(new Nodo(null, vu),
+                                        new Operacion(vu, Operacion.TipoOperacion.VARIABLE)); 
+                                        System.out.println("Vu"  + vu);
+
+                                    */
+                                       // System.out.println("TEM: "  +  TEM.getInstruccion());
+                                   // RESULT.addInstruccion((Operacion)TEM.getInstruccion());    
+                                    //RESULT.addInstruccion(TEM.getInstruccion());
+                                  // ESTO SE AGRA DE ULTIMO
+                                 // System.out.println("Voy aca hijo");
+                                  
+                                   //     System.out.println("no trono");
+                                    
+                                :}
+    | VARIABLE:v     {: 
+                        //System.out.println(v);
+                        RESULT = new Produccion(new Nodo("VARS"),
+                        new Operacion(v, Operacion.TipoOperacion.VARIABLE), new LinkedList<>()); 
+                         RESULT.addInstruccion( new Operacion(v, Operacion.TipoOperacion.VARIABLE));
+                         RESULT.addHijo(v);
+                    :}
 ;
 
 osi ::= osi:o O_SI expresion_relacional:e ENTONCES lista_instrucciones:i  {:
@@ -166,15 +243,7 @@ imprimir ::=  IMPRIMIR LIT_CADENA:a PUNTO_COMA  {:
 ;
 
 
-var ::= var:v COMA VARIABLE:vu {: 
-                                RESULT =  v;
-                                RESULT.add(vu);
-                                :}
-    | VARIABLE:v     {: 
-                        RESULT = new LinkedList<String>();
-                        RESULT.add(v);
-                    :}
-;
+
 
 
 expresion ::= expresion:a SUMA expresion:b {:
@@ -219,9 +288,9 @@ expresion ::= expresion:a SUMA expresion:b {:
                                                                 RESULT.addHijo(e);
                                                                 RESULT.addHijo(")");
                                                             :} 
-            | LIT_NUMERO:a {: 
-                        RESULT = new Produccion(new Nodo(null, a), new Operacion(a, Operacion.TipoOperacion.NUMERO)); 
-                    :}
+            | literales:li {:
+                                RESULT = li;
+                            :}
 ;
 
 

@@ -4,19 +4,52 @@
  */
 package Estructuras.Instrucciones;
 
+import java.util.LinkedList;
+
 /**
  *
  * @author ormandyrony
  */
 public class Evaluar implements Instruccion {
     
+    
+    private LinkedList<Instruccion> listaInstruccionesVariables;
     private Operacion valor;
+    //private String variable;
 
-    public Evaluar(Operacion valor) {
+    public Evaluar(LinkedList<Instruccion> listaInstruccionesVariables, Operacion valor) {
+        this.listaInstruccionesVariables = listaInstruccionesVariables;
         this.valor = valor;
     }
-    
+
+    @Override
     public String traducir() {
-        return "estamos evaluando (" + valor.traducir() + ")\n";
+        
+        String traduccion = "";
+        /*
+        System.out.println("Imrimiendo traduccionoes");
+        for (Instruccion ins : listaInstruccionesVariables) {
+            System.out.println(ins.traducir());
+        }
+        
+        */
+        if (listaInstruccionesVariables != null) {
+            int size = listaInstruccionesVariables.size();
+            System.out.println(size);
+            for (int i = 0; i < size; i++) { 
+
+                if (i != (size-1)) {
+                    traduccion += listaInstruccionesVariables.get(i).traducir() + ", ";
+                } else {
+                    traduccion += listaInstruccionesVariables.get(i).traducir() + " ";
+                }
+
+            }
+
+        }
+        
+        traduccion += " = ";
+        traduccion += valor.traducir();
+        return traduccion;
     }
 }

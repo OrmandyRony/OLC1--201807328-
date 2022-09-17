@@ -10,6 +10,8 @@ package Estructuras.Instrucciones;
  */
 public class Operacion implements Instruccion {
     public static enum TipoOperacion {
+        VARIABLE,
+        // TIPOS DE DATO
         NUMERO,
         CADENA,
         CARACTER,
@@ -67,12 +69,15 @@ public class Operacion implements Instruccion {
         // Operadores unarios
         else if (tipo == TipoOperacion.NUMERO) {
             return valor.toString();
-        } 
-        // CADENA
-        else if (tipo == TipoOperacion.CADENA) {
+        } else if (tipo == TipoOperacion.CADENA) {
             return valor.toString();
-        }
-        else{
+        } else if (tipo == TipoOperacion.CARACTER) {
+            return valor.toString();
+        } else if (tipo == TipoOperacion.BOOLEAN) {
+            return valor.toString();
+        } else if (tipo == TipoOperacion.VARIABLE) {
+            return valor.toString();
+        } else{
             return "";
         }
         
