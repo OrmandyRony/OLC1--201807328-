@@ -19,6 +19,7 @@ import Estructuras.Instrucciones.Mientras;
 import Estructuras.Instrucciones.Para;
 import Estructuras.Instrucciones.Repetir;
 import Estructuras.Instrucciones.Metodo;
+import Estructuras.Instrucciones.Funcion;
 import java.util.LinkedList;
 import java_cup.runtime.*;
 import java_cup.runtime.XMLElement;
@@ -53,7 +54,8 @@ MAYOR_O_IGUAL, MENOR_O_IGUAL, ES_IGUAL, ES_DIFERENTE, OR, AND, NOT;
 
 terminal  SEGUN, HACER, INTERROGACION_ABRE, INTERROGACION_CIERRA,
 FIN_SEGUN, IMPRIMIR, IMPRIMIR_NL, PARA, HASTA, CON_INCREMENTAL, FIN_PARA, MIENTRAS, FIN_MIENTRAS, 
-REPETIR, HASTA_QUE, RETORNAR, METODO, CON_PARAMETROS, FIN_METODO, FUNCION, FIN_FUNCION, EJECUTAR;
+REPETIR, HASTA_QUE, METODO, CON_PARAMETROS, FIN_METODO, FUNCION, FIN_FUNCION, EJECUTAR;
+terminal String RETORNAR;
 terminal String ASIGNACION;
 terminal String BOOLEAN, NUMERO, CARACTER, CADENA,  MAYOR, MENOR;
 terminal String LIT_CADENA;
@@ -268,12 +270,51 @@ instrucciones ::=
                                                             :}
     
     | METODO VARIABLE:v CON_PARAMETROS PARENTECIS_ABRE lista_parametros:lp PARENTECIS_CIERRA lista_instrucciones:li FIN_METODO {:
-                                                                RESULT = new Produccion(new Nodo("Metodo"),
-                                                                    new Metodo(v, lp.getInstrucciones(), li.getInstrucciones()));  
-                                                                RESULT.addHijo(v);
-                                                                RESULT.addHijo(lp);                                                                      
-                                                                RESULT.addHijo(li);
-                                                            :}
+                                                                                                                                    RESULT = new Produccion(new Nodo("Metodo"),
+                                                                                                                                        new Metodo(v, lp.getInstrucciones(), li.getInstrucciones()));  
+                                                                                                                                    RESULT.addHijo(v);
+                                                                                                                                    RESULT.addHijo("(");
+                                                                                                                                    RESULT.addHijo(lp);
+                                                                                                                                    RESULT.addHijo(")");                                                                      
+                                                                                                                                    RESULT.addHijo(li);
+                                                                                                                                :}
+
+    /* Funciones */
+    | FUNCION VARIABLE:v tipo_dato:td lista_instrucciones:li FIN_FUNCION {:
+                                                                            RESULT = new Produccion(new Nodo("Funcion"),
+                                                                                new Funcion(v, li.getInstrucciones()));
+                                                                            RESULT.addHijo(v);                                                                        
+                                                                            RESULT.addHijo(li);
+                                                                        :}
+
+    | FUNCION VARIABLE:v tipo_dato:td CON_PARAMETROS PARENTECIS_ABRE lista_parametros:lp PARENTECIS_CIERRA lista_instrucciones:li FIN_FUNCION {:
+                                                                                                            RESULT = new Produccion(new Nodo("Funciones"),
+                                                                                                                new Funcion(v, lp.getInstrucciones(), li.getInstrucciones()));  
+                                                                                                            RESULT.addHijo(v);
+                                                                                                            RESULT.addHijo("(");
+                                                                                                            RESULT.addHijo(lp);
+                                                                                                            RESULT.addHijo(")");                                                                      
+                                                                                                            RESULT.addHijo(li);
+                                                                                                        :}
+
+    | FUNCION VARIABLE:v tipo_dato:td lista_instrucciones:li RETORNAR expresiones:e PUNTO_COMA FIN_FUNCION {:
+                                                                            RESULT = new Produccion(new Nodo("Funcion"),
+                                                                                new Funcion(v, li.getInstrucciones(), (Operacion)e.getInstruccion()));
+                                                                            RESULT.addHijo(v);                                                                        
+                                                                            RESULT.addHijo(li);
+                                                                        :}
+
+    | FUNCION VARIABLE:v tipo_dato:td CON_PARAMETROS PARENTECIS_ABRE lista_parametros:lp PARENTECIS_CIERRA lista_instrucciones:li RETORNAR expresiones:e PUNTO_COMA FIN_FUNCION {:
+ 
+                                                                                                            RESULT = new Produccion(new Nodo("Funciones"),
+                                                                                                                new Funcion(v, lp.getInstrucciones(), li.getInstrucciones(), (Operacion)e.getInstruccion()));  
+                                                                                                            RESULT.addHijo(v);
+                                                                                                            RESULT.addHijo("(");
+                                                                                                            RESULT.addHijo(lp);
+                                                                                                            RESULT.addHijo(")");                                                                      
+                                                                                                            RESULT.addHijo(li);
+                                                                                                            
+                                                                                                        :}
 
     /*Imprimir*/
     | imprimir:a {: RESULT = a;:}
@@ -361,7 +402,7 @@ lista_parametros ::= lista_parametros:v COMA VARIABLE:vu tipo_dato:td {:
     | VARIABLE:v tipo_dato:td  {: 
                         //System.out.println(v);
                                 String temp = v;
-                                RESULT = new Produccion(new Nodo("Params"),
+                                RESULT = new Produccion(new Nodo("Con_Parametros"),
                                 new Operacion(v, Operacion.TipoOperacion.VARIABLE), new LinkedList<>()); 
                                 RESULT.addInstruccion( new Operacion(v, Operacion.TipoOperacion.VARIABLE));
                                 RESULT.addHijo(v);
