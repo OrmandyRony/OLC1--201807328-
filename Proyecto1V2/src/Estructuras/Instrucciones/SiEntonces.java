@@ -18,6 +18,7 @@ public class SiEntonces implements Instruccion {
 
     /**
      * Constructor sin de lo contrario
+     * SI expresion_relacional:a ENTONCES lista_instrucciones:b FIN_SI
      * @param condicion
      * @param listaInstrucciones 
      */
@@ -26,12 +27,25 @@ public class SiEntonces implements Instruccion {
         this.listaInstrucciones = listaInstrucciones;
     }
 
+    /**
+     * SI expresion_relacional:e ENTONCES lista_instrucciones:l DE_LO_CONTRARIO lista_instrucciones:l2 FIN_SI
+     * @param condicion
+     * @param listaInstrucciones
+     * @param listaInstruccionesDeLoContrario 
+     */
     public SiEntonces(Operacion condicion, LinkedList<Instruccion> listaInstrucciones, LinkedList<Instruccion> listaInstruccionesDeLoContrario) {
         this.condicion = condicion;
         this.listaInstrucciones = listaInstrucciones;
         this.listaInstruccionesDeLoContrario = listaInstruccionesDeLoContrario;
     }
     
+    /**
+     * SI expresion_relacional:e ENTONCES lista_instrucciones:l osi:o DE_LO_CONTRARIO lista_instrucciones:l2 FIN_SI 
+     * @param condicion
+     * @param listaInstrucciones
+     * @param listaInstruccionesOsi
+     * @param listaInstruccionesDeLoContrario 
+     */
     public SiEntonces(Operacion condicion, LinkedList<Instruccion> listaInstrucciones, LinkedList<Instruccion> listaInstruccionesOsi, LinkedList<Instruccion> listaInstruccionesDeLoContrario) {
         this.condicion = condicion;
         this.listaInstrucciones = listaInstrucciones;

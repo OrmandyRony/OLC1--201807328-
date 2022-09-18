@@ -46,7 +46,7 @@ public class Arbol {
         LinkedList<Nodo> hijos = raiz.getHijos();
         if(hijos != null){
             for(Nodo hijo: hijos){
-                s.append("\"node").append(hijo.hashCode()).append("\" [ label = \"").append(hijo.getValor()).append("\",];\n");
+                s.append("\"node").append(hijo.hashCode()).append("\" [ label = \"").append(hijo.getValor().replace("\"", "")).append("\",];\n");
                 graficar(hijo, s);
                 s.append("\"node").append(raiz.hashCode()).append("\" -> \"node").append(hijo.hashCode()).append("\" [ label = \"\",];\n");
             }

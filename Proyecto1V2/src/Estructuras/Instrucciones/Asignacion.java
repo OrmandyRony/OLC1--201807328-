@@ -10,17 +10,17 @@ import java.util.LinkedList;
  *
  * @author ormandyrony
  */
-public class Evaluar implements Instruccion {
-    
-    
+public class Asignacion implements Instruccion {
     private LinkedList<Instruccion> listaInstruccionesVariables;
     private Operacion valor;
     //private String variable;
 
-    public Evaluar(LinkedList<Instruccion> listaInstruccionesVariables, Operacion valor) {
+    public Asignacion(LinkedList<Instruccion> listaInstruccionesVariables, Operacion valor) {
         this.listaInstruccionesVariables = listaInstruccionesVariables;
         this.valor = valor;
     }
+
+    
 
     @Override
     public String traducir() {
@@ -49,7 +49,7 @@ public class Evaluar implements Instruccion {
         }
         
         traduccion += " = ";
-        traduccion += valor.traducir() + "\n";
+        traduccion += valor.traducir();
         return traduccion;
     }
 }

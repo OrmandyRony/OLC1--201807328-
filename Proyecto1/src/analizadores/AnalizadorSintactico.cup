@@ -91,18 +91,29 @@ expresion_aritmetica ::= LIT_NUMERO
                         | LIT_BOOLEAN
                         | VARIABLE 
                         | NOT expresion_aritmetica
+
+                        
                         | expresion_aritmetica SUMA expresion_aritmetica
                         | expresion_aritmetica RESTA expresion_aritmetica
                         | expresion_aritmetica MULTIPLICACION expresion_aritmetica
                         | expresion_aritmetica DIVISION expresion_aritmetica
+
+
+
                         | expresion_aritmetica POTENCIA CORCHETE_ABRE expresion_aritmetica CORCHETE_CIERRA
                         | expresion_aritmetica MODULO expresion_aritmetica
+
+
+
                         | expresion_aritmetica MAYOR expresion_aritmetica
                         | expresion_aritmetica MENOR  expresion_aritmetica
                         | expresion_aritmetica MAYOR_O_IGUAL expresion_aritmetica
                         | expresion_aritmetica MENOR_O_IGUAL expresion_aritmetica
                         | expresion_aritmetica ES_IGUAL expresion_aritmetica
                         | expresion_aritmetica ES_DIFERENTE expresion_aritmetica
+
+
+
                         | expresion_aritmetica AND expresion_aritmetica
                         | expresion_aritmetica OR expresion_aritmetica
                         | PARENTECIS_ABRE expresion_aritmetica PARENTECIS_CIERRA

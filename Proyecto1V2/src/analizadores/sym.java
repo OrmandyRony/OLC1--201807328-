@@ -8,22 +8,22 @@ package analizadores;
 /** CUP generated class containing symbol constants. */
 public class sym {
   /* terminals */
-  public static final int INTERROGACION_ABRE = 17;
+  public static final int INTERROGACION_ABRE = 16;
   public static final int NUMERO = 38;
   public static final int DE_LO_CONTRARIO = 56;
   public static final int LIT_BOOLEAN = 45;
   public static final int LIT_CARACTER = 44;
-  public static final int IMPRIMIR = 20;
-  public static final int FIN_METODO = 33;
+  public static final int IMPRIMIR = 19;
+  public static final int FIN_METODO = 32;
   public static final int SI = 52;
-  public static final int FUNCION = 34;
+  public static final int FUNCION = 33;
   public static final int MAYOR_O_IGUAL = 7;
   public static final int RESTA = 57;
-  public static final int METODO = 31;
+  public static final int METODO = 30;
   public static final int ENTONCES = 55;
   public static final int LIT_CADENA = 43;
   public static final int FIN = 3;
-  public static final int HASTA = 23;
+  public static final int HASTA = 22;
   public static final int FIN_SI = 53;
   public static final int NOT = 13;
   public static final int AND = 12;
@@ -31,7 +31,7 @@ public class sym {
   public static final int CARACTER = 39;
   public static final int OR = 11;
   public static final int CORCHETE_CIERRA = 63;
-  public static final int MIENTRAS = 26;
+  public static final int MIENTRAS = 25;
   public static final int COMO = 5;
   public static final int SUMA = 51;
   public static final int PUNTO_COMA = 48;
@@ -40,37 +40,37 @@ public class sym {
   public static final int MENOR_O_IGUAL = 8;
   public static final int error = 1;
   public static final int COMA = 64;
-  public static final int FIN_FUNCION = 35;
+  public static final int FIN_FUNCION = 34;
   public static final int CADENA = 40;
   public static final int MODULO = 61;
   public static final int O_SI = 54;
   public static final int MENOR = 42;
-  public static final int FIN_SEGUN = 19;
-  public static final int FIN_MIENTRAS = 27;
-  public static final int ASIGNACION = 14;
+  public static final int FIN_SEGUN = 18;
+  public static final int FIN_MIENTRAS = 26;
+  public static final int ASIGNACION = 36;
   public static final int MAYOR = 41;
   public static final int CON_VALOR = 6;
   public static final int POTENCIA = 60;
   public static final int CORCHETE_ABRE = 62;
-  public static final int HASTA_QUE = 29;
+  public static final int HASTA_QUE = 28;
   public static final int PARENTECIS_ABRE = 49;
   public static final int LIT_NUMERO = 46;
-  public static final int IMPRIMIR_NL = 21;
+  public static final int IMPRIMIR_NL = 20;
   public static final int VARIABLE = 47;
   public static final int INGRESAR = 4;
   public static final int PARENTECIS_CIERRA = 50;
-  public static final int CON_INCREMENTAL = 24;
-  public static final int FIN_PARA = 25;
-  public static final int REPETIR = 28;
-  public static final int INTERROGACION_CIERRA = 18;
-  public static final int SEGUN = 15;
-  public static final int HACER = 16;
-  public static final int CON_PARAMETROS = 32;
-  public static final int PARA = 22;
-  public static final int RETORNAR = 30;
+  public static final int CON_INCREMENTAL = 23;
+  public static final int FIN_PARA = 24;
+  public static final int REPETIR = 27;
+  public static final int INTERROGACION_CIERRA = 17;
+  public static final int SEGUN = 14;
+  public static final int HACER = 15;
+  public static final int CON_PARAMETROS = 31;
+  public static final int PARA = 21;
+  public static final int RETORNAR = 29;
   public static final int INICIO = 2;
   public static final int DIVISION = 58;
-  public static final int EJECUTAR = 36;
+  public static final int EJECUTAR = 35;
   public static final int ES_IGUAL = 9;
   public static final int MULTIPLICACION = 59;
   public static final String[] terminalNames = new String[] {
@@ -88,7 +88,6 @@ public class sym {
   "OR",
   "AND",
   "NOT",
-  "ASIGNACION",
   "SEGUN",
   "HACER",
   "INTERROGACION_ABRE",
@@ -111,6 +110,7 @@ public class sym {
   "FUNCION",
   "FIN_FUNCION",
   "EJECUTAR",
+  "ASIGNACION",
   "BOOLEAN",
   "NUMERO",
   "CARACTER",

@@ -18,8 +18,19 @@ public class Operacion implements Instruccion {
         BOOLEAN,
         // Fuciones
         IMPRIMIR,
-        // Operadores logicos
+        POTENCIA,
+        MODULO,
+        // Operadores RELACIONALES
         MAYOR,
+        MENOR,
+        MAYOR_O_IGUAL,
+        MENOR_O_IGUAL,
+        ES_IGUAL,
+        ES_DIFERENTE,
+        // Operadores logicos
+        AND,
+        OR,
+        NOT,
         
         // Operadores aritmeticos
         DIVISION,
@@ -61,20 +72,44 @@ public class Operacion implements Instruccion {
             return operadorIzq.traducir() + "*" + operadorDer.traducir();
         } else if (tipo == TipoOperacion.DIVISION) {
             return operadorIzq.traducir() + "/" + operadorDer.traducir();
+        } 
+        // Funciones
+        else if (tipo == TipoOperacion.POTENCIA) {
+            return operadorIzq.traducir() + "**" + operadorDer.traducir();
+        } else if (tipo == TipoOperacion.MODULO) {
+            return operadorIzq.traducir() + " mod " + operadorDer.traducir();
         }
-        // Operadores logicos
+        // Operadores relacionales
         else if (tipo == TipoOperacion.MAYOR) {
-            return operadorIzq.traducir() + ">" + operadorDer.traducir();
+            return operadorIzq.traducir() + " > " + operadorDer.traducir();
+        } else if (tipo == TipoOperacion.MENOR) {
+            return operadorIzq.traducir() + " < " + operadorDer.traducir();
+        } else if (tipo == TipoOperacion.MAYOR_O_IGUAL) {
+            return operadorIzq.traducir() + " >= " + operadorDer.traducir();
+        } else if (tipo == TipoOperacion.MENOR_O_IGUAL) {
+            return operadorIzq.traducir() + " <= " + operadorDer.traducir();
+        }else if (tipo == TipoOperacion.ES_IGUAL) {
+            return operadorIzq.traducir() + " == " + operadorDer.traducir();
+        } else if (tipo == TipoOperacion.ES_DIFERENTE) {
+            return operadorIzq.traducir() + " !="  + operadorDer.traducir();
         }
+        // OPERADORES LOGICOS
+        else if (tipo == TipoOperacion.AND) {
+            return operadorIzq.traducir() + "and " + operadorDer.traducir();
+        } else if (tipo == TipoOperacion.OR) {
+            return operadorIzq.traducir() + " or " + operadorDer.traducir();
+        } else if (tipo == TipoOperacion.NOT) {
+            return operadorIzq.traducir() + " not " + operadorDer.traducir();
+        } 
         // Operadores unarios
         else if (tipo == TipoOperacion.NUMERO) {
-            return valor.toString();
+            return valor.toString() + "";
         } else if (tipo == TipoOperacion.CADENA) {
-            return valor.toString();
+            return valor.toString() + "";
         } else if (tipo == TipoOperacion.CARACTER) {
-            return valor.toString();
+            return valor.toString() + "";
         } else if (tipo == TipoOperacion.BOOLEAN) {
-            return valor.toString();
+            return valor.toString() + "";
         } else if (tipo == TipoOperacion.VARIABLE) {
             return valor.toString();
         } else{
