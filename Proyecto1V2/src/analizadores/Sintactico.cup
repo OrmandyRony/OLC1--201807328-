@@ -15,6 +15,7 @@ import Estructuras.Instrucciones.SiEntonces;
 import Estructuras.Instrucciones.Imprimir;
 import Estructuras.Instrucciones.ImprimirSaltoLinea;
 import Estructuras.Instrucciones.Segun;
+import Estructuras.Instrucciones.Mientras;
 import java.util.LinkedList;
 import java_cup.runtime.*;
 import java_cup.runtime.XMLElement;
@@ -173,7 +174,7 @@ instrucciones ::=
                                                                                                         RESULT.addHijo(l2);
                                                                                                     :}
 
-    | SEGUN expresion:e HACER casos:c FIN_SEGUN {:
+    | SEGUN expresiones:e HACER casos:c FIN_SEGUN {:
                                                     RESULT = new Produccion(new Nodo("Segun"), 
                                                             new Segun((Operacion)e.getInstruccion(), c.getInstrucciones()));
                                                     RESULT.addHijo("segun");
@@ -181,7 +182,7 @@ instrucciones ::=
                                                     RESULT.addHijo("Hacer");
                                                     RESULT.addHijo(c);
                                                 :}
-    | SEGUN expresion:e HACER casos:c DE_LO_CONTRARIO ENTONCES lista_instrucciones:l FIN_SEGUN {:
+    | SEGUN expresiones:e HACER casos:c DE_LO_CONTRARIO ENTONCES lista_instrucciones:l FIN_SEGUN {:
                                                                                                     RESULT = new Produccion(new Nodo("Segun"),
                                                                                                         new SiEntonces((Operacion)e.getInstruccion(), c.getInstrucciones(), l.getInstrucciones()));
                                                                                                     RESULT.addHijo("segun");
@@ -191,6 +192,24 @@ instrucciones ::=
                                                                                                     RESULT.addHijo("DeLoContrario");
                                                                                                     RESULT.addHijo(l);
                                                                                                 :}
+    /* Ciclos */
+    | MIENTRAS expresiones:e HACER lista_instrucciones:l FIN_MIENTRAS   {:
+                                                                        RESULT = new Produccion(new Nodo("Mientras"),
+                                                                            new Mientras((Operacion)e.getInstruccion(), l.getInstrucciones()));
+                                                                        //RESULT.addHijo("Mientras");
+                                                                        RESULT.addHijo(e);
+                                                                        RESULT.addHijo("Hacer");
+                                                                        RESULT.addHijo(l);
+                                                                    :}
+
+    | MIENTRAS expresiones:e HACER FIN_MIENTRAS   {:
+                                                        RESULT = new Produccion(new Nodo("Mientras"), 
+                                                                new Mientras((Operacion)e.getInstruccion()));
+                                                        RESULT.addHijo(e);
+                                                        RESULT.addHijo("Hacer");
+                                                    
+                                                    :}
+
     | imprimir:a {: RESULT = a;:}
     | error
 ;
@@ -345,16 +364,16 @@ expresion ::= expresion:a SUMA expresion:b {:
             | expresion:a MULTIPLICACION expresion:b {:
                                                 RESULT = new Produccion(new Nodo("Expresion Aritmetica"),
                                                  new Operacion((Operacion)a.getInstruccion(), 
-                                                 (Operacion)b.getInstruccion(), Operacion.TipoOperacion.RESTA));
+                                                 (Operacion)b.getInstruccion(), Operacion.TipoOperacion.MULTIPLICACION));
                                                 RESULT.addHijo(a);
-                                                RESULT.addHijo("-");
+                                                RESULT.addHijo("*");
                                                 RESULT.addHijo(b);
                                             :}
 
             | expresion:a DIVISION expresion:b {:
                                                 RESULT = new Produccion(new Nodo("Expresion Aritmetica"),
                                                  new Operacion((Operacion)a.getInstruccion(), 
-                                                 (Operacion)b.getInstruccion(), Operacion.TipoOperacion.RESTA));
+                                                 (Operacion)b.getInstruccion(), Operacion.TipoOperacion.DIVISION));
                                                 RESULT.addHijo(a);
                                                 RESULT.addHijo("/");
                                                 RESULT.addHijo(b);
@@ -362,7 +381,7 @@ expresion ::= expresion:a SUMA expresion:b {:
             | expresion:a MODULO expresion:b {:
                                                 RESULT = new Produccion(new Nodo("Expresion Aritmetica"),
                                                  new Operacion((Operacion)a.getInstruccion(), 
-                                                 (Operacion)b.getInstruccion(), Operacion.TipoOperacion.RESTA));
+                                                 (Operacion)b.getInstruccion(), Operacion.TipoOperacion.MODULO));
                                                 RESULT.addHijo(a);
                                                 RESULT.addHijo("Modulo");
                                                 RESULT.addHijo(b);
@@ -447,6 +466,13 @@ expresion_relacional ::= expresion:a MAYOR expresion:b {:
                                                             RESULT.addHijo("ES_DIFERENTE");
                                                             RESULT.addHijo(b);
                                                         :}
+                        | PARENTECIS_ABRE expresion_relacional:e PARENTECIS_CIERRA {:
+                                                                RESULT = new Produccion(new Nodo("Expresion Relacional"),
+                                                                    e.getInstruccion());
+                                                                RESULT.addHijo("(");
+                                                                RESULT.addHijo(e);
+                                                                RESULT.addHijo(")");
+                                                            :} 
 ;
 
 expresion_logica ::= expresion_relacional:a AND expresion_relacional:b {:
