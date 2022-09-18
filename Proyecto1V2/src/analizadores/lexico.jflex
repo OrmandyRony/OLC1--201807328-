@@ -29,7 +29,7 @@ Comment = {TraditionalComment} | {EndOfLineComment}
 
 Digito = [0-9]
 Letra = [a-zA-Z]
-Id =  {Letra}({Letra}|{Digito})*
+Id =  {Letra}({Letra}|{Digito}|"_")*
 Variable =  "_" {Id} "_"
 Numero = {Digito}{Digito}* | {Digito}+(\.{Digito}+)
 AscciMayusculas = (6[5-9]|[7-8][0-9]|90)
