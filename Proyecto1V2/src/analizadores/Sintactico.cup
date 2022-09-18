@@ -18,6 +18,7 @@ import Estructuras.Instrucciones.Segun;
 import Estructuras.Instrucciones.Mientras;
 import Estructuras.Instrucciones.Para;
 import Estructuras.Instrucciones.Repetir;
+import Estructuras.Instrucciones.Metodo;
 import java.util.LinkedList;
 import java_cup.runtime.*;
 import java_cup.runtime.XMLElement;
@@ -68,11 +69,8 @@ terminal RESTA, DIVISION, MULTIPLICACION, POTENCIA, MODULO, CORCHETE_ABRE, CORCH
 /* Non terminals */
 non terminal iniciar;
 non terminal Produccion lista_instrucciones;
-non terminal declaracion;
 non terminal Produccion instrucciones; 
-non terminal asignacion, condicionales, ciclos;
 non terminal Produccion expresion;
-non terminal Produccion litCadena;
 non terminal Produccion var;
 non terminal Produccion expresion_relacional;
 non terminal Produccion imprimir;
@@ -260,6 +258,14 @@ instrucciones ::=
                                         RESULT.addHijo("Hasta_Que");
                                         RESULT.addHijo(e);
                                     :}
+    /* Metodos: no hacepta retornors */
+    | METODO VARIABLE:v lista_instrucciones:li FIN_METODO {:
+                                                            RESULT = new Produccion(new Nodo("Metodo"),
+                                                                new Metodo(v, li.getInstrucciones()));                                                                        
+                                                            RESULT.addHijo(li);
+                                                    :}
+    
+    | METODO VARIABLE CON_PARAMETROS lista_instrucciones FIN_METODO
 
     /*Imprimir*/
     | imprimir:a {: RESULT = a;:}
