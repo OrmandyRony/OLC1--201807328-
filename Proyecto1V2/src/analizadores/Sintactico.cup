@@ -17,6 +17,7 @@ import Estructuras.Instrucciones.ImprimirSaltoLinea;
 import Estructuras.Instrucciones.Segun;
 import Estructuras.Instrucciones.Mientras;
 import Estructuras.Instrucciones.Para;
+import Estructuras.Instrucciones.Repetir;
 import java.util.LinkedList;
 import java_cup.runtime.*;
 import java_cup.runtime.XMLElement;
@@ -232,7 +233,7 @@ instrucciones ::=
                                                                             
                                                                                 :}
 
-    /*No comun*/
+  
     | PARA VARIABLE:v ASIGNACION expresion:e HASTA expresion:eh CON_INCREMENTAL expresion:incremento HACER lista_instrucciones:li FIN_PARA {:
                                                                                                                             RESULT = new Produccion(new Nodo("Para"),
                                                                                                                                 new Para(v, (Operacion)e.getInstruccion(), (Operacion)eh.getInstruccion(), (Operacion)incremento.getInstruccion(), li.getInstrucciones()));                                                                        
@@ -244,6 +245,21 @@ instrucciones ::=
                                                                                                                             RESULT.addHijo("Hacer");
                                                                                                                             RESULT.addHijo(li);
                                                                                                                         :}
+
+    | REPETIR lista_instrucciones:li HASTA_QUE expresiones:e {:
+                                                            RESULT = new Produccion(new Nodo("Repetir"),
+                                                                new Repetir(li.getInstrucciones(), (Operacion)e.getInstruccion()));                                                                        
+                                                            RESULT.addHijo(li);
+                                                            RESULT.addHijo("Hasta_Que");
+                                                            RESULT.addHijo(e);
+                                                        :}
+
+    | REPETIR HASTA_QUE expresiones:e {:
+                                        RESULT = new Produccion(new Nodo("Repetir"),
+                                            new Repetir((Operacion)e.getInstruccion()));                                                                        
+                                        RESULT.addHijo("Hasta_Que");
+                                        RESULT.addHijo(e);
+                                    :}
 
     /*Imprimir*/
     | imprimir:a {: RESULT = a;:}
