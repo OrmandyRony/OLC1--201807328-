@@ -16,6 +16,7 @@ import Estructuras.Instrucciones.Imprimir;
 import Estructuras.Instrucciones.ImprimirSaltoLinea;
 import Estructuras.Instrucciones.Segun;
 import Estructuras.Instrucciones.Mientras;
+import Estructuras.Instrucciones.Para;
 import java.util.LinkedList;
 import java_cup.runtime.*;
 import java_cup.runtime.XMLElement;
@@ -194,13 +195,13 @@ instrucciones ::=
                                                                                                 :}
     /* Ciclos */
     | MIENTRAS expresiones:e HACER lista_instrucciones:l FIN_MIENTRAS   {:
-                                                                        RESULT = new Produccion(new Nodo("Mientras"),
-                                                                            new Mientras((Operacion)e.getInstruccion(), l.getInstrucciones()));
-                                                                        //RESULT.addHijo("Mientras");
-                                                                        RESULT.addHijo(e);
-                                                                        RESULT.addHijo("Hacer");
-                                                                        RESULT.addHijo(l);
-                                                                    :}
+                                                                            RESULT = new Produccion(new Nodo("Mientras"),
+                                                                                new Mientras((Operacion)e.getInstruccion(), l.getInstrucciones()));
+                                                                            //RESULT.addHijo("Mientras");
+                                                                            RESULT.addHijo(e);
+                                                                            RESULT.addHijo("Hacer");
+                                                                            RESULT.addHijo(l);
+                                                                        :}
 
     | MIENTRAS expresiones:e HACER FIN_MIENTRAS   {:
                                                         RESULT = new Produccion(new Nodo("Mientras"), 
@@ -210,6 +211,41 @@ instrucciones ::=
                                                     
                                                     :}
 
+    | PARA VARIABLE:v ASIGNACION expresion:e HASTA expresion:eh HACER lista_instrucciones:l FIN_PARA {:
+                                                                                                        RESULT = new Produccion(new Nodo("Para"),
+                                                                                                            new Para(v, (Operacion)e.getInstruccion(), (Operacion)eh.getInstruccion(), l.getInstrucciones()));
+                                                                                                        //RESULT.addHijo("Mientras");
+                                                                                                        RESULT.addHijo(e);
+                                                                                                        RESULT.addHijo("Hasta");
+                                                                                                        RESULT.addHijo(eh);
+                                                                                                        RESULT.addHijo("Hacer");
+                                                                                                        RESULT.addHijo(l);
+                                                                                                    :}
+
+    | PARA VARIABLE:v ASIGNACION expresion:e HASTA expresion:eh HACER FIN_PARA {:
+                                                                                    RESULT = new Produccion(new Nodo("Para"),
+                                                                                        new Para(v, (Operacion)e.getInstruccion(), (Operacion)eh.getInstruccion()));                                                                        
+                                                                                    RESULT.addHijo(e);
+                                                                                    RESULT.addHijo("Hasta");
+                                                                                    RESULT.addHijo(eh);
+                                                                                    RESULT.addHijo("Hacer");
+                                                                            
+                                                                                :}
+
+    /*No comun*/
+    | PARA VARIABLE:v ASIGNACION expresion:e HASTA expresion:eh CON_INCREMENTAL expresion:incremento HACER lista_instrucciones:li FIN_PARA {:
+                                                                                                                            RESULT = new Produccion(new Nodo("Para"),
+                                                                                                                                new Para(v, (Operacion)e.getInstruccion(), (Operacion)eh.getInstruccion(), (Operacion)incremento.getInstruccion(), li.getInstrucciones()));                                                                        
+                                                                                                                            RESULT.addHijo(e);
+                                                                                                                            RESULT.addHijo("Hasta");
+                                                                                                                            RESULT.addHijo(eh);
+                                                                                                                            RESULT.addHijo("Con_Incremento");
+                                                                                                                            RESULT.addHijo(incremento);
+                                                                                                                            RESULT.addHijo("Hacer");
+                                                                                                                            RESULT.addHijo(li);
+                                                                                                                        :}
+
+    /*Imprimir*/
     | imprimir:a {: RESULT = a;:}
     | error
 ;
