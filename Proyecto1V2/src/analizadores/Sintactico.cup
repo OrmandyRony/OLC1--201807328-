@@ -80,6 +80,7 @@ non terminal String tipo_dato;
 non terminal Produccion expresiones;
 non terminal Produccion expresion_logica;
 non terminal Produccion casos;
+non terminal Produccion lista_parametros;
 /*test*/
 /*
 non terminal declaracion1, var, tipo_valor, retorno, metodo, funciones, ejecutar;
@@ -260,12 +261,19 @@ instrucciones ::=
                                     :}
     /* Metodos: no hacepta retornors */
     | METODO VARIABLE:v lista_instrucciones:li FIN_METODO {:
-                                                            RESULT = new Produccion(new Nodo("Metodo"),
-                                                                new Metodo(v, li.getInstrucciones()));                                                                        
-                                                            RESULT.addHijo(li);
-                                                    :}
+                                                                RESULT = new Produccion(new Nodo("Metodo"),
+                                                                    new Metodo(v, li.getInstrucciones()));
+                                                                RESULT.addHijo(v);                                                                        
+                                                                RESULT.addHijo(li);
+                                                            :}
     
-    | METODO VARIABLE CON_PARAMETROS lista_instrucciones FIN_METODO
+    | METODO VARIABLE:v CON_PARAMETROS PARENTECIS_ABRE lista_parametros:lp PARENTECIS_CIERRA lista_instrucciones:li FIN_METODO {:
+                                                                RESULT = new Produccion(new Nodo("Metodo"),
+                                                                    new Metodo(v, lp.getInstrucciones(), li.getInstrucciones()));  
+                                                                RESULT.addHijo(v);
+                                                                RESULT.addHijo(lp);                                                                      
+                                                                RESULT.addHijo(li);
+                                                            :}
 
     /*Imprimir*/
     | imprimir:a {: RESULT = a;:}
@@ -340,6 +348,32 @@ var ::= var:v COMA VARIABLE:vu {:
                     :}
 ;
 
+lista_parametros ::= lista_parametros:v COMA VARIABLE:vu tipo_dato:td {:
+                                                                        RESULT = v;
+                                                                        RESULT.addInstruccion( new Operacion(vu, Operacion.TipoOperacion.VARIABLE));
+                                                                        RESULT.addHijo(vu);
+/*Golan
+                                                                    String temp2 = vu + " " + td;
+                                                                    RESULT = v;
+                                                                    RESULT.addInstruccion( new Operacion(temp2, Operacion.TipoOperacion.VARIABLE));
+                                                                    RESULT.addHijo(temp2);*/
+                                                                :}
+    | VARIABLE:v tipo_dato:td  {: 
+                        //System.out.println(v);
+                                String temp = v;
+                                RESULT = new Produccion(new Nodo("Params"),
+                                new Operacion(v, Operacion.TipoOperacion.VARIABLE), new LinkedList<>()); 
+                                RESULT.addInstruccion( new Operacion(v, Operacion.TipoOperacion.VARIABLE));
+                                RESULT.addHijo(v);
+                                /* Golan
+                                String temp = v + " " + td + ", ";
+                                RESULT = new Produccion(new Nodo("Params"),
+                                new Operacion(temp, Operacion.TipoOperacion.VARIABLE), new LinkedList<>()); 
+                                RESULT.addInstruccion( new Operacion(v, Operacion.TipoOperacion.VARIABLE));
+                                RESULT.addHijo(temp);
+                                */
+                            :}
+;
 
 osi ::= osi:o O_SI expresiones:e ENTONCES lista_instrucciones:i  {:
                                                                         RESULT = new Produccion(new Nodo("O_si"), o.getInstrucciones());

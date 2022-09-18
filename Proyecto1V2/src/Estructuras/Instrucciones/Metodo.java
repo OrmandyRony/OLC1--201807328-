@@ -12,6 +12,7 @@ import java.util.LinkedList;
  */
 public class Metodo implements Instruccion {
     private String nombre;
+    private LinkedList<Instruccion> listaParametros = null;
     private final LinkedList<Instruccion> listaInstrucciones;
 
     public Metodo(String nombre, LinkedList<Instruccion> listaInstrucciones) {
@@ -19,11 +20,36 @@ public class Metodo implements Instruccion {
         this.listaInstrucciones = listaInstrucciones;
     }
 
-    
+    public Metodo(String nombre, LinkedList<Instruccion> listaParametros, LinkedList<Instruccion> listaInstrucciones) {
+        this.nombre = nombre;
+        this.listaParametros = listaParametros;
+        this.listaInstrucciones = listaInstrucciones;
+    }
+
+   
 
     @Override
     public String traducir() {
-        String traduccion = "def " + this.nombre + "():\n";
+        String traduccion = "def " + this.nombre  + "(";
+        if (listaParametros == null) {
+            traduccion += "):\n";
+        } else {
+            int size = listaParametros.size();
+           
+            for (int i = 0; i < size; i++) { 
+
+                if (i != (size-1)) {
+                    traduccion += listaParametros.get(i).traducir() + ", ";
+                } else {
+                    traduccion += listaParametros.get(i).traducir() + " ";
+                }
+
+            }
+
+            traduccion += "):\n";
+        }
+        
+         
         
         if (listaInstrucciones != null) {
             for (Instruccion instruccion : listaInstrucciones) {

@@ -35,7 +35,7 @@ public class Asignacion implements Instruccion {
         */
         if (listaInstruccionesVariables != null) {
             int size = listaInstruccionesVariables.size();
-            System.out.println(size);
+           
             for (int i = 0; i < size; i++) { 
 
                 if (i != (size-1)) {
