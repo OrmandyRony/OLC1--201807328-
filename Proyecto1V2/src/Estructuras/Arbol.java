@@ -63,13 +63,13 @@ public class Arbol {
             escritor.print(codigoGraphviz);
         } 
         catch (Exception e){
-            System.err.println("Error al escribir el archivo graf"+numGrafico+".dot");
+            System.err.println("Error al escribir el archivo graf" + numGrafico + ".dot");
         }finally{
            try {
                 if (null != fichero)
                     fichero.close();
            }catch (Exception e2){
-               System.err.println("Error al cerrar el archivo graf"+numGrafico+".dot");
+               System.err.println("Error al cerrar el archivo graf" + numGrafico + ".dot");
            } 
         }                        
         try{

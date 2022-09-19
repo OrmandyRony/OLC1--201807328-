@@ -15,9 +15,12 @@ public class Segun implements Instruccion {
     private LinkedList<Instruccion> listaInstrucciones;
     private LinkedList<Instruccion> listaInstruccionesDeLoContrario;
     private String declaracion = "";
-    private String traduccion = "";
-    private boolean bandera = true;
-    
+    private static String var = "";
+    //private String traduccion = "";
+    private static boolean bandera = true;
+     private static boolean bandera2 = false;
+     private static boolean bandera30 = true;
+    private static int contador = 0;
 
     public Segun(Operacion condicion, LinkedList<Instruccion> listaInstrucciones) {
         this.condicion = condicion;
@@ -36,17 +39,44 @@ public class Segun implements Instruccion {
 
     @Override
     public String traducir() {
+        String traduccion = "";
         
-        traduccion += this.condicion.traducir() + " == ";
+        if (bandera) {
+            var = this.condicion.traducir();
+            System.out.println("Soy va: " + var);
+            bandera = false; 
+        }
+        /*
+        System.out.println("Contador: ");
+        System.out.println(++contador);
+        System.out.println("");
+*/
         if (this.listaInstrucciones != null) {
-          
-            for (Instruccion listaInstruccione : listaInstrucciones) {
-                traduccion += listaInstruccione.traducir();
-                traduccion += ":";
+            if (bandera2) {
                 
                 
+                if (bandera30) {
+                    traduccion += "if " + this.condicion.traducir() + " == " + var +":\n";
+                 
+                    bandera30 = false;
+                } else {
+                    traduccion += "elif " + this.condicion.traducir() + " == " + var +":\n";
+     
+                }
+                
+                
+            } else {
+                bandera2 = true;
             }
-            traduccion += "el";
+            
+            for (Instruccion listaInstruccione : listaInstrucciones) {
+                 if (bandera2) {
+                    traduccion += "\t";
+                }
+                traduccion += listaInstruccione.traducir();
+                  
+            }
+ 
         }
         
         if (this.listaInstruccionesDeLoContrario != null) {
@@ -57,7 +87,7 @@ public class Segun implements Instruccion {
             }
         }
         
-        return traduccion;
+        return traduccion + "\n";
     }
     
 }

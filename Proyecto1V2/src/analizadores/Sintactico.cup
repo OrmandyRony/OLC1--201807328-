@@ -20,6 +20,7 @@ import Estructuras.Instrucciones.Para;
 import Estructuras.Instrucciones.Repetir;
 import Estructuras.Instrucciones.Metodo;
 import Estructuras.Instrucciones.Funcion;
+import Estructuras.Instrucciones.Ejecutar;
 import java.util.LinkedList;
 import java_cup.runtime.*;
 import java_cup.runtime.XMLElement;
@@ -83,6 +84,7 @@ non terminal Produccion expresiones;
 non terminal Produccion expresion_logica;
 non terminal Produccion casos;
 non terminal Produccion lista_parametros;
+non terminal Produccion  lista_parametros_ejecutar;
 /*test*/
 /*
 non terminal declaracion1, var, tipo_valor, retorno, metodo, funciones, ejecutar;
@@ -302,10 +304,11 @@ instrucciones ::=
                                                                                 new Funcion(v, li.getInstrucciones(), (Operacion)e.getInstruccion()));
                                                                             RESULT.addHijo(v);                                                                        
                                                                             RESULT.addHijo(li);
+                                                                            RESULT.addHijo("RETORNO");
+                                                                            RESULT.addHijo(e);
                                                                         :}
 
     | FUNCION VARIABLE:v tipo_dato:td CON_PARAMETROS PARENTECIS_ABRE lista_parametros:lp PARENTECIS_CIERRA lista_instrucciones:li RETORNAR expresiones:e PUNTO_COMA FIN_FUNCION {:
- 
                                                                                                             RESULT = new Produccion(new Nodo("Funciones"),
                                                                                                                 new Funcion(v, lp.getInstrucciones(), li.getInstrucciones(), (Operacion)e.getInstruccion()));  
                                                                                                             RESULT.addHijo(v);
@@ -313,10 +316,21 @@ instrucciones ::=
                                                                                                             RESULT.addHijo(lp);
                                                                                                             RESULT.addHijo(")");                                                                      
                                                                                                             RESULT.addHijo(li);
-                                                                                                            
+                                                                                                            RESULT.addHijo("RETORNO");
+                                                                                                            RESULT.addHijo(e);
                                                                                                         :}
-
-    /*Imprimir*/
+    | EJECUTAR VARIABLE:v PARENTECIS_ABRE PARENTECIS_CIERRA PUNTO_COMA {:
+                                                                            RESULT = new Produccion(new Nodo("EJECUTAR"),
+                                                                                new Ejecutar(v));
+                                                                            RESULT.addHijo(v);
+                                                                        :}
+    | EJECUTAR VARIABLE:v PARENTECIS_ABRE lista_parametros_ejecutar:lp PARENTECIS_CIERRA PUNTO_COMA {:
+                                                                                                RESULT = new Produccion(new Nodo("EJECUTAR"),
+                                                                                                    new Ejecutar(v, lp.getInstrucciones()));
+                                                                                                RESULT.addHijo(v);                                                                        
+                                                                                                RESULT.addHijo(lp);
+                                                                                            :}
+                                    /*Imprimir*/
     | imprimir:a {: RESULT = a;:}
     | error
 ;
@@ -340,6 +354,15 @@ literales ::= LIT_NUMERO:a {:
                                     new Operacion(ca, Operacion.TipoOperacion.CARACTER)); 
                                 :}
             | LIT_BOOLEAN:b {: 
+                                String a = "verdadero";
+                                String c = "falso";
+
+                                // son iguales
+                                if (a.equalsIgnoreCase(b)) {
+                                    b = "True";
+                                } else if (c.equalsIgnoreCase(b)) {
+                                    b = "False";
+                               }
                                 RESULT = new Produccion(new Nodo(null, b), 
                                 new Operacion(b, Operacion.TipoOperacion.BOOLEAN)); 
                             :}
@@ -416,9 +439,24 @@ lista_parametros ::= lista_parametros:v COMA VARIABLE:vu tipo_dato:td {:
                             :}
 ;
 
+lista_parametros_ejecutar ::= lista_parametros_ejecutar:v COMA expresiones:e {:
+                                                                                RESULT = v;
+                                                                                RESULT.addInstruccion((Operacion)e.getInstruccion());
+                                                                                RESULT.addHijo(e);
+                                                                            :}
+    | expresiones:e {: 
+                        RESULT = new Produccion(new Nodo("Expresion Aritmetica"),
+                                                                    e.getInstruccion(), new LinkedList<>());
+                                                                RESULT.addInstruccion((Operacion)e.getInstruccion());
+                                                                RESULT.addHijo(e);
+                :}
+;
+
+
+
 osi ::= osi:o O_SI expresiones:e ENTONCES lista_instrucciones:i  {:
                                                                         RESULT = new Produccion(new Nodo("O_si"), o.getInstrucciones());
-                                                                        RESULT.addInstruccion(new SiEntonces((Operacion)e.getInstruccion(), i.getInstrucciones()));
+                                                                        RESULT.addInstruccion(new SiEntonces((Operacion)e.getInstruccion(), i.getInstrucciones(), "nada"));
                                                                         RESULT.addHijo(o);
                                                                         RESULT.addHijo("o_si");
                                                                         RESULT.addHijo(e);
@@ -426,9 +464,9 @@ osi ::= osi:o O_SI expresiones:e ENTONCES lista_instrucciones:i  {:
                                                                         RESULT.addHijo(i);
                                                                     :}
 
-    | O_SI expresion_relacional:e ENTONCES lista_instrucciones:i    {:
+    | O_SI expresiones:e ENTONCES lista_instrucciones:i    {:
                                                                         RESULT = new Produccion(new Nodo("O_si"), new LinkedList<>());
-                                                                        RESULT.addInstruccion(new SiEntonces((Operacion)e.getInstruccion(), i.getInstrucciones()));
+                                                                        RESULT.addInstruccion(new SiEntonces((Operacion)e.getInstruccion(), i.getInstrucciones(), "nada"));
                                                                         RESULT.addHijo("o_si");
                                                                         RESULT.addHijo(e);
                                                                         RESULT.addHijo("entonces");
@@ -463,11 +501,33 @@ imprimir ::=  IMPRIMIR expresiones:e PUNTO_COMA  {:
                                                                             new Imprimir((Operacion)e.getInstruccion()));
                                                     RESULT.addHijo(e);
                                                 :}
+                                                /*
+            | IMPRIMIR expresiones:e PUNTO_COMA  {:
+                                                    RESULT = new Produccion(new Nodo("Imprimir"), 
+                                                                            new Imprimir((Operacion)e.getInstruccion()));
+                                                    RESULT.addHijo(e);
+                                                :}
+               Con ejecucion                               
+            | IMPRIMIR_NL  EJECUTAR VARIABLE:v PARENTECIS_ABRE PARENTECIS_CIERRA PUNTO_COMA PUNTO_COMA  {:
+                                                    RESULT = new Produccion(new Nodo("Imprimir"), 
+                                                                            new ImprimirSaltoLinea((null, v + "()"));
+                                                    RESULT.addInstruccion(new Ejecutar(v));
+                                                    RESULT.addHijo(v);
+
+                                                    {:
+                                                                            RESULT = new Produccion(new Nodo("EJECUTAR"),
+                                                                                );
+                                                                            RESULT.addHijo(v);
+                                                                        :}
+                                                :}
+
+*/
             | IMPRIMIR_NL  expresiones:e PUNTO_COMA  {:
                                                     RESULT = new Produccion(new Nodo("Imprimir"), 
                                                                             new ImprimirSaltoLinea((Operacion)e.getInstruccion()));
                                                     RESULT.addHijo(e);
                                                 :}
+            
 ;
 
 expresiones ::= expresion:e  {:RESULT = e;:}
@@ -532,7 +592,7 @@ expresion ::= expresion:a SUMA expresion:b {:
 
             | PARENTECIS_ABRE expresion:e PARENTECIS_CIERRA {:
                                                                 RESULT = new Produccion(new Nodo("Expresion Aritmetica"),
-                                                                    e.getInstruccion());
+                                                                    new Operacion((Operacion)e.getInstruccion(), Operacion.TipoOperacion.CON_PARENTECIS));
                                                                 RESULT.addHijo("(");
                                                                 RESULT.addHijo(e);
                                                                 RESULT.addHijo(")");

@@ -37,7 +37,7 @@ public class Repetir implements Instruccion {
         
         traduccion += "\tif " + this.condicion.traducir() + ":\n\tbreak";
         
-        return traduccion;
+        return traduccion + "\n";
     }
     
     

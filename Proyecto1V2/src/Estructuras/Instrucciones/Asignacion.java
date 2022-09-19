@@ -30,9 +30,6 @@ public class Asignacion implements Instruccion {
         System.out.println("Imrimiendo traduccionoes");
         for (Instruccion ins : listaInstruccionesVariables) {
             System.out.println(ins.traducir());
-        }
-        
-        */
         if (listaInstruccionesVariables != null) {
             int size = listaInstruccionesVariables.size();
            
@@ -47,9 +44,24 @@ public class Asignacion implements Instruccion {
             }
 
         }
+        }
         
-        traduccion += " = ";
-        traduccion += valor.traducir();
+        */
+        if (listaInstruccionesVariables != null) {
+            int size = listaInstruccionesVariables.size();
+           
+            for (int i = 0; i < size; i++) { 
+
+                if (i != (size-1)) {
+                    traduccion += listaInstruccionesVariables.get(i).traducir() + " = " + this.valor.traducir() + "\n";
+                } else {
+                    traduccion += listaInstruccionesVariables.get(i).traducir() + " = " + this.valor.traducir() + "\n";
+                }
+
+            }
+
+        }
+        
         return traduccion;
     }
 }

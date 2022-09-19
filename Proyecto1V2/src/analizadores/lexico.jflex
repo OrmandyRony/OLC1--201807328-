@@ -22,7 +22,7 @@ InputCharacter = [^\r\n]
 WhiteSpace = {DeLim} | [ \t\f]
 
 /* Comments */
-TraditionalComment   = "/*" [^*] ~"*/" | "/*" "*"+ "/"
+TraditionalComment   = "/*" [^] ~"*/" | "/*" "*"+ "/" //Tener cuidado con este
 EndOfLineComment     = "//" {InputCharacter}* {DeLim}?
 Comment = {TraditionalComment} | {EndOfLineComment}
 

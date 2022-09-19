@@ -12,10 +12,14 @@ import java.util.LinkedList;
  */
 public class SiEntonces implements Instruccion {
     private final Operacion condicion;
-    private final LinkedList<Instruccion> listaInstrucciones;
+    private LinkedList<Instruccion> listaInstrucciones;
     private LinkedList<Instruccion> listaInstruccionesOsi;
     private LinkedList<Instruccion> listaInstruccionesDeLoContrario;
-
+    private String var;
+    private static int contadorTabsIf = 1;
+    private static int contadorTabsElseIf = 1;
+    private static int contadorTabsElse = 1;
+    private static boolean bandera = false;
     /**
      * Constructor sin de lo contrario
      * SI expresion_relacional:a ENTONCES lista_instrucciones:b FIN_SI
@@ -25,6 +29,12 @@ public class SiEntonces implements Instruccion {
     public SiEntonces(Operacion condicion, LinkedList<Instruccion> listaInstrucciones) {
         this.condicion = condicion;
         this.listaInstrucciones = listaInstrucciones;
+    }
+    
+    public SiEntonces(Operacion condicion, LinkedList<Instruccion> listaInstruccionesOsi, String var) {
+        this.condicion = condicion;
+        this.listaInstruccionesOsi = listaInstruccionesOsi;
+        this.var = var;
     }
 
     /**
@@ -55,27 +65,63 @@ public class SiEntonces implements Instruccion {
 
     @Override
     public String traducir() {
-        String traduccion = "if " + this.condicion.traducir() + ":\n";
-        if(listaInstrucciones != null)
+        String traduccion = "";
+
+        if(listaInstrucciones != null) {
+            traduccion += "if " + this.condicion.traducir() + ":\n";
+            /*
+            for (int i = 0; i < contadorTabsIf; i++) {
+                    traduccion += "\t";
+                    System.out.println("Agregando tabif: " + contadorTabsIf);
+                    
+            }*/
             for(Instruccion ins: listaInstrucciones){
+                
                 traduccion += "\t";
                 traduccion += ins.traducir();
             }
-        if(listaInstruccionesOsi != null){
-            traduccion += "el ";
-            for(Instruccion ins: listaInstruccionesOsi){
-                traduccion += "\t";
-                traduccion += ins.traducir();
-            }
+            
+            ++contadorTabsIf;
         }
-        if(listaInstruccionesDeLoContrario != null){
+        
+        if(listaInstruccionesOsi != null) {
+            if (bandera) {
+                traduccion += "elif " + this.condicion.traducir() + ":\n";
+            } else {
+                bandera = true;
+            }
+            
+            /*
+            for (int i = 0; i < contadorTabsElseIf; i++) {
+                    traduccion += "\t";
+                    System.out.println("Agregando tabelseif: " + contadorTabsElseIf);
+                    
+            }*/
+            
+            for(Instruccion ins: listaInstruccionesOsi){
+                if (bandera) {
+                    traduccion += "\t";
+                }
+                
+                traduccion += ins.traducir();
+            }
+            ++contadorTabsElseIf;
+        }
+        
+        if(listaInstruccionesDeLoContrario != null) {
             traduccion += "else: \n";
             for(Instruccion ins: listaInstruccionesDeLoContrario){
-                traduccion += "\t";
+                for (int i = 0; i < contadorTabsElse; i++) {
+                    System.out.println("Agregando tabelse");
+                    traduccion += "\t";
+                   
+                }
                 traduccion += ins.traducir();
             }
+             ++contadorTabsElse;
         }
-        return traduccion;
+        
+        return traduccion + "\n";
     }
 
     

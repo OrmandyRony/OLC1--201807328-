@@ -10,7 +10,7 @@ package Estructuras.Instrucciones;
  */
 public class ImprimirSaltoLinea implements Instruccion {
     private final Operacion imprimir;
-  
+    private String metodo;
     /**
      * imprimir_nl expresión; //impresión con salto de linea
      * @param imprimir
@@ -19,6 +19,13 @@ public class ImprimirSaltoLinea implements Instruccion {
         this.imprimir = imprimir;
    
     }
+
+    public ImprimirSaltoLinea(Operacion imprimir, String metodo) {
+        this.imprimir = imprimir;
+        this.metodo = metodo;
+    }
+    
+    
     
     @Override
     public String traducir() {

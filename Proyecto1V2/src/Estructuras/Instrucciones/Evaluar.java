@@ -35,21 +35,19 @@ public class Evaluar implements Instruccion {
         */
         if (listaInstruccionesVariables != null) {
             int size = listaInstruccionesVariables.size();
-            System.out.println(size);
+    
             for (int i = 0; i < size; i++) { 
 
                 if (i != (size-1)) {
-                    traduccion += listaInstruccionesVariables.get(i).traducir() + ", ";
+                    traduccion += listaInstruccionesVariables.get(i).traducir() + " = " + this.valor.traducir() + "\n";
                 } else {
-                    traduccion += listaInstruccionesVariables.get(i).traducir() + " ";
+                    traduccion += listaInstruccionesVariables.get(i).traducir() + " = " + this.valor.traducir() + "\n";
                 }
 
             }
 
         }
         
-        traduccion += " = ";
-        traduccion += valor.traducir() + "\n";
         return traduccion;
     }
 }

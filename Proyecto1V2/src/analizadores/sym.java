@@ -14,12 +14,12 @@ public class sym {
   public static final int LIT_BOOLEAN = 45;
   public static final int LIT_CARACTER = 44;
   public static final int IMPRIMIR = 19;
-  public static final int FIN_METODO = 32;
+  public static final int FIN_METODO = 31;
   public static final int SI = 52;
-  public static final int FUNCION = 33;
+  public static final int FUNCION = 32;
   public static final int MAYOR_O_IGUAL = 7;
   public static final int RESTA = 57;
-  public static final int METODO = 30;
+  public static final int METODO = 29;
   public static final int ENTONCES = 55;
   public static final int LIT_CADENA = 43;
   public static final int FIN = 3;
@@ -40,7 +40,7 @@ public class sym {
   public static final int MENOR_O_IGUAL = 8;
   public static final int error = 1;
   public static final int COMA = 64;
-  public static final int FIN_FUNCION = 34;
+  public static final int FIN_FUNCION = 33;
   public static final int CADENA = 40;
   public static final int MODULO = 61;
   public static final int O_SI = 54;
@@ -65,13 +65,13 @@ public class sym {
   public static final int INTERROGACION_CIERRA = 17;
   public static final int SEGUN = 14;
   public static final int HACER = 15;
-  public static final int CON_PARAMETROS = 31;
+  public static final int CON_PARAMETROS = 30;
   public static final int PARA = 21;
-  public static final int RETORNAR = 29;
+  public static final int RETORNAR = 35;
   public static final int INICIO = 2;
   public static final int DIVISION = 58;
-  public static final int EJECUTAR = 35;
   public static final int ES_IGUAL = 9;
+  public static final int EJECUTAR = 34;
   public static final int MULTIPLICACION = 59;
   public static final String[] terminalNames = new String[] {
   "EOF",
@@ -103,13 +103,13 @@ public class sym {
   "FIN_MIENTRAS",
   "REPETIR",
   "HASTA_QUE",
-  "RETORNAR",
   "METODO",
   "CON_PARAMETROS",
   "FIN_METODO",
   "FUNCION",
   "FIN_FUNCION",
   "EJECUTAR",
+  "RETORNAR",
   "ASIGNACION",
   "BOOLEAN",
   "NUMERO",

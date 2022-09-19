@@ -62,7 +62,7 @@ public class Para implements Instruccion {
             traduccion += "\t" + "pass";
         }
         
-        return traduccion;
+        return traduccion + "\n";
     }
     
 }

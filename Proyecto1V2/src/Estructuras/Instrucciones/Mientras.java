@@ -44,7 +44,7 @@ public class Mientras implements Instruccion {
         }
         
         
-        return traduccion;
+        return traduccion + "\n";
     }
     
 }

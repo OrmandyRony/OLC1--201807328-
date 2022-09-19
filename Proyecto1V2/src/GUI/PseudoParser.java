@@ -9,6 +9,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.io.StringReader;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -26,6 +27,7 @@ import javax.swing.JFileChooser;
 public class PseudoParser extends javax.swing.JFrame {
     private File ficheroActual;
     private Analizador a;
+    private int numCodigo = 0;
     
     /**
      * Creates new form PseudoParser
@@ -241,6 +243,7 @@ public class PseudoParser extends javax.swing.JFrame {
             // lexico = new AnalizadorLexico(this.txtAreaCodigo.getText());
             // retorna el codigo traducido
             String traduccionPython = a.interpretar(new StringReader(this.txtAreaCodigo.getText()));
+            crearArchivo(traduccionPython);
             System.out.println(traduccionPython);
             System.out.println("/*=========== Fin Python =============*/");
             a.getArbol().graficar();
@@ -254,6 +257,28 @@ public class PseudoParser extends javax.swing.JFrame {
         
     }//GEN-LAST:event_runActionPerformed
 
+    private void crearArchivo(String codigo) {
+        FileWriter fichero = null;
+        PrintWriter escritor;
+        try
+        {
+            fichero = new FileWriter("code"+(++numCodigo)+".py");
+            escritor = new PrintWriter(fichero);
+            escritor.print(codigo);
+        } 
+        catch (Exception e){
+            System.err.println("Error al escribir el archivo graf" + numCodigo + ".py");
+        }finally{
+           try {
+                if (null != fichero)
+                    fichero.close();
+           }catch (Exception e2){
+               System.err.println("Error al cerrar el archivo graf" + numCodigo + ".dot");
+           } 
+        }                        
+        
+    }
+    
     /**
      * @param args the command line arguments
      */

@@ -10,6 +10,7 @@ package Estructuras.Instrucciones;
  */
 public class Operacion implements Instruccion {
     public static enum TipoOperacion {
+        CON_PARENTECIS,
         VARIABLE,
         // TIPOS DE DATO
         NUMERO,
@@ -72,12 +73,14 @@ public class Operacion implements Instruccion {
             return operadorIzq.traducir() + "*" + operadorDer.traducir();
         } else if (tipo == TipoOperacion.DIVISION) {
             return operadorIzq.traducir() + "/" + operadorDer.traducir();
+        } else if (tipo == TipoOperacion.CON_PARENTECIS) {
+            return "(" + operadorIzq.traducir() + ")";
         } 
         // Funciones
         else if (tipo == TipoOperacion.POTENCIA) {
             return operadorIzq.traducir() + "**" + operadorDer.traducir();
         } else if (tipo == TipoOperacion.MODULO) {
-            return operadorIzq.traducir() + " mod " + operadorDer.traducir();
+            return operadorIzq.traducir() + " % " + operadorDer.traducir();
         }
         // Operadores relacionales
         else if (tipo == TipoOperacion.MAYOR) {
@@ -105,7 +108,7 @@ public class Operacion implements Instruccion {
         else if (tipo == TipoOperacion.NUMERO) {
             return valor.toString() + "";
         } else if (tipo == TipoOperacion.CADENA) {
-            return valor.toString() + "";
+            return valor.toString().replace("\n", "\\n") + "";
         } else if (tipo == TipoOperacion.CARACTER) {
             return valor.toString() + "";
         } else if (tipo == TipoOperacion.BOOLEAN) {
@@ -116,5 +119,16 @@ public class Operacion implements Instruccion {
             return "";
         }
         
+    }
+    
+    private String convertirCaracter(String ascci)
+    {
+        String convertido;
+        ascci = ascci.replace("{", "");
+        ascci = ascci.replace("}", "");
+        ascci = ascci.replace("$", "");
+        convertido = ascci;
+        
+        return convertido;
     }
 }
