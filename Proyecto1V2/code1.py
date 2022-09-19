@@ -66,7 +66,7 @@ print((_v3_)+"\n")
 if _v1_ == _v2_:
 	print("Al parecer no funciona la asignacion"+"\n")
 	while (_variable1_ >= 5*5+8/2):
-		print(_variable1_)
+	print(_variable1_)
 	_variable1_ = _variable1_+1
 
 
@@ -77,10 +77,10 @@ else:
 
 if _v1_ == _v2_:
 	print("no tiene que imprimir este mensaje"+"\n")
-elif _v1_ == 13:
+	elif _v1_ == 13:
 	print("mensaje de prueba"+"\n")
 
-elif _v1_ == 14:
+	elif _v1_ == 14:
 	print("mensaje de prueba"+"\n")
 
 else: 
@@ -90,21 +90,21 @@ _varB_ = False
 if _varB_:
 	print("Estas definiendo bien los valores"+"\n")
 	_varaux_ = _variable1_ % 2
-	if 0 == _varaux_:
-		print("el valor es mayor a 0 y menos a 2"+"\n")
+		if 0 == _varaux_:
+	print("el valor es mayor a 0 y menos a 2"+"\n")
 
 	elif 2 == _varaux_:
-		print("el valor es mayor a 2"+"\n")
+	print("el valor es mayor a 2"+"\n")
 
-	else: 
-		print("nose"+"\n")
+else: 
+	print("nose"+"\n")
 
 
-def _potenciaManual_(_base_, _exponente_ ):
+def _potenciaManual_(_base_, _exponenete_ ):
 	_i_ = 0
 	_acumulado_ = 0
 	for _i_ in range(0, _exponente_-1):
-		_acumulado_ = _acumulado_+_acumulado_
+	_acumulado_ = _acumulado_+_acumulado_
 
 	print(_acumulado_)
 	print(" Esta es la potencia Manual"+"\n")
@@ -114,7 +114,7 @@ def _potenciaFuncion_(_base_, _exponente_ ):
 	return _potencia_
 def _metodo_1_():
 	print("estamos entrando al metodo 1"+"\n")
-	_potenciaManual_(3*1+4/2, 3+2 ):
+	_potenciaManual_(3*1+4/2, 3+2 )
 	print(" Esta es la potencia Funcion"+"\n")
 
 _metodo_1_()

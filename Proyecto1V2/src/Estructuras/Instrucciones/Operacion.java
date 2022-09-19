@@ -9,7 +9,42 @@ package Estructuras.Instrucciones;
  * @author ormandyrony
  */
 public class Operacion implements Instruccion {
+
+    
     public static enum TipoOperacion {
+        // Tipo Operacion Golan
+         CON_PARENTECIS_GO,
+        VARIABLE_GO,
+        // TIPOS DE DATO
+        NUMERO_GO,
+        CADENA_GO,
+        CARACTER_GO,
+        BOOLEAN_GO,
+        // Fuciones
+        IMPRIMIR_GO,
+        POTENCIA_GO,
+        MODULO_GO,
+        // Operadores RELACIONALES
+        MAYOR_GO,
+        MENOR_GO,
+        MAYOR_O_IGUAL_GO,
+        MENOR_O_IGUAL_GO,
+        ES_IGUAL_GO,
+        ES_DIFERENTE_GO,
+        // Operadores logicos
+        AND_GO,
+        OR_GO,
+        NOT_GO,
+        
+        // Operadores aritmeticos
+        DIVISION_GO,
+        MULTIPLICACION_GO,
+        RESTA_GO,
+        SUMA_GO,
+       
+        
+         // Tipo Operacion Python
+        
         CON_PARENTECIS,
         VARIABLE,
         // TIPOS DE DATO
@@ -119,6 +154,11 @@ public class Operacion implements Instruccion {
             return "";
         }
         
+    }
+    
+    @Override
+    public String traducirGo() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
     
     private String convertirCaracter(String ascci)

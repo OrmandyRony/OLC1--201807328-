@@ -15,11 +15,33 @@ public class StringComillas {
      */
     public static void main(String[] args) {
         // TODO code application logic here
-        String olc =  "\"olc\"";
+        String ascci = "";
+        String convertido;
+        ascci = ascci.replace("{", "");
+        ascci = ascci.replace("}", "");
+        ascci = ascci.replace("$", "");
+        convertido = ascci;
+        String codigo = "\t\telif";
+        System.out.println(codigo);
+        codigo = codigo.replaceFirst("\t", "");
+        System.out.println(codigo);
+        /*
+        String a = "verdadero";
+        String c = "falso";
+
+        // son iguales
+        if (a.equalsIgnoreCase(b)) {
+           b = "True"
+        } else if (a.equalsIgnoreCase(b)) {
+            b = "False"
+        }
+        */
+        /*
+        String olc =  "olc\n";
         System.out.println(olc);
-        olc = olc.replace("\'", "");
+        olc = olc.replace("\n", "\\n");
         System.out.println(olc);
-        
+        */
     }
     
 }

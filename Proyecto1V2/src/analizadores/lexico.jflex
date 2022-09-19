@@ -1,5 +1,6 @@
 package analizadores;
 import java_cup.runtime.Symbol; 
+import java.util.ArrayList;
 
 %%
 %class Lexico
@@ -11,9 +12,13 @@ import java_cup.runtime.Symbol;
 %column
 %ignorecase
 
+%{
+    public ArrayList<ErrorLexico> ErroresLexicos; 
+%}
+
 %init{
     yyline = 1;
-    yychar = 1;
+    ErroresLexicos = new ArrayList();
 %init}
 
 /* Definiciones regulares o reglas de traduccion*/
@@ -44,63 +49,63 @@ Asignacion = "->"
 
 
 /* Keywords */
-<YYINITIAL> "inicio"        { return new Symbol(sym.INICIO,yyline,yychar, yytext()); }
-<YYINITIAL> "fin"           { return new Symbol(sym.FIN, yyline, yychar, yytext()); }
-<YYINITIAL> "ingresar"      {return new Symbol(sym.INGRESAR, yyline, yychar, yytext()); }
+<YYINITIAL> "inicio"        { return new Symbol(sym.INICIO,yyline,yycolumn + 1, yytext()); }
+<YYINITIAL> "fin"           { return new Symbol(sym.FIN, yyline, yycolumn + 1, yytext()); }
+<YYINITIAL> "ingresar"      {return new Symbol(sym.INGRESAR, yyline, yycolumn + 1, yytext()); }
 
-<YYINITIAL> "como"          {return new Symbol(sym.COMO, yyline, yychar, yytext()); }
-<YYINITIAL> "con_valor"     {return new Symbol(sym.CON_VALOR, yyline, yychar, yytext()); }
+<YYINITIAL> "como"          {return new Symbol(sym.COMO, yyline, yycolumn + 1, yytext()); }
+<YYINITIAL> "con_valor"     {return new Symbol(sym.CON_VALOR, yyline, yycolumn + 1, yytext()); }
 
-<YYINITIAL> {Asignacion}    {return new Symbol(sym.ASIGNACION, yyline, yychar, yytext()); }
-<YYINITIAL> {Variable}      {return new Symbol(sym.VARIABLE, yyline, yychar, yytext()); }
+<YYINITIAL> {Asignacion}    {return new Symbol(sym.ASIGNACION, yyline, yycolumn + 1, yytext()); }
+<YYINITIAL> {Variable}      {return new Symbol(sym.VARIABLE, yyline, yycolumn + 1, yytext()); }
 
 /* Metodo */
 <YYINITIAL> {
-    "metodo"            {return new Symbol(sym.METODO, yyline, yychar, yytext());}
-    "con_parametros"    {return new Symbol(sym.CON_PARAMETROS, yyline, yychar, yytext());}
-    "fin_metodo"        {return new Symbol(sym.FIN_METODO, yyline, yychar, yytext());}
+    "metodo"            {return new Symbol(sym.METODO, yyline, yycolumn + 1, yytext());}
+    "con_parametros"    {return new Symbol(sym.CON_PARAMETROS, yyline, yycolumn + 1, yytext());}
+    "fin_metodo"        {return new Symbol(sym.FIN_METODO, yyline, yycolumn + 1, yytext());}
 }
 
 /* Funciones */
 <YYINITIAL> {
-    "funcion"       {return new Symbol(sym.FUNCION, yyline, yychar, yytext());}
+    "funcion"       {return new Symbol(sym.FUNCION, yyline, yycolumn + 1, yytext());}
     /* Nombre */
     /* Tipo_dato */
     /* Con parametros */
-    "fin_funcion"   {return new Symbol(sym.FIN_FUNCION, yyline, yychar, yytext());}
+    "fin_funcion"   {return new Symbol(sym.FIN_FUNCION, yyline, yycolumn + 1, yytext());}
 }
 
 /* Ejecucion */
-<YYINITIAL> "ejecutar"      { return new Symbol(sym.EJECUTAR, yyline, yychar, yytext()); }
+<YYINITIAL> "ejecutar"      { return new Symbol(sym.EJECUTAR, yyline, yycolumn + 1, yytext()); }
 
 
 /* Tipos de dato */
 <YYINITIAL> { 
-    "boolean"           { return new Symbol(sym.BOOLEAN, yyline, yychar, yytext()); }
-    "numero"            { return new Symbol(sym.NUMERO, yyline, yychar, yytext()); }
-    "caracter"          { return new Symbol(sym.CARACTER, yyline, yychar, yytext()); }
-    "cadena"            { return new Symbol(sym.CADENA, yyline, yychar, yytext()); }
+    "boolean"           { return new Symbol(sym.BOOLEAN, yyline, yycolumn + 1, yytext()); }
+    "numero"            { return new Symbol(sym.NUMERO, yyline, yycolumn + 1, yytext()); }
+    "caracter"          { return new Symbol(sym.CARACTER, yyline, yycolumn + 1, yytext()); }
+    "cadena"            { return new Symbol(sym.CADENA, yyline, yycolumn + 1, yytext()); }
 }
 
 /* Literales */
-<YYINITIAL> {Numero}    { return new Symbol(sym.LIT_NUMERO, yyline, yychar, yytext()); }
-<YYINITIAL> {Caracter}  { return new Symbol(sym.LIT_CARACTER, yyline, yychar, yytext()); }
-<YYINITIAL> {Cadena}    { return new Symbol(sym.LIT_CADENA, yyline, yychar, yytext()); }
-<YYINITIAL> {Boolean}   { return new Symbol(sym.LIT_BOOLEAN, yyline, yychar, yytext()); }
+<YYINITIAL> {Numero}    { return new Symbol(sym.LIT_NUMERO, yyline, yycolumn + 1, yytext()); }
+<YYINITIAL> {Caracter}  { return new Symbol(sym.LIT_CARACTER, yyline, yycolumn + 1, yytext()); }
+<YYINITIAL> {Cadena}    { return new Symbol(sym.LIT_CADENA, yyline, yycolumn + 1, yytext()); }
+<YYINITIAL> {Boolean}   { return new Symbol(sym.LIT_BOOLEAN, yyline, yycolumn + 1, yytext()); }
 <YYINITIAL> ";"         { return new Symbol(sym.PUNTO_COMA); }
-<YYINITIAL> ","         { return new Symbol(sym.COMA, yyline, yychar, yytext()); }
+<YYINITIAL> ","         { return new Symbol(sym.COMA, yyline, yycolumn + 1, yytext()); }
 
 /* Operadores relacionales */
-<YYINITIAL> "mayor"    { return new Symbol(sym.MAYOR, yyline, yychar, yytext()); }
+<YYINITIAL> "mayor"    { return new Symbol(sym.MAYOR, yyline, yycolumn + 1, yytext()); }
 
 <YYINITIAL> {
 
     
-    "menor"           { return new Symbol(sym.MENOR, yyline, yychar, yytext()); }
-    "mayor_o_igual"   { return new Symbol(sym.MAYOR_O_IGUAL, yyline, yychar, yytext()); }
-    "menor_o_igual"   { return new Symbol(sym.MENOR_O_IGUAL, yyline, yychar, yytext()); }
-    "es_igual"        { return new Symbol(sym.ES_IGUAL, yyline, yychar, yytext()); }
-    "es_diferente"    { return new Symbol(sym.ES_DIFERENTE, yyline, yychar, yytext()); }
+    "menor"           { return new Symbol(sym.MENOR, yyline, yycolumn + 1, yytext()); }
+    "mayor_o_igual"   { return new Symbol(sym.MAYOR_O_IGUAL, yyline, yycolumn + 1, yytext()); }
+    "menor_o_igual"   { return new Symbol(sym.MENOR_O_IGUAL, yyline, yycolumn + 1, yytext()); }
+    "es_igual"        { return new Symbol(sym.ES_IGUAL, yyline, yycolumn + 1, yytext()); }
+    "es_diferente"    { return new Symbol(sym.ES_DIFERENTE, yyline, yycolumn + 1, yytext()); }
 
     /* Caracter */
 
@@ -115,78 +120,76 @@ Asignacion = "->"
 
 /* Operadores logicos */
 <YYINITIAL> {
-    "or"        {return new Symbol(sym.OR, yyline, yychar, yytext());}
-    "and"       {return new Symbol(sym.AND, yyline, yychar, yytext());}
-    "not"       {return new Symbol(sym.NOT, yyline, yychar, yytext());}
+    "or"        {return new Symbol(sym.OR, yyline, yycolumn + 1, yytext());}
+    "and"       {return new Symbol(sym.AND, yyline, yycolumn + 1, yytext());}
+    "not"       {return new Symbol(sym.NOT, yyline, yycolumn + 1, yytext());}
 }
-
 
 /* Condicionales */
 <YYINITIAL> {
     /* Condicional Si */
-    "si"                { return new Symbol(sym.SI, yyline, yychar, yytext()); }
-    "fin_si"            { return new Symbol(sym.FIN_SI, yyline, yychar, yytext()); }
-    "o_si"              { return new Symbol(sym.O_SI, yyline, yychar, yytext()); }
-    "entonces"          { return new Symbol(sym.ENTONCES, yyline, yychar, yytext()); }
-    "de_lo_contrario"   { return new Symbol(sym.DE_LO_CONTRARIO, yyline, yychar, yytext()); }
+    "si"                { return new Symbol(sym.SI, yyline, yycolumn + 1, yytext()); }
+    "fin_si"            { return new Symbol(sym.FIN_SI, yyline, yycolumn + 1, yytext()); }
+    "o_si"              { return new Symbol(sym.O_SI, yyline, yycolumn + 1, yytext()); }
+    "entonces"          { return new Symbol(sym.ENTONCES, yyline, yycolumn + 1, yytext()); }
+    "de_lo_contrario"   { return new Symbol(sym.DE_LO_CONTRARIO, yyline, yycolumn + 1, yytext()); }
     /* Seleccion Multiple */
-    "segun"             { return new Symbol(sym.SEGUN, yyline, yychar, yytext()); }
+    "segun"             { return new Symbol(sym.SEGUN, yyline, yycolumn + 1, yytext()); }
     /* usada tambien en el ciclo para*/
-    "hacer"             { return new Symbol(sym.HACER, yyline, yychar, yytext()); }
-    "\¿"                { return new Symbol(sym.INTERROGACION_ABRE, yyline, yychar, yytext()); }
-    "\?"                { return new Symbol(sym.INTERROGACION_CIERRA, yyline, yychar, yytext()); }
-    "fin_segun"         { return new Symbol(sym.FIN_SEGUN, yyline, yychar, yytext()); }
+    "hacer"             { return new Symbol(sym.HACER, yyline, yycolumn + 1, yytext()); }
+    "\¿"                { return new Symbol(sym.INTERROGACION_ABRE, yyline, yycolumn + 1, yytext()); }
+    "\?"                { return new Symbol(sym.INTERROGACION_CIERRA, yyline, yycolumn + 1, yytext()); }
+    "fin_segun"         { return new Symbol(sym.FIN_SEGUN, yyline, yycolumn + 1, yytext()); }
 }
 
 /* Ciclos */
 <YYINITIAL> {
     /* Para */
-    "para"                { return new Symbol(sym.PARA, yyline, yychar, yytext()); }
-    "hasta"               { return new Symbol(sym.HASTA, yyline, yychar, yytext()); }
+    "para"                { return new Symbol(sym.PARA, yyline, yycolumn + 1, yytext()); }
+    "hasta"               { return new Symbol(sym.HASTA, yyline, yycolumn + 1, yytext()); }
     /* Hacer*/
-    "con incremental"     { return new Symbol(sym.CON_INCREMENTAL, yyline, yychar, yytext()); }
-    "fin_para"            { return new Symbol(sym.FIN_PARA, yyline, yychar, yytext()); }
+    "con incremental"     { return new Symbol(sym.CON_INCREMENTAL, yyline, yycolumn + 1, yytext()); }
+    "fin_para"            { return new Symbol(sym.FIN_PARA, yyline, yycolumn + 1, yytext()); }
 
     /* Mientras*/
-    "mientras"            { return new Symbol(sym.MIENTRAS, yyline, yychar, yytext()); }
-    "fin_mientras"        { return new Symbol(sym.FIN_MIENTRAS, yyline, yychar, yytext()); }
+    "mientras"            { return new Symbol(sym.MIENTRAS, yyline, yycolumn + 1, yytext()); }
+    "fin_mientras"        { return new Symbol(sym.FIN_MIENTRAS, yyline, yycolumn + 1, yytext()); }
 
     /* Repetir hasta */
-    "repetir"           { return new Symbol(sym.REPETIR, yyline, yychar, yytext()); }
-    "hasta_que"         { return new Symbol(sym.HASTA_QUE, yyline, yychar, yytext()); }
+    "repetir"           { return new Symbol(sym.REPETIR, yyline, yycolumn + 1, yytext()); }
+    "hasta_que"         { return new Symbol(sym.HASTA_QUE, yyline, yycolumn + 1, yytext()); }
 }
 
 /* Retorno */
-<YYINITIAL> "retornar" { return new Symbol(sym.RETORNAR, yyline, yychar, yytext()); }
+<YYINITIAL> "retornar" { return new Symbol(sym.RETORNAR, yyline, yycolumn + 1, yytext()); }
 
 /* Impresion */
 <YYINITIAL> {
     /* Imprimir sin salto de linea */
-    "imprimir"              { return new Symbol(sym.IMPRIMIR, yyline, yychar, yytext()); }
+    "imprimir"              { return new Symbol(sym.IMPRIMIR, yyline, yycolumn + 1, yytext()); }
     /* Imprimir con salto de linea */
-    "imprimir_nl"           { return new Symbol(sym.IMPRIMIR_NL, yyline, yychar, yytext()); }
+    "imprimir_nl"           { return new Symbol(sym.IMPRIMIR_NL, yyline, yycolumn + 1, yytext()); }
         
 }
 
 /* Simbolos aritmeticos*/
 <YYINITIAL>{
 
-    "-"           { return new Symbol(sym.RESTA, yyline, yychar, yytext()); }
-    "+"           { return new Symbol(sym.SUMA, yyline, yychar, yytext()); }
-    "/"           { return new Symbol(sym.DIVISION, yyline, yychar, yytext()); }
-    "*"           { return new Symbol(sym.MULTIPLICACION, yyline, yychar, yytext()); }
-"potencia"        { return new Symbol(sym.POTENCIA, yyline, yychar, yytext()); }
-    "mod"         { return new Symbol(sym.MODULO, yyline, yychar, yytext()); }
-    "("           {  return new Symbol(sym.PARENTECIS_ABRE, yyline, yychar, yytext()); }
-    ")"           { return new Symbol(sym.PARENTECIS_CIERRA, yyline, yychar, yytext()); }
-    "["           { return new Symbol(sym.CORCHETE_ABRE, yyline, yychar, yytext()); }
-    "]"           { return new Symbol(sym.CORCHETE_CIERRA, yyline, yychar, yytext()); }
+    "-"           { return new Symbol(sym.RESTA, yyline, yycolumn + 1, yytext()); }
+    "+"           { return new Symbol(sym.SUMA, yyline, yycolumn + 1, yytext()); }
+    "/"           { return new Symbol(sym.DIVISION, yyline, yycolumn + 1, yytext()); }
+    "*"           { return new Symbol(sym.MULTIPLICACION, yyline, yycolumn + 1, yytext()); }
+"potencia"        { return new Symbol(sym.POTENCIA, yyline, yycolumn + 1, yytext()); }
+    "mod"         { return new Symbol(sym.MODULO, yyline, yycolumn + 1, yytext()); }
+    "("           {  return new Symbol(sym.PARENTECIS_ABRE, yyline, yycolumn + 1, yytext()); }
+    ")"           { return new Symbol(sym.PARENTECIS_CIERRA, yyline, yycolumn + 1, yytext()); }
+    "["           { return new Symbol(sym.CORCHETE_ABRE, yyline, yycolumn + 1, yytext()); }
+    "]"           { return new Symbol(sym.CORCHETE_CIERRA, yyline, yycolumn + 1, yytext()); }
 
 }
 
 
 .   {
-        System.out.println("Error Lexico : " +yytext() + " Linea: " + yyline + 
-        " Columna: " + yycolumn);
-
+        ErroresLexicos.add(new ErrorLexico("Léxico", "Caracter no válido detectado: " + yytext(), yyline + "", (yycolumn + 1) + ""));
+        
     }

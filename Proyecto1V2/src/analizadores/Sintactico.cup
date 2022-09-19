@@ -21,6 +21,7 @@ import Estructuras.Instrucciones.Repetir;
 import Estructuras.Instrucciones.Metodo;
 import Estructuras.Instrucciones.Funcion;
 import Estructuras.Instrucciones.Ejecutar;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java_cup.runtime.*;
 import java_cup.runtime.XMLElement;
@@ -28,9 +29,11 @@ import java_cup.runtime.XMLElement;
 parser code {:
     public LinkedList<Instruccion> AST;
     public Arbol arbol;
+    public ArrayList<ErrorLexico> ErroresSintacticos = new ArrayList(); 
     /*Aca puedo colocar una variable global para ir contado los numeros de ifs anidados  para dar saltos de linea */
 
     public void syntax_error(Symbol s){
+            ErroresSintacticos.add(new ErrorLexico("Sintáctico", "Token no válido detectado: " +  s.value , s.left + "", s.right + ""));
             System.err.println("Error Sintáctico en la linea: " + (s.left) + " y columna : " + s.right + ". No se esperaba este token: " + s.value + "."); 
     } 
 
