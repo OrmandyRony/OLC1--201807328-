@@ -112,7 +112,7 @@ public class SiEntonces implements Instruccion {
             traduccion += "else: \n";
             for(Instruccion ins: listaInstruccionesDeLoContrario){
                 for (int i = 0; i < contadorTabsElse; i++) {
-                    System.out.println("Agregando tabelse");
+                    System.out.println("Agregando tabelsea");
                     traduccion += "\t";
                    
                 }

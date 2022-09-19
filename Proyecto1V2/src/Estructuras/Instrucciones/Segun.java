@@ -17,7 +17,7 @@ public class Segun implements Instruccion {
     private String declaracion = "";
     private static String var = "";
     //private String traduccion = "";
-    private static boolean bandera = true;
+    private static boolean banderita = true;
      private static boolean bandera2 = false;
      private static boolean bandera30 = true;
     private static int contador = 0;
@@ -41,11 +41,12 @@ public class Segun implements Instruccion {
     public String traducir() {
         String traduccion = "";
         
-        if (bandera) {
+        if (banderita) {
             var = this.condicion.traducir();
-            System.out.println("Soy va: " + var);
-            bandera = false; 
+           // System.out.println("Soy va: " + var);
+            banderita = false; 
         }
+        
         /*
         System.out.println("Contador: ");
         System.out.println(++contador);
@@ -59,6 +60,7 @@ public class Segun implements Instruccion {
                     traduccion += "if " + this.condicion.traducir() + " == " + var +":\n";
                  
                     bandera30 = false;
+                   // System.out.println("BVandera 30  ;" + bandera30);
                 } else {
                     traduccion += "elif " + this.condicion.traducir() + " == " + var +":\n";
      
@@ -82,7 +84,7 @@ public class Segun implements Instruccion {
         if (this.listaInstruccionesDeLoContrario != null) {
             traduccion += "else: \n";
             for (Instruccion instruccion : listaInstruccionesDeLoContrario) {
-                //traduccion += "\t";
+                traduccion += "\t";
                 traduccion += instruccion.traducir();
             }
         }

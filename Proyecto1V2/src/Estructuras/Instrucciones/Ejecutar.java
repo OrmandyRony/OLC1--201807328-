@@ -42,7 +42,7 @@ public class Ejecutar implements Instruccion {
 
             }
 
-            traduccion += "):\n";
+            traduccion += ")\n";
         }
          
          return traduccion;
