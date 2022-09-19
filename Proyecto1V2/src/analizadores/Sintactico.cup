@@ -189,7 +189,7 @@ instrucciones ::=
                                                 :}
     | SEGUN expresiones:e HACER casos:c DE_LO_CONTRARIO ENTONCES lista_instrucciones:l FIN_SEGUN {:
                                                                                                     RESULT = new Produccion(new Nodo("Segun"),
-                                                                                                        new SiEntonces((Operacion)e.getInstruccion(), c.getInstrucciones(), l.getInstrucciones()));
+                                                                                                        new Segun((Operacion)e.getInstruccion(), c.getInstrucciones(), l.getInstrucciones()));
                                                                                                     RESULT.addHijo("segun");
                                                                                                     RESULT.addHijo(e);
                                                                                                     RESULT.addHijo("Hacer");

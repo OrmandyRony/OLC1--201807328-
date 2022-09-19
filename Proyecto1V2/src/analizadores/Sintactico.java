@@ -997,7 +997,7 @@ class CUP$Sintactico$actions {
 		Produccion l = (Produccion)((java_cup.runtime.Symbol) CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-1)).value;
 		
                                                                                                     RESULT = new Produccion(new Nodo("Segun"),
-                                                                                                        new SiEntonces((Operacion)e.getInstruccion(), c.getInstrucciones(), l.getInstrucciones()));
+                                                                                                        new Segun((Operacion)e.getInstruccion(), c.getInstrucciones(), l.getInstrucciones()));
                                                                                                     RESULT.addHijo("segun");
                                                                                                     RESULT.addHijo(e);
                                                                                                     RESULT.addHijo("Hacer");
