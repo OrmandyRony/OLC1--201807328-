@@ -133,7 +133,7 @@ public class Operacion implements Instruccion {
         }
         // OPERADORES LOGICOS
         else if (tipo == TipoOperacion.AND) {
-            return operadorIzq.traducir() + "and " + operadorDer.traducir();
+            return operadorIzq.traducir() + " and " + operadorDer.traducir();
         } else if (tipo == TipoOperacion.OR) {
             return operadorIzq.traducir() + " or " + operadorDer.traducir();
         } else if (tipo == TipoOperacion.NOT) {
@@ -171,8 +171,9 @@ public class Operacion implements Instruccion {
             return "(" + operadorIzq.traducirGo() + ")";
         } 
         // Funciones
-        else if (tipo == TipoOperacion.POTENCIA) {
-            return operadorIzq.traducirGo() + "**" + operadorDer.traducirGo();
+        else if (tipo == TipoOperacion.POTENCIA_GO) {
+            // aca se podia hacer una clase potencia
+            return "math.Pow(float64("+ operadorIzq.traducirGo() + ")," + "float64(" + operadorDer.traducirGo() + "))";
         } else if (tipo == TipoOperacion.MODULO) {
             return operadorIzq.traducirGo() + " % " + operadorDer.traducirGo();
         }
@@ -191,12 +192,12 @@ public class Operacion implements Instruccion {
             return operadorIzq.traducirGo() + " !="  + operadorDer.traducirGo();
         }
         // OPERADORES LOGICOS
-        else if (tipo == TipoOperacion.AND) {
-            return operadorIzq.traducirGo() + "and " + operadorDer.traducirGo();
-        } else if (tipo == TipoOperacion.OR) {
-            return operadorIzq.traducirGo() + " or " + operadorDer.traducirGo();
-        } else if (tipo == TipoOperacion.NOT) {
-            return operadorIzq.traducirGo() + " not " + operadorDer.traducirGo();
+        else if (tipo == TipoOperacion.AND_GO) {
+            return operadorIzq.traducirGo() + " && " + operadorDer.traducirGo();
+        } else if (tipo == TipoOperacion.OR_GO) {
+            return operadorIzq.traducirGo() + " || " + operadorDer.traducirGo();
+        } else if (tipo == TipoOperacion.NOT_GO) {
+            return operadorIzq.traducirGo() + " !" + operadorDer.traducirGo();
         } 
         // Operadores unarios
         else if (tipo == TipoOperacion.NUMERO) {

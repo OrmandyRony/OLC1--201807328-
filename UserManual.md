@@ -1,10 +1,8 @@
-[comment]: # (Documentacion tecnica del proyecto 1 de Organizacion de Lenguajes y Compiladores)
-# Pseudo-Parser
+[comment]: # (Documentacion usuario del proyecto 1 de Organizacion de Lenguajes y Compiladores)
+# Pseudo-Parser Manual de Usuario
+
 ## Tabla de contenido
 * [Abstract](#abstract)
-* [Herramientas requeridas](#herramientas-requeridas)
-* [Empezando](#empezando)
-    * [Clone este repositorio](#clone-este-repositorio)
 * [Compilador](#compilador)
     * [Estructura de un compilador](#estructura-de-un-compilador)
         * [Análisis](#análisis)
@@ -31,7 +29,6 @@
     * [Método](#método)
     * [Funciones](#funciones)
     * [Llamada de funciones y métodos](#llamada-de-funciones-y-métodos)
-* [Convenciones](#convenciones)
 * [Referencias](#referencias)
 
 
@@ -41,20 +38,6 @@ Este proyecto es un traductor de pseudocodigo a los lenguajes Python y Golang, u
 **Palabras clave:**  *Python, Golang, Java, JFlex y Cup*
 
 ----
-
-## Herramientas requeridas
-- Java 8 o una version mayor
-- [Netbeans](https://netbeans.apache.org/download/nb120/nb120.html)
-- [JFlex](https://www.jflex.de/)
-- [Cup](http://www2.cs.tum.edu/projects/cup/index.php)
-
-## Empezando
-### Clone este repositorio
-
-```Bash
-git clone https://github.com/OrmandyRony/OLC1--201807328-.git
-
-```
 
 ## Compilador
 Un compilador es un programa que puede leer un lenguaje (el lenguaje fuente) y traducilo en un programa equivalente  en otro lenguaje (lenguaje destino).
@@ -298,7 +281,7 @@ fin_si
 ```
 
 #### Selección múltiple
-Este tipo de condición permite ejecutar una lista de instrucciones en base a un valor ingresado, existen varias opciones posibles y cuando el valor coincida con una de las opciones se ejecuta un conjunto de instrucciones. Existe una palabra reservada “```de_lo_contrario```” para ejecutar automáticamente cuando la lista de opciones no se cumple, pero es de *forma opcional*.
+Este tipo de condición permite ejecutar una lista de instrucciones en base a un valor ingresado, existen varias opciones posibles y cuando el valor coincida con una de las opciones se ejecuta un conjunto de instrucciones. Existe una palabra reservada “```de_lo_contrario```” para ejecutar automáticamente cuando la lista de opciones no se cumple, pero es de forma opcional.
 
 ```C++
 segun <valor> hacer
@@ -438,7 +421,6 @@ imprimir_nl <expresión>; //impresión con salto de línea
 ```
 
 ## Operaciones básicas
-Donde el operando puede ser un numero o un variable.
 ### Suma
 Esta operación usa el carácter “+”
 ```Java
@@ -481,28 +463,49 @@ Se usará para asociar un conjunto de operaciones aritméticas.
 (<Conjunto de operaciones aritmeticas>)
 ```
 
-## Convenciones
-### Non-terminal
-Se escriben con minuscula
+## Empezando
+### Clone este repositorio
+
+```Bash
+git clone https://github.com/OrmandyRony/OLC1--201807328-.git
 
 ```
-iniciar, lista_expresiones;
-```
+### Ejecutando el programa
+Se recomienda el uso de netbeans para ejecutar el programa ya que no es un jar.
+Interfaz del programa
 
-### Terminal
-Se escriben con mayuscula
-```
-INICIO, FIN, INGRESAR, VARIABLE;
-```
-## Ejecucion de los generadore JFlex y Cup
-### Ejecucion de JFlex
-```Bash
-$ java -jar jflex-full-1.7.0.jar AnalizadorLexico.jflex
-```
-### Ejecucion Cup
-```Bash
-$ java -jar java-cup-11b.jar -parser AnalizadorSintactico  AnalizadorSintactico.cup
-```
+![](img/1.png)
+
+#### Primer paso
+De click en file y selescione open para abrir un proyecto luego seleccione el archivo que desea traducir si no desea codificars desde el area de texto.
+
+![](img/2.png)
+
+#### Segundo paso
+Elija el archivo
+
+![](img/3.png)
+
+#### Tercer paso
+Ejecute el archivo dando click sobre run.
+![](img/4.png)
+
+#### Cuarto paso
+Se genraran los archivos traducidos con un numero dependiendo las veces que le de run.
+
+![](img/6.png)
+
+#### Quinto paso
+Si ubieran errores se generaran reportes de los mismos 
+
+![](img/7.png)
+
+#### Sexto paso
+Si no hay errore se genera una imagen del arbol concreto del codigo
+
+![](img/8.png)
+
+
 
 ## Referencias
 <dl compact="compact">

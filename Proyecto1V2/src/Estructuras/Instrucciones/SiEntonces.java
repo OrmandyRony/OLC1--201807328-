@@ -20,6 +20,7 @@ public class SiEntonces implements Instruccion {
     private static int contadorTabsElseIf = 1;
     private static int contadorTabsElse = 1;
     private static boolean bandera = false;
+    private static boolean banderaG = false;
     /**
      * Constructor sin de lo contrario
      * SI expresion_relacional:a ENTONCES lista_instrucciones:b FIN_SI
@@ -147,10 +148,10 @@ public class SiEntonces implements Instruccion {
         }
         
         if(listaInstruccionesOsi != null) {
-            if (bandera) {
+            if (banderaG) {
                 traduccion += "elif( " + this.condicion.traducirGo()+ "){\n";
             } else {
-                bandera = true;
+                banderaG = true;
             }
             
             /*
@@ -161,7 +162,7 @@ public class SiEntonces implements Instruccion {
             }*/
             
             for(Instruccion ins: listaInstruccionesOsi){
-                if (bandera) {
+                if (banderaG) {
                     traduccion += "\t";
                 }
                 

@@ -58,7 +58,7 @@ public class Metodo implements Instruccion {
             }
         }
         
-        return traduccion + "\n";
+        return traduccion + "\n\n";
     }
     
     @Override
@@ -91,6 +91,6 @@ public class Metodo implements Instruccion {
             }
         }
         
-        return traduccion + "\n}\n";
+        return traduccion + "\n}\n\n";
     }
 }

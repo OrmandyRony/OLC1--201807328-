@@ -78,7 +78,7 @@ public class Funcion implements Instruccion {
             traduccion += this.retorno.traducir();
         }
         
-        return traduccion + "\n";
+        return traduccion + "\n\n";
     }
     
     @Override
@@ -116,6 +116,6 @@ public class Funcion implements Instruccion {
             traduccion += this.retorno.traducirGo();
         }
         
-        return traduccion + "\n}\n";
+        return traduccion + "\n}\n\n";
     }
 }

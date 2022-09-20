@@ -20,6 +20,9 @@ public class Segun implements Instruccion {
     private static boolean banderita = true;
      private static boolean bandera2 = false;
      private static boolean bandera30 = true;
+        private static boolean banderitaG = true;
+     private static boolean bandera2G = false;
+     private static boolean bandera30G = true;
     private static int contador = 0;
 
     public Segun(Operacion condicion, LinkedList<Instruccion> listaInstrucciones) {
@@ -96,10 +99,10 @@ public class Segun implements Instruccion {
     public String traducirGo() {
         String traduccion = "";
         
-        if (banderita) {
+        if (banderitaG) {
             var = this.condicion.traducirGo();
            // System.out.println("Soy va: " + var);
-            banderita = false; 
+            banderitaG = false; 
         }
         
         /*
@@ -110,10 +113,10 @@ public class Segun implements Instruccion {
         if (this.listaInstrucciones != null) {
       
                 
-                if (bandera30) {
+                if (bandera30G) {
                     traduccion += "switch  " + this.condicion.traducirGo()+ "{\n";
                  
-                    bandera30 = false;
+                    bandera30G = false;
                    // System.out.println("BVandera 30  ;" + bandera30);
                 } else {
                     traduccion += "case " + this.condicion.traducirGo()+ ":\n";
@@ -124,7 +127,7 @@ public class Segun implements Instruccion {
           
             
             for (Instruccion listaInstruccione : listaInstrucciones) {
-                 if (bandera2) {
+                 if (bandera2G) {
                     traduccion += "\t";
                 }
                 traduccion += listaInstruccione.traducirGo();
@@ -139,7 +142,7 @@ public class Segun implements Instruccion {
                 traduccion += "\t";
                 traduccion += instruccion.traducirGo();
             }
-            traduccion += "\n}";
+            traduccion += "}\n";
         }
         
         return traduccion + "\n";

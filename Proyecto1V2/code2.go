@@ -1,6 +1,9 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"math"
+)
 func _potenciaManual_(_base_, _exponenete_ ){
 	var _i_ float64 = 0
 	var _acumulado_ float64 = 0
@@ -11,16 +14,18 @@ func _potenciaManual_(_base_, _exponenete_ ){
 	fmt.Println(" Esta es la potencia Manual")
 
 }
+
 func _potenciaFuncion_(_base_, _exponente_ ){
 	var _potencia_ float64 = _base_**_exponente_
 	return _potencia_
 }
+
 func _metodo_1_(){
 	fmt.Println("estamos entrando al metodo 1")
-	_potenciaManual_(3*1+4/2, 3+2 )
 	fmt.Println(" Esta es la potencia Funcion")
 
 }
+
 func main() {
 	var _variable1_ float64 = 5
 	var _variable2_ float64 = 50
@@ -104,8 +109,7 @@ func main() {
 	}
 	if (_v1_ == _v2_){
 		fmt.Println("no tiene que imprimir este mensaje")
-	}elif( _v1_ == _v2_){
-		elif( _v1_ == 13){
+	}	elif( _v1_ == 13){
 		fmt.Println("mensaje de prueba")
 	}
 		elif( _v1_ == 14){
@@ -118,20 +122,20 @@ func main() {
 	if (_varB_){
 		fmt.Println("Estas definiendo bien los valores")
 		var _varaux_ float64 = _variable1_ % 2
-		case _varaux_:
-		case 0:
-		fmt.Println("el valor es mayor a 0 y menos a 2")
+		switch  _varaux_{
+	case 0:
+	fmt.Println("el valor es mayor a 0 y menos a 2")
 	
 	
-		case 2:
-		fmt.Println("el valor es mayor a 2")
+	case 2:
+	fmt.Println("el valor es mayor a 2")
 	
 	
 	
 	default: 
 		fmt.Println("nose")
-	
 	}
+	
 	}
 	_metodo_1_()
 	

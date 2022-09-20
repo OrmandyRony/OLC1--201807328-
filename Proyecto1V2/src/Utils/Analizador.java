@@ -115,7 +115,10 @@ public class Analizador {
         
         String funciones = "package main\n" +
                             "\n" +
-                            "import \"fmt\"\n";
+                            "import (\n" +
+"	\"fmt\"\n" +
+"	\"math\"\n" +
+")\n";
         
         String traduccion = "func main() {\n";
         
