@@ -12,4 +12,6 @@ public interface Instruccion {
     public String traducir();
     
     public String traducirGo();
+
+    public String getTipoDato();
 }

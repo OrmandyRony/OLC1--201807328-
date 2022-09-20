@@ -188,6 +188,11 @@ public class SiEntonces implements Instruccion {
         
         return traduccion + "\n";
     }
+
+    @Override
+    public String getTipoDato() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
    
  
  

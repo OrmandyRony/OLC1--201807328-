@@ -15,27 +15,32 @@ public class Funcion implements Instruccion {
     private LinkedList<Instruccion> listaParametros = null;
     private final LinkedList<Instruccion> listaInstrucciones;
     private Operacion retorno;
+    private String tipoDato;
 
-    public Funcion(String nombre, LinkedList<Instruccion> listaInstrucciones) {
+    public Funcion(String nombre, String tipoDato, LinkedList<Instruccion> listaInstrucciones) {
         this.nombre = nombre;
+        this.tipoDato = tipoDato;
         this.listaInstrucciones = listaInstrucciones;
     }
 
-    public Funcion(String nombre, LinkedList<Instruccion> listaParametros, LinkedList<Instruccion> listaInstrucciones) {
+    public Funcion(String nombre, String tipoDato, LinkedList<Instruccion> listaParametros, LinkedList<Instruccion> listaInstrucciones) {
         this.nombre = nombre;
+        this.tipoDato = tipoDato;
         this.listaParametros = listaParametros;
         this.listaInstrucciones = listaInstrucciones;
     }
 
-    public Funcion(String nombre, LinkedList<Instruccion> listaParametros, LinkedList<Instruccion> listaInstrucciones, Operacion retorno) {
+    public Funcion(String nombre, String tipoDato, LinkedList<Instruccion> listaParametros, LinkedList<Instruccion> listaInstrucciones, Operacion retorno) {
         this.nombre = nombre;
+        this.tipoDato = tipoDato;
         this.listaParametros = listaParametros;
         this.listaInstrucciones = listaInstrucciones;
         this.retorno = retorno;
     }
 
-    public Funcion(String nombre, LinkedList<Instruccion> listaInstrucciones, Operacion retorno) {
+    public Funcion(String nombre, String tipoDato, LinkedList<Instruccion> listaInstrucciones, Operacion retorno) {
         this.nombre = nombre;
+        this.tipoDato = tipoDato;
         this.listaInstrucciones = listaInstrucciones;
         this.retorno = retorno;
     }
@@ -54,7 +59,7 @@ public class Funcion implements Instruccion {
             for (int i = 0; i < size; i++) { 
 
                 if (i != (size-1)) {
-                    traduccion += listaParametros.get(i).traducir() + ", ";
+                    traduccion += listaParametros.get(i).traducir()  + ", ";
                 } else {
                     traduccion += listaParametros.get(i).traducir() + " ";
                 }
@@ -85,21 +90,22 @@ public class Funcion implements Instruccion {
     public String traducirGo() {
         String traduccion = "func " + this.nombre  + "(";
         if (listaParametros == null) {
-            traduccion += "){\n";
+            traduccion += ") " + this.tipoDato+ " {\n";
         } else {
             int size = listaParametros.size();
            
             for (int i = 0; i < size; i++) { 
 
                 if (i != (size-1)) {
-                    traduccion += listaParametros.get(i).traducirGo()+ ", ";
+                    //System.out.println(listaParametros.get(i));
+                    traduccion += listaParametros.get(i).traducirGo()+ listaParametros.get(i).getTipoDato() + ", ";
                 } else {
-                    traduccion += listaParametros.get(i).traducirGo()+ " ";
+                    traduccion += listaParametros.get(i).traducirGo()+ listaParametros.get(i).getTipoDato() +" ";
                 }
 
             }
 
-            traduccion += "){\n";
+            traduccion += ") "+ this.tipoDato+" {\n";
         }
         
          
@@ -117,5 +123,10 @@ public class Funcion implements Instruccion {
         }
         
         return traduccion + "\n}\n\n";
+    }
+
+    @Override
+    public String getTipoDato() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 }

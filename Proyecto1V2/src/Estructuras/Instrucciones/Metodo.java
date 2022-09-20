@@ -72,9 +72,10 @@ public class Metodo implements Instruccion {
             for (int i = 0; i < size; i++) { 
 
                 if (i != (size-1)) {
-                    traduccion += listaParametros.get(i).traducirGo()+ ", ";
+                    //System.out.println(listaParametros.get(i));
+                    traduccion += listaParametros.get(i).traducirGo()+ listaParametros.get(i).getTipoDato() + ", ";
                 } else {
-                    traduccion += listaParametros.get(i).traducirGo()+ " ";
+                    traduccion += listaParametros.get(i).traducirGo()+ listaParametros.get(i).getTipoDato() +" ";
                 }
 
             }
@@ -92,5 +93,10 @@ public class Metodo implements Instruccion {
         }
         
         return traduccion + "\n}\n\n";
+    }
+
+    @Override
+    public String getTipoDato() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 }

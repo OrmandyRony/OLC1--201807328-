@@ -80,6 +80,7 @@ public class Operacion implements Instruccion {
     private Operacion operadorIzq;
     private Operacion operadorDer;
     private Object valor;
+    private String tipoDato;   
     
     public Operacion(Operacion operadorIzq, Operacion operadorDer, TipoOperacion tipo) {
         this.tipo = tipo;
@@ -95,6 +96,12 @@ public class Operacion implements Instruccion {
     public Operacion(String a, TipoOperacion tipo) {
         this.valor=a;
         this.tipo = tipo;
+    }
+    
+    public Operacion(String a, String tipoDato ,TipoOperacion tipo) {
+        this.valor=a;
+        this.tipo = tipo;
+        this.tipoDato = tipoDato;
     }
     
     @Override
@@ -225,4 +232,11 @@ public class Operacion implements Instruccion {
         
         return convertido;
     }
+
+    @Override
+    public String getTipoDato() {
+        return tipoDato;
+    }
+    
+    
 }

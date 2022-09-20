@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"math"
 )
-func _potenciaManual_(_base_, _exponenete_ ){
+func _potenciaManual_(_base_float64, _exponenete_float64 ){
 	var _i_ float64 = 0
 	var _acumulado_ float64 = 0
 	for _i_ := 0; _i_  < _exponente_-1; _i_++ {
@@ -15,7 +15,7 @@ func _potenciaManual_(_base_, _exponenete_ ){
 
 }
 
-func _potenciaFuncion_(_base_, _exponente_ ){
+func _potenciaFuncion_(_base_float64, _exponente_float64 ) float64 {
 	var _potencia_ float64 = _base_**_exponente_
 	return _potencia_
 }

@@ -285,16 +285,51 @@ instrucciones ::=
                                                                                                                                 :}
 
     /* Funciones */
-    | FUNCION VARIABLE:v tipo_dato:td lista_instrucciones:li FIN_FUNCION {:
+    | FUNCION VARIABLE:v tipo_dato:b lista_instrucciones:li FIN_FUNCION {:
+     String a = "numero";
+                                                                                                String c = "caracter";
+                                                                                                String d = "cadena";
+                                                                                                String ed = "boolean";
+                                                                                                
+                                                                                                String f = "verdadero";
+                                                                                                String g = "falso";
+
+                                                                                                // son iguales
+                                                                                                if (a.equalsIgnoreCase(b)) {
+                                                                                                    b = "float64";
+                                                                                                } else if (c.equalsIgnoreCase(b)) {
+                                                                                                    b = "";
+                                                                                                } else if (d.equalsIgnoreCase(b)) {
+                                                                                                    b = "";
+                                                                                                } else if (ed.equalsIgnoreCase(b)) {
+                                                                                                    b = "bool";
+                                                                                                }
                                                                             RESULT = new Produccion(new Nodo("Funcion"),
-                                                                                new Funcion(v, li.getInstrucciones()));
+                                                                                new Funcion(v, "", li.getInstrucciones()));
                                                                             RESULT.addHijo(v);                                                                        
                                                                             RESULT.addHijo(li);
                                                                         :}
 
-    | FUNCION VARIABLE:v tipo_dato:td CON_PARAMETROS PARENTECIS_ABRE lista_parametros:lp PARENTECIS_CIERRA lista_instrucciones:li FIN_FUNCION {:
+    | FUNCION VARIABLE:v tipo_dato:b CON_PARAMETROS PARENTECIS_ABRE lista_parametros:lp PARENTECIS_CIERRA lista_instrucciones:li FIN_FUNCION {:  String a = "numero";
+                                                                                                String c = "caracter";
+                                                                                                String d = "cadena";
+                                                                                                String ed = "boolean";
+                                                                                                
+                                                                                                String f = "verdadero";
+                                                                                                String g = "falso";
+
+                                                                                                // son iguales
+                                                                                                if (a.equalsIgnoreCase(b)) {
+                                                                                                    b = "float64";
+                                                                                                } else if (c.equalsIgnoreCase(b)) {
+                                                                                                    b = "";
+                                                                                                } else if (d.equalsIgnoreCase(b)) {
+                                                                                                    b = "";
+                                                                                                } else if (ed.equalsIgnoreCase(b)) {
+                                                                                                    b = "bool";
+                                                                                                }
                                                                                                             RESULT = new Produccion(new Nodo("Funciones"),
-                                                                                                                new Funcion(v, lp.getInstrucciones(), li.getInstrucciones()));  
+                                                                                                                new Funcion(v, "", lp.getInstrucciones(), li.getInstrucciones()));  
                                                                                                             RESULT.addHijo(v);
                                                                                                             RESULT.addHijo("(");
                                                                                                             RESULT.addHijo(lp);
@@ -302,18 +337,56 @@ instrucciones ::=
                                                                                                             RESULT.addHijo(li);
                                                                                                         :}
 
-    | FUNCION VARIABLE:v tipo_dato:td lista_instrucciones:li RETORNAR expresiones:e PUNTO_COMA FIN_FUNCION {:
+    | FUNCION VARIABLE:v tipo_dato:b lista_instrucciones:li RETORNAR expresiones:e PUNTO_COMA FIN_FUNCION {:
+
+                                                                             String a = "numero";
+                                                                                                String c = "caracter";
+                                                                                                String d = "cadena";
+                                                                                                String ed = "boolean";
+                                                                                                
+                                                                                                String f = "verdadero";
+                                                                                                String g = "falso";
+
+                                                                                                // son iguales
+                                                                                                if (a.equalsIgnoreCase(b)) {
+                                                                                                    b = "float64";
+                                                                                                } else if (c.equalsIgnoreCase(b)) {
+                                                                                                    b = "";
+                                                                                                } else if (d.equalsIgnoreCase(b)) {
+                                                                                                    b = "";
+                                                                                                } else if (ed.equalsIgnoreCase(b)) {
+                                                                                                    b = "bool";
+                                                                                                }
                                                                             RESULT = new Produccion(new Nodo("Funcion"),
-                                                                                new Funcion(v, li.getInstrucciones(), (Operacion)e.getInstruccion()));
+                                                                                new Funcion(v, b, li.getInstrucciones(), (Operacion)e.getInstruccion()));
                                                                             RESULT.addHijo(v);                                                                        
                                                                             RESULT.addHijo(li);
                                                                             RESULT.addHijo("RETORNO");
                                                                             RESULT.addHijo(e);
                                                                         :}
 
-    | FUNCION VARIABLE:v tipo_dato:td CON_PARAMETROS PARENTECIS_ABRE lista_parametros:lp PARENTECIS_CIERRA lista_instrucciones:li RETORNAR expresiones:e PUNTO_COMA FIN_FUNCION {:
+    | FUNCION VARIABLE:v tipo_dato:b CON_PARAMETROS PARENTECIS_ABRE lista_parametros:lp PARENTECIS_CIERRA lista_instrucciones:li RETORNAR expresiones:e PUNTO_COMA FIN_FUNCION {:
+                                                                                                            String a = "numero";
+                                                                                                String c = "caracter";
+                                                                                                String d = "cadena";
+                                                                                                String ed = "boolean";
+                                                                                                
+                                                                                                String f = "verdadero";
+                                                                                                String g = "falso";
+
+                                                                                                // son iguales
+                                                                                                if (a.equalsIgnoreCase(b)) {
+                                                                                                    b = "float64";
+                                                                                                } else if (c.equalsIgnoreCase(b)) {
+                                                                                                    b = "";
+                                                                                                } else if (d.equalsIgnoreCase(b)) {
+                                                                                                    b = "";
+                                                                                                } else if (ed.equalsIgnoreCase(b)) {
+                                                                                                    b = "bool";
+                                                                                                }
+
                                                                                                             RESULT = new Produccion(new Nodo("Funciones"),
-                                                                                                                new Funcion(v, lp.getInstrucciones(), li.getInstrucciones(), (Operacion)e.getInstruccion()));  
+                                                                                                                new Funcion(v, b, lp.getInstrucciones(), li.getInstrucciones(), (Operacion)e.getInstruccion()));  
                                                                                                             RESULT.addHijo(v);
                                                                                                             RESULT.addHijo("(");
                                                                                                             RESULT.addHijo(lp);
@@ -415,9 +488,27 @@ var ::= var:v COMA VARIABLE:vu {:
                     :}
 ;
 
-lista_parametros ::= lista_parametros:v COMA VARIABLE:vu tipo_dato:td {:
+lista_parametros ::= lista_parametros:v COMA VARIABLE:vu tipo_dato:b {:
+                                                                                                String a = "numero";
+                                                                                                String c = "caracter";
+                                                                                                String d = "cadena";
+                                                                                                String ed = "boolean";
+                                                                                                
+                                                                                                String f = "verdadero";
+                                                                                                String g = "falso";
+
+                                                                                                // son iguales
+                                                                                                if (a.equalsIgnoreCase(b)) {
+                                                                                                    b = "float64";
+                                                                                                } else if (c.equalsIgnoreCase(b)) {
+                                                                                                    b = "";
+                                                                                                } else if (d.equalsIgnoreCase(b)) {
+                                                                                                    b = "";
+                                                                                                } else if (ed.equalsIgnoreCase(b)) {
+                                                                                                    b = "bool";
+                                                                                                }
                                                                         RESULT = v;
-                                                                        RESULT.addInstruccion( new Operacion(vu, Operacion.TipoOperacion.VARIABLE));
+                                                                        RESULT.addInstruccion( new Operacion(vu, b, Operacion.TipoOperacion.VARIABLE));
                                                                         RESULT.addHijo(vu);
 /*Golan
                                                                     String temp2 = vu + " " + td;
@@ -425,12 +516,34 @@ lista_parametros ::= lista_parametros:v COMA VARIABLE:vu tipo_dato:td {:
                                                                     RESULT.addInstruccion( new Operacion(temp2, Operacion.TipoOperacion.VARIABLE));
                                                                     RESULT.addHijo(temp2);*/
                                                                 :}
-    | VARIABLE:v tipo_dato:td  {: 
+    | VARIABLE:v tipo_dato:b {: 
                         //System.out.println(v);
                                 String temp = v;
+
+                                String a = "numero";
+        String c = "caracter";
+        String d = "cadena";
+        String ed = "boolean";
+        
+        String f = "verdadero";
+        String g = "falso";
+
+        // son iguales
+        if (a.equalsIgnoreCase(b)) {
+            b = "float64";
+        } else if (c.equalsIgnoreCase(b)) {
+            b = "";
+        } else if (d.equalsIgnoreCase(b)) {
+            b = "";
+        } else if (ed.equalsIgnoreCase(b)) {
+            b = "bool";
+        }
+         
+                             
+     
                                 RESULT = new Produccion(new Nodo("Con_Parametros"),
                                 new Operacion(v, Operacion.TipoOperacion.VARIABLE), new LinkedList<>()); 
-                                RESULT.addInstruccion( new Operacion(v, Operacion.TipoOperacion.VARIABLE));
+                                RESULT.addInstruccion( new Operacion(v, b, Operacion.TipoOperacion.VARIABLE));
                                 RESULT.addHijo(v);
                                 /* Golan
                                 String temp = v + " " + td + ", ";

@@ -1233,15 +1233,33 @@ class CUP$Sintactico$actions {
 		int vleft = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-3)).left;
 		int vright = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-3)).right;
 		String v = (String)((java_cup.runtime.Symbol) CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-3)).value;
-		int tdleft = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-2)).left;
-		int tdright = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-2)).right;
-		String td = (String)((java_cup.runtime.Symbol) CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-2)).value;
+		int bleft = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-2)).left;
+		int bright = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-2)).right;
+		String b = (String)((java_cup.runtime.Symbol) CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-2)).value;
 		int lileft = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-1)).left;
 		int liright = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-1)).right;
 		Produccion li = (Produccion)((java_cup.runtime.Symbol) CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-1)).value;
 		
+     String a = "numero";
+                                                                                                String c = "caracter";
+                                                                                                String d = "cadena";
+                                                                                                String ed = "boolean";
+                                                                                                
+                                                                                                String f = "verdadero";
+                                                                                                String g = "falso";
+
+                                                                                                // son iguales
+                                                                                                if (a.equalsIgnoreCase(b)) {
+                                                                                                    b = "float64";
+                                                                                                } else if (c.equalsIgnoreCase(b)) {
+                                                                                                    b = "";
+                                                                                                } else if (d.equalsIgnoreCase(b)) {
+                                                                                                    b = "";
+                                                                                                } else if (ed.equalsIgnoreCase(b)) {
+                                                                                                    b = "bool";
+                                                                                                }
                                                                             RESULT = new Produccion(new Nodo("Funcion"),
-                                                                                new Funcion(v, li.getInstrucciones()));
+                                                                                new Funcion(v, "", li.getInstrucciones()));
                                                                             RESULT.addHijo(v);                                                                        
                                                                             RESULT.addHijo(li);
                                                                         
@@ -1256,18 +1274,35 @@ class CUP$Sintactico$actions {
 		int vleft = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-7)).left;
 		int vright = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-7)).right;
 		String v = (String)((java_cup.runtime.Symbol) CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-7)).value;
-		int tdleft = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-6)).left;
-		int tdright = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-6)).right;
-		String td = (String)((java_cup.runtime.Symbol) CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-6)).value;
+		int bleft = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-6)).left;
+		int bright = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-6)).right;
+		String b = (String)((java_cup.runtime.Symbol) CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-6)).value;
 		int lpleft = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-3)).left;
 		int lpright = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-3)).right;
 		Produccion lp = (Produccion)((java_cup.runtime.Symbol) CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-3)).value;
 		int lileft = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-1)).left;
 		int liright = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-1)).right;
 		Produccion li = (Produccion)((java_cup.runtime.Symbol) CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-1)).value;
-		
+		  String a = "numero";
+                                                                                                String c = "caracter";
+                                                                                                String d = "cadena";
+                                                                                                String ed = "boolean";
+                                                                                                
+                                                                                                String f = "verdadero";
+                                                                                                String g = "falso";
+
+                                                                                                // son iguales
+                                                                                                if (a.equalsIgnoreCase(b)) {
+                                                                                                    b = "float64";
+                                                                                                } else if (c.equalsIgnoreCase(b)) {
+                                                                                                    b = "";
+                                                                                                } else if (d.equalsIgnoreCase(b)) {
+                                                                                                    b = "";
+                                                                                                } else if (ed.equalsIgnoreCase(b)) {
+                                                                                                    b = "bool";
+                                                                                                }
                                                                                                             RESULT = new Produccion(new Nodo("Funciones"),
-                                                                                                                new Funcion(v, lp.getInstrucciones(), li.getInstrucciones()));  
+                                                                                                                new Funcion(v, "", lp.getInstrucciones(), li.getInstrucciones()));  
                                                                                                             RESULT.addHijo(v);
                                                                                                             RESULT.addHijo("(");
                                                                                                             RESULT.addHijo(lp);
@@ -1285,9 +1320,9 @@ class CUP$Sintactico$actions {
 		int vleft = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-6)).left;
 		int vright = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-6)).right;
 		String v = (String)((java_cup.runtime.Symbol) CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-6)).value;
-		int tdleft = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-5)).left;
-		int tdright = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-5)).right;
-		String td = (String)((java_cup.runtime.Symbol) CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-5)).value;
+		int bleft = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-5)).left;
+		int bright = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-5)).right;
+		String b = (String)((java_cup.runtime.Symbol) CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-5)).value;
 		int lileft = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-4)).left;
 		int liright = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-4)).right;
 		Produccion li = (Produccion)((java_cup.runtime.Symbol) CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-4)).value;
@@ -1295,8 +1330,27 @@ class CUP$Sintactico$actions {
 		int eright = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-2)).right;
 		Produccion e = (Produccion)((java_cup.runtime.Symbol) CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-2)).value;
 		
+
+                                                                             String a = "numero";
+                                                                                                String c = "caracter";
+                                                                                                String d = "cadena";
+                                                                                                String ed = "boolean";
+                                                                                                
+                                                                                                String f = "verdadero";
+                                                                                                String g = "falso";
+
+                                                                                                // son iguales
+                                                                                                if (a.equalsIgnoreCase(b)) {
+                                                                                                    b = "float64";
+                                                                                                } else if (c.equalsIgnoreCase(b)) {
+                                                                                                    b = "";
+                                                                                                } else if (d.equalsIgnoreCase(b)) {
+                                                                                                    b = "";
+                                                                                                } else if (ed.equalsIgnoreCase(b)) {
+                                                                                                    b = "bool";
+                                                                                                }
                                                                             RESULT = new Produccion(new Nodo("Funcion"),
-                                                                                new Funcion(v, li.getInstrucciones(), (Operacion)e.getInstruccion()));
+                                                                                new Funcion(v, b, li.getInstrucciones(), (Operacion)e.getInstruccion()));
                                                                             RESULT.addHijo(v);                                                                        
                                                                             RESULT.addHijo(li);
                                                                             RESULT.addHijo("RETORNO");
@@ -1313,9 +1367,9 @@ class CUP$Sintactico$actions {
 		int vleft = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-10)).left;
 		int vright = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-10)).right;
 		String v = (String)((java_cup.runtime.Symbol) CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-10)).value;
-		int tdleft = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-9)).left;
-		int tdright = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-9)).right;
-		String td = (String)((java_cup.runtime.Symbol) CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-9)).value;
+		int bleft = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-9)).left;
+		int bright = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-9)).right;
+		String b = (String)((java_cup.runtime.Symbol) CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-9)).value;
 		int lpleft = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-6)).left;
 		int lpright = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-6)).right;
 		Produccion lp = (Produccion)((java_cup.runtime.Symbol) CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-6)).value;
@@ -1326,8 +1380,27 @@ class CUP$Sintactico$actions {
 		int eright = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-2)).right;
 		Produccion e = (Produccion)((java_cup.runtime.Symbol) CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-2)).value;
 		
+                                                                                                            String a = "numero";
+                                                                                                String c = "caracter";
+                                                                                                String d = "cadena";
+                                                                                                String ed = "boolean";
+                                                                                                
+                                                                                                String f = "verdadero";
+                                                                                                String g = "falso";
+
+                                                                                                // son iguales
+                                                                                                if (a.equalsIgnoreCase(b)) {
+                                                                                                    b = "float64";
+                                                                                                } else if (c.equalsIgnoreCase(b)) {
+                                                                                                    b = "";
+                                                                                                } else if (d.equalsIgnoreCase(b)) {
+                                                                                                    b = "";
+                                                                                                } else if (ed.equalsIgnoreCase(b)) {
+                                                                                                    b = "bool";
+                                                                                                }
+
                                                                                                             RESULT = new Produccion(new Nodo("Funciones"),
-                                                                                                                new Funcion(v, lp.getInstrucciones(), li.getInstrucciones(), (Operacion)e.getInstruccion()));  
+                                                                                                                new Funcion(v, b, lp.getInstrucciones(), li.getInstrucciones(), (Operacion)e.getInstruccion()));  
                                                                                                             RESULT.addHijo(v);
                                                                                                             RESULT.addHijo("(");
                                                                                                             RESULT.addHijo(lp);
@@ -1589,12 +1662,30 @@ class CUP$Sintactico$actions {
 		int vuleft = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-1)).left;
 		int vuright = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-1)).right;
 		String vu = (String)((java_cup.runtime.Symbol) CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-1)).value;
-		int tdleft = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()).left;
-		int tdright = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()).right;
-		String td = (String)((java_cup.runtime.Symbol) CUP$Sintactico$stack.peek()).value;
+		int bleft = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()).left;
+		int bright = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()).right;
+		String b = (String)((java_cup.runtime.Symbol) CUP$Sintactico$stack.peek()).value;
 		
+                                                                                                String a = "numero";
+                                                                                                String c = "caracter";
+                                                                                                String d = "cadena";
+                                                                                                String ed = "boolean";
+                                                                                                
+                                                                                                String f = "verdadero";
+                                                                                                String g = "falso";
+
+                                                                                                // son iguales
+                                                                                                if (a.equalsIgnoreCase(b)) {
+                                                                                                    b = "float64";
+                                                                                                } else if (c.equalsIgnoreCase(b)) {
+                                                                                                    b = "";
+                                                                                                } else if (d.equalsIgnoreCase(b)) {
+                                                                                                    b = "";
+                                                                                                } else if (ed.equalsIgnoreCase(b)) {
+                                                                                                    b = "bool";
+                                                                                                }
                                                                         RESULT = v;
-                                                                        RESULT.addInstruccion( new Operacion(vu, Operacion.TipoOperacion.VARIABLE));
+                                                                        RESULT.addInstruccion( new Operacion(vu, b, Operacion.TipoOperacion.VARIABLE));
                                                                         RESULT.addHijo(vu);
 /*Golan
                                                                     String temp2 = vu + " " + td;
@@ -1613,15 +1704,37 @@ class CUP$Sintactico$actions {
 		int vleft = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-1)).left;
 		int vright = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-1)).right;
 		String v = (String)((java_cup.runtime.Symbol) CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-1)).value;
-		int tdleft = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()).left;
-		int tdright = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()).right;
-		String td = (String)((java_cup.runtime.Symbol) CUP$Sintactico$stack.peek()).value;
+		int bleft = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()).left;
+		int bright = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()).right;
+		String b = (String)((java_cup.runtime.Symbol) CUP$Sintactico$stack.peek()).value;
 		 
                         //System.out.println(v);
                                 String temp = v;
+
+                                String a = "numero";
+        String c = "caracter";
+        String d = "cadena";
+        String ed = "boolean";
+        
+        String f = "verdadero";
+        String g = "falso";
+
+        // son iguales
+        if (a.equalsIgnoreCase(b)) {
+            b = "float64";
+        } else if (c.equalsIgnoreCase(b)) {
+            b = "";
+        } else if (d.equalsIgnoreCase(b)) {
+            b = "";
+        } else if (ed.equalsIgnoreCase(b)) {
+            b = "bool";
+        }
+         
+                             
+     
                                 RESULT = new Produccion(new Nodo("Con_Parametros"),
                                 new Operacion(v, Operacion.TipoOperacion.VARIABLE), new LinkedList<>()); 
-                                RESULT.addInstruccion( new Operacion(v, Operacion.TipoOperacion.VARIABLE));
+                                RESULT.addInstruccion( new Operacion(v, b, Operacion.TipoOperacion.VARIABLE));
                                 RESULT.addHijo(v);
                                 /* Golan
                                 String temp = v + " " + td + ", ";

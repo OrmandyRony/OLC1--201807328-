@@ -122,4 +122,9 @@ public class Evaluar implements Instruccion {
         // en ves de atrbuto es tipo
         return traduccion;
     }
+
+    @Override
+    public String getTipoDato() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
 }
