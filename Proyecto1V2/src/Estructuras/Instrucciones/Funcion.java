@@ -92,9 +92,9 @@ public class Funcion implements Instruccion {
             for (int i = 0; i < size; i++) { 
 
                 if (i != (size-1)) {
-                    traduccion += listaParametros.get(i).traducir() + ", ";
+                    traduccion += listaParametros.get(i).traducirGo()+ ", ";
                 } else {
-                    traduccion += listaParametros.get(i).traducir() + " ";
+                    traduccion += listaParametros.get(i).traducirGo()+ " ";
                 }
 
             }
@@ -107,13 +107,13 @@ public class Funcion implements Instruccion {
         if (listaInstrucciones != null) {
             for (Instruccion instruccion : listaInstrucciones) {
                 traduccion += "\t";
-                traduccion += instruccion.traducir();
+                traduccion += instruccion.traducirGo();
             }
         }
         
         if (this.retorno != null) {
             traduccion += "\treturn ";
-            traduccion += this.retorno.traducir();
+            traduccion += this.retorno.traducirGo();
         }
         
         return traduccion + "\n}\n";

@@ -3,6 +3,7 @@ package GUI;
 
 
 import Utils.Analizador;
+import Utils.Codigos;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -242,10 +243,12 @@ public class PseudoParser extends javax.swing.JFrame {
         try {
             // lexico = new AnalizadorLexico(this.txtAreaCodigo.getText());
             // retorna el codigo traducido
-            String traduccionPython = a.interpretar(new StringReader(this.txtAreaCodigo.getText()));
-            crearArchivo(traduccionPython);
-            System.out.println(traduccionPython);
+            Codigos cod = a.interpretar(new StringReader(this.txtAreaCodigo.getText()));
+            crearArchivo(cod.codigoPython);
+            crearArchivoGo(cod.codigoGo);
+            System.out.println(cod.codigoPython);
             System.out.println("/*=========== Fin Python =============*/");
+            System.out.println(cod.codigoGo);
             a.getArbol().graficar();
         } catch (FileNotFoundException ex) {
             Logger.getLogger(PseudoParser.class.getName()).log(Level.SEVERE, null, ex);
@@ -267,13 +270,36 @@ public class PseudoParser extends javax.swing.JFrame {
             escritor.print(codigo);
         } 
         catch (Exception e){
-            System.err.println("Error al escribir el archivo graf" + numCodigo + ".py");
+            System.err.println("Error al escribir el archivo code" + numCodigo + ".py");
         }finally{
            try {
                 if (null != fichero)
                     fichero.close();
            }catch (Exception e2){
-               System.err.println("Error al cerrar el archivo graf" + numCodigo + ".dot");
+               System.err.println("Error al cerrar el archivo code" + numCodigo + ".py");
+           } 
+        }                        
+        
+    }
+    
+    
+    private void crearArchivoGo(String codigoGo) {
+        FileWriter fichero = null;
+        PrintWriter escritor;
+        try
+        {
+            fichero = new FileWriter("code"+(++numCodigo)+".go");
+            escritor = new PrintWriter(fichero);
+            escritor.print(codigoGo);
+        } 
+        catch (Exception e){
+            System.err.println("Error al escribir el archivo code" + numCodigo + ".go");
+        }finally{
+           try {
+                if (null != fichero)
+                    fichero.close();
+           }catch (Exception e2){
+               System.err.println("Error al cerrar el archivo code" + numCodigo + ".go");
            } 
         }                        
         

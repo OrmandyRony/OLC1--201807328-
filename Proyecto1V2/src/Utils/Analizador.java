@@ -32,7 +32,7 @@ public class Analizador {
     public Analizador() {
     }
     
-    public String interpretar(StringReader text) throws FileNotFoundException {
+    public Codigos interpretar(StringReader text) throws FileNotFoundException {
 
         Sintactico pars;
         Lexico scanner = new Lexico(text);
@@ -69,10 +69,36 @@ public class Analizador {
             System.out.println("Error fatal en compilación de entrada.");
             System.out.println("Causa: "+ex);
         } 
-        return ejecutarAST(AST_arbolSintaxisAbstracta);
+        
+        String codigoPython = ejecutarASTpy(AST_arbolSintaxisAbstracta);
+        String codigoGo = ejecutarASTgo(AST_arbolSintaxisAbstracta);
+        Codigos cod = new Codigos(codigoPython, codigoGo);
+        
+        return cod;
     }
     
-    public String ejecutarAST(LinkedList<Instruccion> ast) {
+    public String ejecutarASTpy(LinkedList<Instruccion> ast) {
+        if(ast==null){
+            return("No es posible ejecutar las instrucciones porque\r\n"
+                    + "el árbol no fue cargado de forma adecuada por la existencia\r\n"
+                    + "de errores léxicos o sintácticos.");
+        }
+        
+        String traduccion = "";
+        
+        for(Instruccion ins:ast){
+            if(ins!=null)
+                traduccion += ins.traducir();
+        }
+        
+        System.out.println("/*========= py ==========*/");
+        
+        //System.out.println(traduccion);
+        return traduccion;
+        
+    }
+
+    public String ejecutarASTgo(LinkedList<Instruccion> ast) {
         if(ast==null){
             return("No es posible ejecutar las instrucciones porque\r\n"
                     + "el árbol no fue cargado de forma adecuada por la existencia\r\n"
@@ -92,7 +118,7 @@ public class Analizador {
         return traduccion;
         
     }
-
+    
     public Arbol getArbol() {
         return arbol;
     }
