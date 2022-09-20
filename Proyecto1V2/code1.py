@@ -45,8 +45,8 @@ if __name__ == '__main__:'
 	_name4_ = 'n'
 	_name6_ = 'n'
 	_name5_ = 'a'
-	_name7_ = '${100}'
-	_name8_ = '${111}'
+	_name7_ = 'd'
+	_name8_ = 'o'
 	_operaciones1Basica_ = 1+(1)
 	_operaciones1Basica2_ = _operaciones1Basica_+_operaciones1Basica_
 	_operaciones1Intermedia_ = 15+(9*8)+200/8*3+9

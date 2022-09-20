@@ -54,8 +54,8 @@ func main() {
 	var _name4_  = 'n'
 	var _name6_  = 'n'
 	var _name5_  = 'a'
-	var _name7_  = '${100}'
-	var _name8_  = '${111}'
+	var _name7_  = 'd'
+	var _name8_  = 'o'
 	var _operaciones1Basica_ float64 = 1+(1)
 	var _operaciones1Basica2_ float64 = _operaciones1Basica_+_operaciones1Basica_
 	var _operaciones1Intermedia_ float64 = 15+(9*8)+200/8*3+9

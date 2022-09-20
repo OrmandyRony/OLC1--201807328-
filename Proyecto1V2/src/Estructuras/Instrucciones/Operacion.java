@@ -152,7 +152,7 @@ public class Operacion implements Instruccion {
         } else if (tipo == TipoOperacion.CADENA) {
             return valor.toString().replace("\n", "\\n") + "";
         } else if (tipo == TipoOperacion.CARACTER) {
-            return valor.toString() + "";
+            return convertirCaracter(valor.toString())  + "";
         } else if (tipo == TipoOperacion.BOOLEAN) {
             return valor.toString() + "";
         } else if (tipo == TipoOperacion.VARIABLE) {
@@ -212,7 +212,7 @@ public class Operacion implements Instruccion {
         } else if (tipo == TipoOperacion.CADENA) {
             return valor.toString().replace("\n", "\\n") + "";
         } else if (tipo == TipoOperacion.CARACTER) {
-            return valor.toString() + "";
+            return convertirCaracter(valor.toString())  + "";
         } else if (tipo == TipoOperacion.BOOLEAN) {
             return valor.toString() + "";
         } else if (tipo == TipoOperacion.VARIABLE) {
@@ -225,10 +225,27 @@ public class Operacion implements Instruccion {
     private String convertirCaracter(String ascci)
     {
         String convertido;
-        ascci = ascci.replace("{", "");
-        ascci = ascci.replace("}", "");
-        ascci = ascci.replace("$", "");
-        convertido = ascci;
+        if (ascci.length() > 3) {
+            
+         System.out.println(ascci);
+        ascci = ascci.replace("'${", "");
+        ascci = ascci.replace("}'", "");
+   
+        
+        System.out.println(ascci);
+        
+        int asci = Integer.parseInt(ascci);
+        System.out.println(asci);
+        char as = (char) asci;
+        
+        System.out.println(as);
+        convertido = String.valueOf(as);
+        System.out.println(convertido);
+        convertido = "'"+ convertido + "'";
+        } else {
+            convertido = ascci;
+        }
+        
         
         return convertido;
     }

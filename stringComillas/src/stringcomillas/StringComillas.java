@@ -15,16 +15,26 @@ public class StringComillas {
      */
     public static void main(String[] args) {
         // TODO code application logic here
-        String ascci = "";
+        String ascci = "${70}";
         String convertido;
         ascci = ascci.replace("{", "");
         ascci = ascci.replace("}", "");
         ascci = ascci.replace("$", "");
+        System.out.println(ascci);
         convertido = ascci;
+        
+        int asci = Integer.parseInt(ascci);
+        System.out.println(asci);
+        char as = (char) asci;
+        
+        System.out.println(as);
+        convertido = String.valueOf(as);
+        System.out.println(convertido);
+        /*
         String codigo = "\t\telif";
         System.out.println(codigo);
         codigo = codigo.replaceFirst("\t", "");
-        System.out.println(codigo);
+        System.out.println(codigo);*/
         /*
         String a = "verdadero";
         String c = "falso";
