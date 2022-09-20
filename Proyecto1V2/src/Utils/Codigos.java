@@ -13,8 +13,8 @@ public class Codigos {
     public String codigoGo;
 
     public Codigos(String codigoPython, String codigoGo) {
-        this.codigoPython = codigoPython;
-        this.codigoGo = codigoGo;
+        this.codigoPython =  codigoPython + "";
+        this.codigoGo =  codigoGo;
     }
     
     

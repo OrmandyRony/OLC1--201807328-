@@ -5,7 +5,9 @@
 package Utils;
 
 import Estructuras.Arbol;
+import Estructuras.Instrucciones.Funcion;
 import Estructuras.Instrucciones.Instruccion;
+import Estructuras.Instrucciones.Metodo;
 import analizadores.ErrorLexico;
 import analizadores.Lexico;
 import analizadores.Sintactico;
@@ -85,16 +87,22 @@ public class Analizador {
         }
         
         String traduccion = "";
-        
+        String funciones = "";
         for(Instruccion ins:ast){
-            if(ins!=null)
-                traduccion += ins.traducir();
+            if(ins!=null) {
+                if (ins instanceof Funcion || ins instanceof Metodo) { 
+                    funciones += ins.traducir();
+                } else {
+                    traduccion += ins.traducir();
+                }
+            }
         }
         
         System.out.println("/*========= py ==========*/");
         
+        traduccion = traduccion.replace("\n", "\n\t");
         //System.out.println(traduccion);
-        return traduccion;
+        return funciones + "if __name__ == '__main__:'\n\t" + traduccion;
         
     }
 
@@ -105,17 +113,29 @@ public class Analizador {
                     + "de errores léxicos o sintácticos.");
         }
         
-        String traduccion = "";
+        String funciones = "package main\n" +
+                            "\n" +
+                            "import \"fmt\"\n";
+        
+        String traduccion = "func main() {\n";
+        
         
         for(Instruccion ins:ast){
-            if(ins!=null)
-                traduccion += ins.traducirGo();
+            if(ins!=null) {
+                if (ins instanceof Funcion || ins instanceof Metodo) { 
+                    funciones += ins.traducirGo();
+                } else {
+                    traduccion += ins.traducirGo();
+                }
+            }
+           
         }
         
         System.out.println("/*========= Go ==========*/");
         
         //System.out.println(traduccion);
-        return traduccion;
+        traduccion = traduccion.replace("\n", "\n\t");
+        return funciones +  traduccion + "\n}";
         
     }
     

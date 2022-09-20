@@ -1,22 +1,5 @@
-def _potenciaManual_(_base_, _exponente_ ):
-	_i_ = 0
-	_acumulado_ = 0
-	for _i_ in range(0, _exponente_-1):
-	_acumulado_ = _acumulado_+_acumulado_
-
-	print(_acumulado_)
-	print(" Esta es la potencia Manual"+"\n")
-
-def _potenciaFuncion_(_base_, _exponente_ ):
-	_potencia_ = _base_**_exponente_
-	return _potencia_
-def _metodo_1_():
-	print("estamos entrando al metodo 1"+"\n")
-	_potenciaManual_(3*1+4/2, 3+2 )
-	print(" Esta es la potencia Funcion"+"\n")
-
-if __name__ == '__main__:'
-	_variable1_ = 5
+if __name__ == '__main__'
+_variable1_ = 5
 	_variable2_ = 50
 	_v1_ = "esta es una cadena"
 	_v2_ = "esta es una cadena"
@@ -117,6 +100,23 @@ if __name__ == '__main__:'
 	else: 
 		print("nose"+"\n")
 	
+	
+	def _potenciaManual_(_base_, _exponenete_ ):
+		_i_ = 0
+		_acumulado_ = 0
+		for _i_ in range(0, _exponente_-1):
+		_acumulado_ = _acumulado_+_acumulado_
+	
+		print(_acumulado_)
+		print(" Esta es la potencia Manual"+"\n")
+	
+	def _potenciaFuncion_(_base_, _exponente_ ):
+		_potencia_ = _base_**_exponente_
+		return _potencia_
+	def _metodo_1_():
+		print("estamos entrando al metodo 1"+"\n")
+		_potenciaManual_(3*1+4/2, 3+2 )
+		print(" Esta es la potencia Funcion"+"\n")
 	
 	_metodo_1_()
 	

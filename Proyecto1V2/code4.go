@@ -1,28 +1,11 @@
+// You can edit this code!
+// Click here and start typing.
 package main
 
 import "fmt"
-func _potenciaManual_(_base_, _exponenete_ ){
-	var _i_ float64 = 0
-	var _acumulado_ float64 = 0
-	for _i_ := 0; _i_  < _exponente_-1; _i_++ {
-	_acumulado_ = _acumulado_+_acumulado_
-}
-	fmt.Print(_acumulado_)
-	fmt.Println(" Esta es la potencia Manual")
 
-}
-func _potenciaFuncion_(_base_, _exponente_ ){
-	var _potencia_ float64 = _base_**_exponente_
-	return _potencia_
-}
-func _metodo_1_(){
-	fmt.Println("estamos entrando al metodo 1")
-	_potenciaManual_(3*1+4/2, 3+2 )
-	fmt.Println(" Esta es la potencia Funcion")
-
-}
 func main() {
-	var _variable1_ float64 = 5
+var _variable1_ float64 = 5
 	var _variable2_ float64 = 50
 	var _v1_  = "esta es una cadena"
 	var _v2_  = "esta es una cadena"
@@ -132,6 +115,26 @@ func main() {
 		fmt.Println("nose")
 	
 	}
+	}
+	func _potenciaManual_(_base_, _exponenete_ ){
+		var _i_ float64 = 0
+		var _acumulado_ float64 = 0
+		for _i_ := 0; _i_  < _exponente_-1; _i_++ {
+		_acumulado_ = _acumulado_+_acumulado_
+	}
+		fmt.Print(_acumulado_)
+		fmt.Println(" Esta es la potencia Manual")
+	
+	}
+	func _potenciaFuncion_(_base_, _exponente_ ){
+		var _potencia_ float64 = _base_**_exponente_
+		return _potencia_
+	}
+	func _metodo_1_(){
+		fmt.Println("estamos entrando al metodo 1")
+		_potenciaManual_(3*1+4/2, 3+2 )
+		fmt.Println(" Esta es la potencia Funcion")
+	
 	}
 	_metodo_1_()
 	
