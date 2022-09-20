@@ -129,7 +129,7 @@ instrucciones ::=
 /*Declaracion*/
     INGRESAR var:v COMO tipo_dato:tp CON_VALOR  expresiones:e PUNTO_COMA {: 
                                                                             RESULT = new Produccion(new Nodo("Declaracion"), 
-                                                                            new Evaluar(v.getInstrucciones(), (Operacion)e.getInstruccion()));
+                                                                            new Evaluar(tp, v.getInstrucciones(), (Operacion)e.getInstruccion()));
 
                                                                             RESULT.addHijo("Ingresar");
                                                                             RESULT.addHijo(v);

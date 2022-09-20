@@ -158,7 +158,60 @@ public class Operacion implements Instruccion {
     
     @Override
     public String traducirGo() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        // Operadores aritmeticos
+        if (tipo == TipoOperacion.SUMA) {
+            return operadorIzq.traducirGo() + "+" + operadorDer.traducirGo();
+        } else if (tipo == TipoOperacion.RESTA) {
+            return operadorIzq.traducirGo() + "-" + operadorDer.traducirGo();
+        } else if (tipo == TipoOperacion.MULTIPLICACION) {
+            return operadorIzq.traducirGo() + "*" + operadorDer.traducirGo();
+        } else if (tipo == TipoOperacion.DIVISION) {
+            return operadorIzq.traducirGo() + "/" + operadorDer.traducirGo();
+        } else if (tipo == TipoOperacion.CON_PARENTECIS) {
+            return "(" + operadorIzq.traducirGo() + ")";
+        } 
+        // Funciones
+        else if (tipo == TipoOperacion.POTENCIA) {
+            return operadorIzq.traducirGo() + "**" + operadorDer.traducirGo();
+        } else if (tipo == TipoOperacion.MODULO) {
+            return operadorIzq.traducirGo() + " % " + operadorDer.traducirGo();
+        }
+        // Operadores relacionales
+        else if (tipo == TipoOperacion.MAYOR) {
+            return operadorIzq.traducirGo() + " > " + operadorDer.traducirGo();
+        } else if (tipo == TipoOperacion.MENOR) {
+            return operadorIzq.traducirGo() + " < " + operadorDer.traducirGo();
+        } else if (tipo == TipoOperacion.MAYOR_O_IGUAL) {
+            return operadorIzq.traducirGo() + " >= " + operadorDer.traducirGo();
+        } else if (tipo == TipoOperacion.MENOR_O_IGUAL) {
+            return operadorIzq.traducirGo() + " <= " + operadorDer.traducirGo();
+        }else if (tipo == TipoOperacion.ES_IGUAL) {
+            return operadorIzq.traducirGo() + " == " + operadorDer.traducirGo();
+        } else if (tipo == TipoOperacion.ES_DIFERENTE) {
+            return operadorIzq.traducirGo() + " !="  + operadorDer.traducirGo();
+        }
+        // OPERADORES LOGICOS
+        else if (tipo == TipoOperacion.AND) {
+            return operadorIzq.traducirGo() + "and " + operadorDer.traducirGo();
+        } else if (tipo == TipoOperacion.OR) {
+            return operadorIzq.traducirGo() + " or " + operadorDer.traducirGo();
+        } else if (tipo == TipoOperacion.NOT) {
+            return operadorIzq.traducirGo() + " not " + operadorDer.traducirGo();
+        } 
+        // Operadores unarios
+        else if (tipo == TipoOperacion.NUMERO) {
+            return valor.toString() + "";
+        } else if (tipo == TipoOperacion.CADENA) {
+            return valor.toString().replace("\n", "\\n") + "";
+        } else if (tipo == TipoOperacion.CARACTER) {
+            return valor.toString() + "";
+        } else if (tipo == TipoOperacion.BOOLEAN) {
+            return valor.toString() + "";
+        } else if (tipo == TipoOperacion.VARIABLE) {
+            return valor.toString();
+        } else{
+            return "";
+        }
     }
     
     private String convertirCaracter(String ascci)

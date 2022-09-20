@@ -14,7 +14,11 @@ public class Asignacion implements Instruccion {
     private LinkedList<Instruccion> listaInstruccionesVariables;
     private Operacion valor;
     //private String variable;
-
+    /**
+     * para python y go
+     * @param listaInstruccionesVariables
+     * @param valor 
+     */
     public Asignacion(LinkedList<Instruccion> listaInstruccionesVariables, Operacion valor) {
         this.listaInstruccionesVariables = listaInstruccionesVariables;
         this.valor = valor;
@@ -67,6 +71,44 @@ public class Asignacion implements Instruccion {
 
     @Override
     public String traducirGo() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        
+        String traduccion = "";
+        /*
+        System.out.println("Imrimiendo traduccionoes");
+        for (Instruccion ins : listaInstruccionesVariables) {
+            System.out.println(ins.traducir());
+        if (listaInstruccionesVariables != null) {
+            int size = listaInstruccionesVariables.size();
+           
+            for (int i = 0; i < size; i++) { 
+
+                if (i != (size-1)) {
+                    traduccion += listaInstruccionesVariables.get(i).traducir() + ", ";
+                } else {
+                    traduccion += listaInstruccionesVariables.get(i).traducir() + " ";
+                }
+
+            }
+
+        }
+        }
+        
+        */
+        if (listaInstruccionesVariables != null) {
+            int size = listaInstruccionesVariables.size();
+           
+            for (int i = 0; i < size; i++) { 
+
+                if (i != (size-1)) {
+                    traduccion += listaInstruccionesVariables.get(i).traducir() + " = " + this.valor.traducir() + "\n";
+                } else {
+                    traduccion += listaInstruccionesVariables.get(i).traducir() + " = " + this.valor.traducir() + "\n";
+                }
+
+            }
+
+        }
+        
+        return traduccion;
     }
 }

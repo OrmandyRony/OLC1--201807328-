@@ -42,6 +42,19 @@ public class Repetir implements Instruccion {
     
     @Override
     public String traducirGo() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        String traduccion = "for true {\n" ;
+        
+        if (listaInstrucciones != null) {
+            for (Instruccion instruccion : listaInstrucciones) {
+                traduccion += "\t";
+                traduccion += instruccion.traducirGo();
+            }
+        }
+        
+        traduccion += "if(" + this.condicion.traducirGo()+ "){\n"
+                + "break" + "\n}\n";
+        
+        return traduccion + "}\n";
+    
     }
 }

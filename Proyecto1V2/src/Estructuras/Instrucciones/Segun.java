@@ -94,6 +94,54 @@ public class Segun implements Instruccion {
     
     @Override
     public String traducirGo() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        String traduccion = "";
+        
+        if (banderita) {
+            var = this.condicion.traducirGo();
+           // System.out.println("Soy va: " + var);
+            banderita = false; 
+        }
+        
+        /*
+        System.out.println("Contador: ");
+        System.out.println(++contador);
+        System.out.println("");
+*/
+        if (this.listaInstrucciones != null) {
+      
+                
+                if (bandera30) {
+                    traduccion += "switch  " + this.condicion.traducirGo()+ "{\n";
+                 
+                    bandera30 = false;
+                   // System.out.println("BVandera 30  ;" + bandera30);
+                } else {
+                    traduccion += "case " + this.condicion.traducirGo()+ ":\n";
+     
+                }
+                
+                
+          
+            
+            for (Instruccion listaInstruccione : listaInstrucciones) {
+                 if (bandera2) {
+                    traduccion += "\t";
+                }
+                traduccion += listaInstruccione.traducirGo();
+                  
+            }
+            traduccion += "\n";
+        }
+        
+        if (this.listaInstruccionesDeLoContrario != null) {
+            traduccion += "default: \n";
+            for (Instruccion instruccion : listaInstruccionesDeLoContrario) {
+                traduccion += "\t";
+                traduccion += instruccion.traducirGo();
+            }
+            traduccion += "\n}";
+        }
+        
+        return traduccion + "\n";
     }
 }

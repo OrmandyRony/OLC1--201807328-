@@ -83,11 +83,12 @@ public class Analizador {
         
         for(Instruccion ins:ast){
             if(ins!=null)
-                traduccion += ins.traducir();
+                traduccion += ins.traducirGo();
         }
         
-        System.out.println("/*========= Python ==========*/");
+        System.out.println("/*========= Go ==========*/");
         
+        //System.out.println(traduccion);
         return traduccion;
         
     }

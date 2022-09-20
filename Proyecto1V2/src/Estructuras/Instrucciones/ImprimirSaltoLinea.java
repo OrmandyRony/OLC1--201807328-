@@ -37,6 +37,8 @@ public class ImprimirSaltoLinea implements Instruccion {
     
     @Override
     public String traducirGo() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        String traduccion = "fmt.Println(" + this.imprimir.traducirGo()+ ")\n";
+      
+        return traduccion;
     }
 }

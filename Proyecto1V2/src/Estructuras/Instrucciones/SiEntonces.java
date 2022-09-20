@@ -112,7 +112,7 @@ public class SiEntonces implements Instruccion {
             traduccion += "else: \n";
             for(Instruccion ins: listaInstruccionesDeLoContrario){
                 for (int i = 0; i < contadorTabsElse; i++) {
-                    System.out.println("Agregando tabelsea");
+                    //System.out.println("Agregando tabelsea");
                     traduccion += "\t";
                    
                 }
@@ -127,7 +127,65 @@ public class SiEntonces implements Instruccion {
     
     @Override
     public String traducirGo() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+         String traduccion = "";
+
+        if(listaInstrucciones != null) {
+            traduccion += "if (" + this.condicion.traducirGo()+ "){\n";
+            /*
+            for (int i = 0; i < contadorTabsIf; i++) {
+                    traduccion += "\t";
+                    System.out.println("Agregando tabif: " + contadorTabsIf);
+                    
+            }*/
+            for(Instruccion ins: listaInstrucciones){
+                
+                traduccion += "\t";
+                traduccion += ins.traducirGo();
+            }
+            traduccion += "}";
+            ++contadorTabsIf;
+        }
+        
+        if(listaInstruccionesOsi != null) {
+            if (bandera) {
+                traduccion += "elif( " + this.condicion.traducirGo()+ "){\n";
+            } else {
+                bandera = true;
+            }
+            
+            /*
+            for (int i = 0; i < contadorTabsElseIf; i++) {
+                    traduccion += "\t";
+                    System.out.println("Agregando tabelseif: " + contadorTabsElseIf);
+                    
+            }*/
+            
+            for(Instruccion ins: listaInstruccionesOsi){
+                if (bandera) {
+                    traduccion += "\t";
+                }
+                
+                traduccion += ins.traducirGo();
+            }
+            traduccion += "}";
+            ++contadorTabsElseIf;
+        }
+        
+        if(listaInstruccionesDeLoContrario != null) {
+            traduccion += "else{ \n";
+            for(Instruccion ins: listaInstruccionesDeLoContrario){
+                for (int i = 0; i < contadorTabsElse; i++) {
+                    //System.out.println("Agregando tabelsea");
+                    traduccion += "\t";
+                   
+                }
+                traduccion += ins.traducirGo();
+            }
+             ++contadorTabsElse;
+            traduccion += "}";
+        }
+        
+        return traduccion + "\n";
     }
    
  

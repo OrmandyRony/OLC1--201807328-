@@ -67,6 +67,25 @@ public class Para implements Instruccion {
     
     @Override
     public String traducirGo() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        String traduccion = "";
+        if (this.incremento == null) {
+            traduccion = "for " + this.variableContador + " := "+ 
+                            this.valorInicial.traducirGo()+ "; " + this.variableContador  +"  < "+ this.valorFinal.traducirGo() + "; "  + this.variableContador + "++ "+ "{\n";
+        } else {
+            traduccion = "for " + this.variableContador + " := "+ 
+                            this.valorInicial.traducirGo()+ "; " + this.variableContador  +"  < "+ this.valorFinal.traducirGo( ) + "; " + this.variableContador + "+="+  this.incremento.traducirGo()+" "+ "{\n";
+        }
+        
+        
+        if (listaInstrucciones != null) {
+            for (Instruccion instruccion : listaInstrucciones) {
+                traduccion += "\t";
+                traduccion += instruccion.traducirGo();
+            }
+        } else {
+            traduccion += "\t" + "";
+        }
+        
+        return traduccion + "}\n";
     }
 }
