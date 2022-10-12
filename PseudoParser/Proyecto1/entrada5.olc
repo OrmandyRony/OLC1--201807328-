@@ -1,0 +1,35 @@
+inicio
+Ingresar _variable1_      coMo NumEro cOn_valor 5;
+Ingresar _variable2_      coMo NumEro cOn_valor 50;   
+ingresaR _v1_ cOmo CadenA con_vAlor "esta es una cadena";
+ingresaR _curso1_         cOmo cadena con_vAlor "olc";
+ingresaR _curso2_         cOmo cadena con_vAlor "olc";
+ingresaR _curso3_         cOmo cadena con_vAlor "olc";
+ingresar _pi1_            como numero con_valor 3;
+ingresar _pi2_            como numero con_valor 3.1;
+ingresar _pi3_            como numero con_valor 3.14;
+ingresar _pi4_            como numero con_valor 3.141;
+ingresar _anio1_          como numero con_valor 1;
+ingresar _anio2_          como numero con_valor 9;
+ingresar _anio3_          como numero con_valor 4;
+ingresar _anio4_          como numero con_valor 5;
+ingresar _variableNeg_    como numero con_valor -5.0;
+ingresar _encabezado1_    como cadena con_valor "Universidad San Carlos de Guatemala...;";
+ingresar _encabezado2_    como cadena con_valor "Escuela de Ciencias y Sistemas
+Segundo semestre
+";
+ingresar _flag1_          como boolean  con_valor verdadero;
+ingresar _flag2_          como boolean  con_valor falso;
+ingresar _name1_          como caracter con_valor 'f';
+ingresar _name2_          como caracter con_valor 'e';
+ingresar _name3_          como caracter con_valor 'r';
+ingresar _name4_ como caracter con_valor 'n';
+ingresar _name5_          como caracter con_valor 'a';
+ingresar _name7_          como caracter con_valor '${100}';
+ingresar _name8_          como caracter con_valor '${111}';
+_v1_                           -> "esta es la cadena numero 1";
+_encabezado2_                   -> "estas cadenas deben ser diferentes";
+_variable1_ -> 50;
+_name1_ -> 'r';
+_flag1_ -> falso;
+fin

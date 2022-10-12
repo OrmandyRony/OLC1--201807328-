@@ -1,0 +1,811 @@
+/**
+ * Implementacion de la gramatica del pseudo parser, el archivo de disenio esta en Gramatica.md
+ * @author ormandyrony
+ */
+package analizadores;
+
+import Estructuras.Produccion;
+import Estructuras.Nodo;
+import Estructuras.Arbol;
+import Estructuras.Instrucciones.Asignacion;
+import Estructuras.Instrucciones.Instruccion;
+import Estructuras.Instrucciones.Operacion;
+import Estructuras.Instrucciones.Evaluar;
+import Estructuras.Instrucciones.SiEntonces;
+import Estructuras.Instrucciones.Imprimir;
+import Estructuras.Instrucciones.ImprimirSaltoLinea;
+import Estructuras.Instrucciones.Segun;
+import Estructuras.Instrucciones.Mientras;
+import Estructuras.Instrucciones.Para;
+import Estructuras.Instrucciones.Repetir;
+import Estructuras.Instrucciones.Metodo;
+import Estructuras.Instrucciones.Funcion;
+import Estructuras.Instrucciones.Ejecutar;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java_cup.runtime.*;
+import java_cup.runtime.XMLElement;
+
+parser code {:
+    public LinkedList<Instruccion> AST;
+    public Arbol arbol;
+    public ArrayList<ErrorLexico> ErroresSintacticos = new ArrayList(); 
+    /*Aca puedo colocar una variable global para ir contado los numeros de ifs anidados  para dar saltos de linea */
+
+    public void syntax_error(Symbol s){
+            ErroresSintacticos.add(new ErrorLexico("Sintáctico", "Token no válido detectado: " +  s.value , s.left + "", s.right + ""));
+            System.err.println("Error Sintáctico en la linea: " + (s.left) + " y columna : " + s.right + ". No se esperaba este token: " + s.value + "."); 
+    } 
+
+    public void unrecovered_syntax_error(Symbol s) throws java.lang.Exception{ 
+            System.err.println("Error síntactico irrecuperable en la línea " + (s.left) + " y columna " + s.right + ". Componente " + s.value + " no reconocido."); 
+    }  
+
+    public Arbol getArbol() {
+        return arbol;
+    }
+
+    public LinkedList<Instruccion> getAST() {
+        return AST;
+    }
+
+:}
+
+/* Terminals */
+terminal String INICIO, FIN, INGRESAR, COMO, CON_VALOR,  
+MAYOR_O_IGUAL, MENOR_O_IGUAL, ES_IGUAL, ES_DIFERENTE, OR, AND, NOT;
+
+
+terminal  SEGUN, HACER, INTERROGACION_ABRE, INTERROGACION_CIERRA,
+FIN_SEGUN, IMPRIMIR, IMPRIMIR_NL, PARA, HASTA, CON_INCREMENTAL, FIN_PARA, MIENTRAS, FIN_MIENTRAS, 
+REPETIR, HASTA_QUE, METODO, CON_PARAMETROS, FIN_METODO, FUNCION, FIN_FUNCION, EJECUTAR;
+terminal String RETORNAR;
+terminal String ASIGNACION;
+terminal String BOOLEAN, NUMERO, CARACTER, CADENA,  MAYOR, MENOR;
+terminal String LIT_CADENA;
+terminal String LIT_CARACTER;
+terminal String LIT_BOOLEAN;
+terminal String LIT_NUMERO;
+terminal String VARIABLE;
+terminal String PUNTO_COMA, PARENTECIS_ABRE, PARENTECIS_CIERRA, SUMA;
+terminal String SI, FIN_SI, O_SI, ENTONCES, DE_LO_CONTRARIO;
+// Simbolos para operaciones basicas
+terminal RESTA, DIVISION, MULTIPLICACION, POTENCIA, MODULO, CORCHETE_ABRE, CORCHETE_CIERRA, COMA;
+
+/* Non terminals */
+non terminal iniciar;
+non terminal Produccion lista_instrucciones;
+non terminal Produccion instrucciones; 
+non terminal Produccion expresion;
+non terminal Produccion var;
+non terminal Produccion expresion_relacional;
+non terminal Produccion imprimir;
+non terminal Produccion osi;
+non terminal Produccion literales;
+non terminal String tipo_dato; 
+non terminal Produccion expresiones;
+non terminal Produccion expresion_logica;
+non terminal Produccion casos;
+non terminal Produccion lista_parametros;
+non terminal Produccion  lista_parametros_ejecutar;
+/*test*/
+/*
+non terminal declaracion1, var, tipo_valor, retorno, metodo, funciones, ejecutar;
+*/
+/* Precedences */
+
+precedence left MAYOR, MENOR, MAYOR_O_IGUAL, MENOR_O_IGUAL, ES_IGUAL, ES_DIFERENTE;
+precedence left AND, OR;
+precedence left SUMA, RESTA;
+precedence left MULTIPLICACION, DIVISION;
+precedence left POTENCIA, MODULO;
+
+/* The grammar rules */
+start with iniciar;
+
+
+iniciar ::= INICIO lista_instrucciones:a FIN    {:                                                
+                                                    parser.AST = a.getInstrucciones();
+                                                    Nodo nodoRaiz = new Nodo("Iniciar"); nodoRaiz.addHijo(a.getNodo());
+                                                    parser.arbol = new Arbol(nodoRaiz);
+                                                :}
+            | INICIO FIN {: System.out.println("No hay intrucciones que procesar."); :}
+;
+
+lista_instrucciones ::= lista_instrucciones:a instrucciones:b   {: 
+                                                                    RESULT = new Produccion(new Nodo("Lista Instrucciones"), a.getInstrucciones());
+                                                                    RESULT.addInstruccion(b.getInstruccion());
+                                                                    RESULT.addHijo(a);
+                                                                    RESULT.addHijo(b);
+                                                                :}
+                    | instrucciones:a {: 
+                                            RESULT = new Produccion(new Nodo("Instrucciones"), new LinkedList<>()); 
+                                            RESULT.addInstruccion(a.getInstruccion());
+                                            RESULT.addHijo(a);
+                                        :} 
+;
+
+instrucciones ::=
+/*Declaracion*/
+    INGRESAR var:v COMO tipo_dato:tp CON_VALOR  expresiones:e PUNTO_COMA {: 
+                                                                            RESULT = new Produccion(new Nodo("Declaracion"), 
+                                                                            new Evaluar(tp, v.getInstrucciones(), (Operacion)e.getInstruccion()));
+
+                                                                            RESULT.addHijo("Ingresar");
+                                                                            RESULT.addHijo(v);
+                                                                            RESULT.addHijo("Como");
+                                                                            RESULT.addHijo(tp);
+                                                                            RESULT.addHijo("Con_valor");
+                                                                            RESULT.addHijo(e);
+                                                                            RESULT.addHijo(";");
+
+                                                                        :} 
+    /*Asignaciones */
+    | var:v ASIGNACION:a expresion:e PUNTO_COMA {:
+                                                                RESULT = new Produccion(new Nodo("Asignacion"), 
+                                                                                new Asignacion(v.getInstrucciones(), (Operacion)e.getInstruccion()));
+                                                                RESULT.addHijo(v);
+                                                                RESULT.addHijo(a);
+                                                                RESULT.addHijo(e);
+                                                                RESULT.addHijo(";");
+                                                        :}
+
+    /*Condicionales*/                                           
+    | SI expresiones:a ENTONCES lista_instrucciones:b FIN_SI {:
+                                                                    RESULT = new Produccion(new Nodo("Condicional"), 
+                                                                            new SiEntonces((Operacion)a.getInstruccion(), b.getInstrucciones()));
+                                                                    RESULT.addHijo("Si");
+                                                                    RESULT.addHijo(a);
+                                                                    RESULT.addHijo("Entonces");
+                                                                    RESULT.addHijo(b);
+                                                                :}
+
+    | SI expresiones:e ENTONCES lista_instrucciones:l osi:o DE_LO_CONTRARIO lista_instrucciones:l2 FIN_SI {:
+                                                                                                            RESULT = new Produccion(new Nodo("Condicional"),
+                                                                                                                new SiEntonces((Operacion)e.getInstruccion(), l.getInstrucciones(), o.getInstrucciones(), l2.getInstrucciones()));
+                                                                                                            RESULT.addHijo("Si");
+                                                                                                            RESULT.addHijo(e);
+                                                                                                            RESULT.addHijo("Entonces");
+                                                                                                            RESULT.addHijo(l);
+                                                                                                            RESULT.addHijo(o);
+                                                                                                            RESULT.addHijo("DeLoContrario");
+                                                                                                            RESULT.addHijo(l2);
+                                                                                                        :}
+    | SI expresiones:e ENTONCES lista_instrucciones:l DE_LO_CONTRARIO lista_instrucciones:l2 FIN_SI {:
+                                                                                                        RESULT = new Produccion(new Nodo("Condicional"),
+                                                                                                            new SiEntonces((Operacion)e.getInstruccion(), l.getInstrucciones(), l2.getInstrucciones()));
+                                                                                                        RESULT.addHijo("Si");
+                                                                                                        RESULT.addHijo(e);
+                                                                                                        RESULT.addHijo("Entonces");
+                                                                                                        RESULT.addHijo(l);
+                                                                                                        RESULT.addHijo("DeLoContrario");
+                                                                                                        RESULT.addHijo(l2);
+                                                                                                    :}
+
+    | SEGUN expresiones:e HACER casos:c FIN_SEGUN {:
+                                                    RESULT = new Produccion(new Nodo("Segun"), 
+                                                            new Segun((Operacion)e.getInstruccion(), c.getInstrucciones()));
+                                                    RESULT.addHijo("segun");
+                                                    RESULT.addHijo(e);
+                                                    RESULT.addHijo("Hacer");
+                                                    RESULT.addHijo(c);
+                                                :}
+    | SEGUN expresiones:e HACER casos:c DE_LO_CONTRARIO ENTONCES lista_instrucciones:l FIN_SEGUN {:
+                                                                                                    RESULT = new Produccion(new Nodo("Segun"),
+                                                                                                        new Segun((Operacion)e.getInstruccion(), c.getInstrucciones(), l.getInstrucciones()));
+                                                                                                    RESULT.addHijo("segun");
+                                                                                                    RESULT.addHijo(e);
+                                                                                                    RESULT.addHijo("Hacer");
+                                                                                                    RESULT.addHijo(c);
+                                                                                                    RESULT.addHijo("DeLoContrario");
+                                                                                                    RESULT.addHijo(l);
+                                                                                                :}
+    /* Ciclos */
+    | MIENTRAS expresiones:e HACER lista_instrucciones:l FIN_MIENTRAS   {:
+                                                                            RESULT = new Produccion(new Nodo("Mientras"),
+                                                                                new Mientras((Operacion)e.getInstruccion(), l.getInstrucciones()));
+                                                                            //RESULT.addHijo("Mientras");
+                                                                            RESULT.addHijo(e);
+                                                                            RESULT.addHijo("Hacer");
+                                                                            RESULT.addHijo(l);
+                                                                        :}
+
+    | MIENTRAS expresiones:e HACER FIN_MIENTRAS   {:
+                                                        RESULT = new Produccion(new Nodo("Mientras"), 
+                                                                new Mientras((Operacion)e.getInstruccion()));
+                                                        RESULT.addHijo(e);
+                                                        RESULT.addHijo("Hacer");
+                                                    
+                                                    :}
+
+    | PARA VARIABLE:v ASIGNACION expresion:e HASTA expresion:eh HACER lista_instrucciones:l FIN_PARA {:
+                                                                                                        RESULT = new Produccion(new Nodo("Para"),
+                                                                                                            new Para(v, (Operacion)e.getInstruccion(), (Operacion)eh.getInstruccion(), l.getInstrucciones()));
+                                                                                                        //RESULT.addHijo("Mientras");
+                                                                                                        RESULT.addHijo(e);
+                                                                                                        RESULT.addHijo("Hasta");
+                                                                                                        RESULT.addHijo(eh);
+                                                                                                        RESULT.addHijo("Hacer");
+                                                                                                        RESULT.addHijo(l);
+                                                                                                    :}
+
+    | PARA VARIABLE:v ASIGNACION expresion:e HASTA expresion:eh HACER FIN_PARA {:
+                                                                                    RESULT = new Produccion(new Nodo("Para"),
+                                                                                        new Para(v, (Operacion)e.getInstruccion(), (Operacion)eh.getInstruccion()));                                                                        
+                                                                                    RESULT.addHijo(e);
+                                                                                    RESULT.addHijo("Hasta");
+                                                                                    RESULT.addHijo(eh);
+                                                                                    RESULT.addHijo("Hacer");
+                                                                            
+                                                                                :}
+
+  
+    | PARA VARIABLE:v ASIGNACION expresion:e HASTA expresion:eh CON_INCREMENTAL expresion:incremento HACER lista_instrucciones:li FIN_PARA {:
+                                                                                                                            RESULT = new Produccion(new Nodo("Para"),
+                                                                                                                                new Para(v, (Operacion)e.getInstruccion(), (Operacion)eh.getInstruccion(), (Operacion)incremento.getInstruccion(), li.getInstrucciones()));                                                                        
+                                                                                                                            RESULT.addHijo(e);
+                                                                                                                            RESULT.addHijo("Hasta");
+                                                                                                                            RESULT.addHijo(eh);
+                                                                                                                            RESULT.addHijo("Con_Incremento");
+                                                                                                                            RESULT.addHijo(incremento);
+                                                                                                                            RESULT.addHijo("Hacer");
+                                                                                                                            RESULT.addHijo(li);
+                                                                                                                        :}
+
+    | REPETIR lista_instrucciones:li HASTA_QUE expresiones:e {:
+                                                            RESULT = new Produccion(new Nodo("Repetir"),
+                                                                new Repetir(li.getInstrucciones(), (Operacion)e.getInstruccion()));                                                                        
+                                                            RESULT.addHijo(li);
+                                                            RESULT.addHijo("Hasta_Que");
+                                                            RESULT.addHijo(e);
+                                                        :}
+
+    | REPETIR HASTA_QUE expresiones:e {:
+                                        RESULT = new Produccion(new Nodo("Repetir"),
+                                            new Repetir((Operacion)e.getInstruccion()));                                                                        
+                                        RESULT.addHijo("Hasta_Que");
+                                        RESULT.addHijo(e);
+                                    :}
+    /* Metodos: no hacepta retornors */
+    | METODO VARIABLE:v lista_instrucciones:li FIN_METODO {:
+                                                                RESULT = new Produccion(new Nodo("Metodo"),
+                                                                    new Metodo(v, li.getInstrucciones()));
+                                                                RESULT.addHijo(v);                                                                        
+                                                                RESULT.addHijo(li);
+                                                            :}
+    
+    | METODO VARIABLE:v CON_PARAMETROS PARENTECIS_ABRE lista_parametros:lp PARENTECIS_CIERRA lista_instrucciones:li FIN_METODO {:
+                                                                                                                                    RESULT = new Produccion(new Nodo("Metodo"),
+                                                                                                                                        new Metodo(v, lp.getInstrucciones(), li.getInstrucciones()));  
+                                                                                                                                    RESULT.addHijo(v);
+                                                                                                                                    RESULT.addHijo("(");
+                                                                                                                                    RESULT.addHijo(lp);
+                                                                                                                                    RESULT.addHijo(")");                                                                      
+                                                                                                                                    RESULT.addHijo(li);
+                                                                                                                                :}
+
+    /* Funciones */
+    | FUNCION VARIABLE:v tipo_dato:b lista_instrucciones:li FIN_FUNCION {:
+     String a = "numero";
+                                                                                                String c = "caracter";
+                                                                                                String d = "cadena";
+                                                                                                String ed = "boolean";
+                                                                                                
+                                                                                                String f = "verdadero";
+                                                                                                String g = "falso";
+
+                                                                                                // son iguales
+                                                                                                if (a.equalsIgnoreCase(b)) {
+                                                                                                    b = "float64";
+                                                                                                } else if (c.equalsIgnoreCase(b)) {
+                                                                                                    b = "";
+                                                                                                } else if (d.equalsIgnoreCase(b)) {
+                                                                                                    b = "";
+                                                                                                } else if (ed.equalsIgnoreCase(b)) {
+                                                                                                    b = "bool";
+                                                                                                }
+                                                                            RESULT = new Produccion(new Nodo("Funcion"),
+                                                                                new Funcion(v, "", li.getInstrucciones()));
+                                                                            RESULT.addHijo(v);                                                                        
+                                                                            RESULT.addHijo(li);
+                                                                        :}
+
+    | FUNCION VARIABLE:v tipo_dato:b CON_PARAMETROS PARENTECIS_ABRE lista_parametros:lp PARENTECIS_CIERRA lista_instrucciones:li FIN_FUNCION {:  String a = "numero";
+                                                                                                String c = "caracter";
+                                                                                                String d = "cadena";
+                                                                                                String ed = "boolean";
+                                                                                                
+                                                                                                String f = "verdadero";
+                                                                                                String g = "falso";
+
+                                                                                                // son iguales
+                                                                                                if (a.equalsIgnoreCase(b)) {
+                                                                                                    b = "float64";
+                                                                                                } else if (c.equalsIgnoreCase(b)) {
+                                                                                                    b = "";
+                                                                                                } else if (d.equalsIgnoreCase(b)) {
+                                                                                                    b = "";
+                                                                                                } else if (ed.equalsIgnoreCase(b)) {
+                                                                                                    b = "bool";
+                                                                                                }
+                                                                                                            RESULT = new Produccion(new Nodo("Funciones"),
+                                                                                                                new Funcion(v, "", lp.getInstrucciones(), li.getInstrucciones()));  
+                                                                                                            RESULT.addHijo(v);
+                                                                                                            RESULT.addHijo("(");
+                                                                                                            RESULT.addHijo(lp);
+                                                                                                            RESULT.addHijo(")");                                                                      
+                                                                                                            RESULT.addHijo(li);
+                                                                                                        :}
+
+    | FUNCION VARIABLE:v tipo_dato:b lista_instrucciones:li RETORNAR expresiones:e PUNTO_COMA FIN_FUNCION {:
+
+                                                                             String a = "numero";
+                                                                                                String c = "caracter";
+                                                                                                String d = "cadena";
+                                                                                                String ed = "boolean";
+                                                                                                
+                                                                                                String f = "verdadero";
+                                                                                                String g = "falso";
+
+                                                                                                // son iguales
+                                                                                                if (a.equalsIgnoreCase(b)) {
+                                                                                                    b = "float64";
+                                                                                                } else if (c.equalsIgnoreCase(b)) {
+                                                                                                    b = "";
+                                                                                                } else if (d.equalsIgnoreCase(b)) {
+                                                                                                    b = "";
+                                                                                                } else if (ed.equalsIgnoreCase(b)) {
+                                                                                                    b = "bool";
+                                                                                                }
+                                                                            RESULT = new Produccion(new Nodo("Funcion"),
+                                                                                new Funcion(v, b, li.getInstrucciones(), (Operacion)e.getInstruccion()));
+                                                                            RESULT.addHijo(v);                                                                        
+                                                                            RESULT.addHijo(li);
+                                                                            RESULT.addHijo("RETORNO");
+                                                                            RESULT.addHijo(e);
+                                                                        :}
+
+    | FUNCION VARIABLE:v tipo_dato:b CON_PARAMETROS PARENTECIS_ABRE lista_parametros:lp PARENTECIS_CIERRA lista_instrucciones:li RETORNAR expresiones:e PUNTO_COMA FIN_FUNCION {:
+                                                                                                            String a = "numero";
+                                                                                                String c = "caracter";
+                                                                                                String d = "cadena";
+                                                                                                String ed = "boolean";
+                                                                                                
+                                                                                                String f = "verdadero";
+                                                                                                String g = "falso";
+
+                                                                                                // son iguales
+                                                                                                if (a.equalsIgnoreCase(b)) {
+                                                                                                    b = "float64";
+                                                                                                } else if (c.equalsIgnoreCase(b)) {
+                                                                                                    b = "";
+                                                                                                } else if (d.equalsIgnoreCase(b)) {
+                                                                                                    b = "";
+                                                                                                } else if (ed.equalsIgnoreCase(b)) {
+                                                                                                    b = "bool";
+                                                                                                }
+
+                                                                                                            RESULT = new Produccion(new Nodo("Funciones"),
+                                                                                                                new Funcion(v, b, lp.getInstrucciones(), li.getInstrucciones(), (Operacion)e.getInstruccion()));  
+                                                                                                            RESULT.addHijo(v);
+                                                                                                            RESULT.addHijo("(");
+                                                                                                            RESULT.addHijo(lp);
+                                                                                                            RESULT.addHijo(")");                                                                      
+                                                                                                            RESULT.addHijo(li);
+                                                                                                            RESULT.addHijo("RETORNO");
+                                                                                                            RESULT.addHijo(e);
+                                                                                                        :}
+    | EJECUTAR VARIABLE:v PARENTECIS_ABRE PARENTECIS_CIERRA PUNTO_COMA {:
+                                                                            RESULT = new Produccion(new Nodo("EJECUTAR"),
+                                                                                new Ejecutar(v));
+                                                                            RESULT.addHijo(v);
+                                                                        :}
+    | EJECUTAR VARIABLE:v PARENTECIS_ABRE lista_parametros_ejecutar:lp PARENTECIS_CIERRA PUNTO_COMA {:
+                                                                                                RESULT = new Produccion(new Nodo("EJECUTAR"),
+                                                                                                    new Ejecutar(v, lp.getInstrucciones()));
+                                                                                                RESULT.addHijo(v);                                                                        
+                                                                                                RESULT.addHijo(lp);
+                                                                                            :}
+                                    /*Imprimir*/
+    | imprimir:a {: RESULT = a;:}
+    | error
+;
+
+
+tipo_dato ::= BOOLEAN:b {:RESULT = b;:}
+            | NUMERO:n  {:RESULT = n;:}
+            | CARACTER:car {:RESULT = car;:}
+            | CADENA:cad {:RESULT = cad;:}
+;
+
+literales ::= LIT_NUMERO:a {: 
+                            RESULT = new Produccion(new Nodo(null, a), new Operacion(a, Operacion.TipoOperacion.NUMERO)); 
+                        :}
+            | LIT_CADENA:c  {: 
+                                RESULT = new Produccion(new Nodo(null, c),
+                                 new Operacion(c, Operacion.TipoOperacion.CADENA)); 
+                            :}
+            | LIT_CARACTER:ca   {: 
+                                    RESULT = new Produccion(new Nodo(null, ca), 
+                                    new Operacion(ca, Operacion.TipoOperacion.CARACTER)); 
+                                :}
+            | LIT_BOOLEAN:b {: 
+                                String a = "verdadero";
+                                String c = "falso";
+
+                                // son iguales
+                                if (a.equalsIgnoreCase(b)) {
+                                    b = "True";
+                                } else if (c.equalsIgnoreCase(b)) {
+                                    b = "False";
+                               }
+                                RESULT = new Produccion(new Nodo(null, b), 
+                                new Operacion(b, Operacion.TipoOperacion.BOOLEAN)); 
+                            :}
+;
+
+
+var ::= var:v COMA VARIABLE:vu {:
+                                    RESULT = v;
+                                    RESULT.addInstruccion( new Operacion(vu, Operacion.TipoOperacion.VARIABLE));
+                                    RESULT.addHijo(vu);
+                                    /*
+                                    RESULT = new Produccion(new Nodo("Variables"),
+                                                 new LinkedList<>());
+                                    RESULT.addInstruccion((Operacion)v.getInstruccion());
+
+                                    System.out.println("Soy: " + RESULT.getInstrucciones());*/
+                                    /*
+                                    RESULT = new Produccion(new Nodo("Variables"), 
+                                    v.getInstruccion);*/
+                                    //RESULT.addInstruccion(vu.getInstruccion());
+                                    //RESULT.addHijo(vu);
+                                    
+                                    /*Este jala
+                                    RESULT = new Produccion(new Nodo("Variables"),
+                                                 new Operacion((Operacion)v.getInstruccion(), Operacion.TipoOperacion.VARIABLE));
+                                     System.out.println("Voy aca");
+                                    Produccion TEM = new Produccion(new Nodo(null, vu),
+                                        new Operacion(vu, Operacion.TipoOperacion.VARIABLE)); 
+                                        System.out.println("Vu"  + vu);
+
+                                    */
+                                       // System.out.println("TEM: "  +  TEM.getInstruccion());
+                                   // RESULT.addInstruccion((Operacion)TEM.getInstruccion());    
+                                    //RESULT.addInstruccion(TEM.getInstruccion());
+                                  // ESTO SE AGRA DE ULTIMO
+                                 // System.out.println("Voy aca hijo");
+                                  
+                                   //     System.out.println("no trono");
+                                    
+                                :}
+    | VARIABLE:v     {: 
+                        //System.out.println(v);
+                        RESULT = new Produccion(new Nodo("VARS"),
+                        new Operacion(v, Operacion.TipoOperacion.VARIABLE), new LinkedList<>()); 
+                         RESULT.addInstruccion( new Operacion(v, Operacion.TipoOperacion.VARIABLE));
+                         RESULT.addHijo(v);
+                    :}
+;
+
+lista_parametros ::= lista_parametros:v COMA VARIABLE:vu tipo_dato:b {:
+                                                                                                String a = "numero";
+                                                                                                String c = "caracter";
+                                                                                                String d = "cadena";
+                                                                                                String ed = "boolean";
+                                                                                                
+                                                                                                String f = "verdadero";
+                                                                                                String g = "falso";
+
+                                                                                                // son iguales
+                                                                                                if (a.equalsIgnoreCase(b)) {
+                                                                                                    b = "float64";
+                                                                                                } else if (c.equalsIgnoreCase(b)) {
+                                                                                                    b = "";
+                                                                                                } else if (d.equalsIgnoreCase(b)) {
+                                                                                                    b = "";
+                                                                                                } else if (ed.equalsIgnoreCase(b)) {
+                                                                                                    b = "bool";
+                                                                                                }
+                                                                        RESULT = v;
+                                                                        RESULT.addInstruccion( new Operacion(vu, b, Operacion.TipoOperacion.VARIABLE));
+                                                                        RESULT.addHijo(vu);
+/*Golan
+                                                                    String temp2 = vu + " " + td;
+                                                                    RESULT = v;
+                                                                    RESULT.addInstruccion( new Operacion(temp2, Operacion.TipoOperacion.VARIABLE));
+                                                                    RESULT.addHijo(temp2);*/
+                                                                :}
+    | VARIABLE:v tipo_dato:b {: 
+                        //System.out.println(v);
+                                String temp = v;
+
+                                String a = "numero";
+        String c = "caracter";
+        String d = "cadena";
+        String ed = "boolean";
+        
+        String f = "verdadero";
+        String g = "falso";
+
+        // son iguales
+        if (a.equalsIgnoreCase(b)) {
+            b = "float64";
+        } else if (c.equalsIgnoreCase(b)) {
+            b = "";
+        } else if (d.equalsIgnoreCase(b)) {
+            b = "";
+        } else if (ed.equalsIgnoreCase(b)) {
+            b = "bool";
+        }
+         
+                             
+     
+                                RESULT = new Produccion(new Nodo("Con_Parametros"),
+                                new Operacion(v, Operacion.TipoOperacion.VARIABLE), new LinkedList<>()); 
+                                RESULT.addInstruccion( new Operacion(v, b, Operacion.TipoOperacion.VARIABLE));
+                                RESULT.addHijo(v);
+                                /* Golan
+                                String temp = v + " " + td + ", ";
+                                RESULT = new Produccion(new Nodo("Params"),
+                                new Operacion(temp, Operacion.TipoOperacion.VARIABLE), new LinkedList<>()); 
+                                RESULT.addInstruccion( new Operacion(v, Operacion.TipoOperacion.VARIABLE));
+                                RESULT.addHijo(temp);
+                                */
+                            :}
+;
+
+lista_parametros_ejecutar ::= lista_parametros_ejecutar:v COMA expresiones:e {:
+                                                                                RESULT = v;
+                                                                                RESULT.addInstruccion((Operacion)e.getInstruccion());
+                                                                                RESULT.addHijo(e);
+                                                                            :}
+    | expresiones:e {: 
+                        RESULT = new Produccion(new Nodo("Expresion Aritmetica"),
+                                                                    e.getInstruccion(), new LinkedList<>());
+                                                                RESULT.addInstruccion((Operacion)e.getInstruccion());
+                                                                RESULT.addHijo(e);
+                :}
+;
+
+
+
+osi ::= osi:o O_SI expresiones:e ENTONCES lista_instrucciones:i  {:
+                                                                        RESULT = new Produccion(new Nodo("O_si"), o.getInstrucciones());
+                                                                        RESULT.addInstruccion(new SiEntonces((Operacion)e.getInstruccion(), i.getInstrucciones(), "nada"));
+                                                                        RESULT.addHijo(o);
+                                                                        RESULT.addHijo("o_si");
+                                                                        RESULT.addHijo(e);
+                                                                        RESULT.addHijo("entonces");
+                                                                        RESULT.addHijo(i);
+                                                                    :}
+
+    | O_SI expresiones:e ENTONCES lista_instrucciones:i    {:
+                                                                        RESULT = new Produccion(new Nodo("O_si"), new LinkedList<>());
+                                                                        RESULT.addInstruccion(new SiEntonces((Operacion)e.getInstruccion(), i.getInstrucciones(), "nada"));
+                                                                        RESULT.addHijo("o_si");
+                                                                        RESULT.addHijo(e);
+                                                                        RESULT.addHijo("entonces");
+                                                                        RESULT.addHijo(i);
+                                                                    :}
+;
+
+casos ::= casos:c INTERROGACION_ABRE expresion:e INTERROGACION_CIERRA ENTONCES lista_instrucciones:l {:
+                                                                                                        RESULT = new Produccion(new Nodo("Caso"), c.getInstrucciones());
+                                                                                                        RESULT.addInstruccion(new Segun((Operacion)e.getInstruccion(), l.getInstrucciones()));
+                                                                                                        RESULT.addHijo(c);
+                                                                                                        RESULT.addHijo("¿");
+                                                                                                        RESULT.addHijo(e);
+                                                                                                        RESULT.addHijo("?");
+                                                                                                        RESULT.addHijo("Entonces");
+                                                                                                        RESULT.addHijo(l);
+                                                                                                    :}
+        | INTERROGACION_ABRE expresion:e INTERROGACION_CIERRA ENTONCES lista_instrucciones:l {:
+                                                                                                RESULT = new Produccion(new Nodo("Caso"), new LinkedList<>());
+                                                                                                RESULT.addInstruccion(new Segun((Operacion)e.getInstruccion(), l.getInstrucciones()));
+                                                                                                RESULT.addHijo("¿");
+                                                                                                RESULT.addHijo(e);
+                                                                                                RESULT.addHijo("?");
+                                                                                                RESULT.addHijo("Entonces");
+                                                                                                RESULT.addHijo(l);
+                                                                                            :}
+
+;
+
+imprimir ::=  IMPRIMIR expresiones:e PUNTO_COMA  {:
+                                                    RESULT = new Produccion(new Nodo("Imprimir"), 
+                                                                            new Imprimir((Operacion)e.getInstruccion()));
+                                                    RESULT.addHijo(e);
+                                                :}
+                                                /*
+            | IMPRIMIR expresiones:e PUNTO_COMA  {:
+                                                    RESULT = new Produccion(new Nodo("Imprimir"), 
+                                                                            new Imprimir((Operacion)e.getInstruccion()));
+                                                    RESULT.addHijo(e);
+                                                :}
+               Con ejecucion                               
+            | IMPRIMIR_NL  EJECUTAR VARIABLE:v PARENTECIS_ABRE PARENTECIS_CIERRA PUNTO_COMA PUNTO_COMA  {:
+                                                    RESULT = new Produccion(new Nodo("Imprimir"), 
+                                                                            new ImprimirSaltoLinea((null, v + "()"));
+                                                    RESULT.addInstruccion(new Ejecutar(v));
+                                                    RESULT.addHijo(v);
+
+                                                    {:
+                                                                            RESULT = new Produccion(new Nodo("EJECUTAR"),
+                                                                                );
+                                                                            RESULT.addHijo(v);
+                                                                        :}
+                                                :}
+
+*/
+            | IMPRIMIR_NL  expresiones:e PUNTO_COMA  {:
+                                                    RESULT = new Produccion(new Nodo("Imprimir"), 
+                                                                            new ImprimirSaltoLinea((Operacion)e.getInstruccion()));
+                                                    RESULT.addHijo(e);
+                                                :}
+            
+;
+
+expresiones ::= expresion:e  {:RESULT = e;:}
+            | expresion_logica:e  {:RESULT = e;:}
+            | expresion_relacional:e  {:RESULT = e;:}
+;
+
+
+
+expresion ::= expresion:a SUMA expresion:b {:
+                                                RESULT = new Produccion(new Nodo("Expresion Arimetica"),
+                                                 new Operacion((Operacion)a.getInstruccion(),
+                                                (Operacion)b.getInstruccion(), Operacion.TipoOperacion.SUMA));
+                                                RESULT.addHijo(a);
+                                                RESULT.addHijo("+");
+                                                RESULT.addHijo(b);
+                                            :}
+            | expresion:a RESTA expresion:b {:
+                                                RESULT = new Produccion(new Nodo("Expresion Aritmetica"),
+                                                 new Operacion((Operacion)a.getInstruccion(), 
+                                                 (Operacion)b.getInstruccion(), Operacion.TipoOperacion.RESTA));
+                                                RESULT.addHijo(a);
+                                                RESULT.addHijo("-");
+                                                RESULT.addHijo(b);
+                                            :}
+
+            | expresion:a MULTIPLICACION expresion:b {:
+                                                RESULT = new Produccion(new Nodo("Expresion Aritmetica"),
+                                                 new Operacion((Operacion)a.getInstruccion(), 
+                                                 (Operacion)b.getInstruccion(), Operacion.TipoOperacion.MULTIPLICACION));
+                                                RESULT.addHijo(a);
+                                                RESULT.addHijo("*");
+                                                RESULT.addHijo(b);
+                                            :}
+
+            | expresion:a DIVISION expresion:b {:
+                                                RESULT = new Produccion(new Nodo("Expresion Aritmetica"),
+                                                 new Operacion((Operacion)a.getInstruccion(), 
+                                                 (Operacion)b.getInstruccion(), Operacion.TipoOperacion.DIVISION));
+                                                RESULT.addHijo(a);
+                                                RESULT.addHijo("/");
+                                                RESULT.addHijo(b);
+                                            :}
+            | expresion:a MODULO expresion:b {:
+                                                RESULT = new Produccion(new Nodo("Expresion Aritmetica"),
+                                                 new Operacion((Operacion)a.getInstruccion(), 
+                                                 (Operacion)b.getInstruccion(), Operacion.TipoOperacion.MODULO));
+                                                RESULT.addHijo(a);
+                                                RESULT.addHijo("Modulo");
+                                                RESULT.addHijo(b);
+                                            :}
+            | expresion:a POTENCIA CORCHETE_ABRE expresion:b CORCHETE_CIERRA{:
+                                                                                RESULT = new Produccion(new Nodo("Expresion Aritmetica"),
+                                                                                new Operacion((Operacion)a.getInstruccion(), 
+                                                                                (Operacion)b.getInstruccion(), Operacion.TipoOperacion.POTENCIA));
+                                                                                RESULT.addHijo(a);
+                                                                                RESULT.addHijo("Potencia");
+                                                                                RESULT.addHijo("[");
+                                                                                RESULT.addHijo(b);
+                                                                                RESULT.addHijo("]");
+                                                                            :}
+
+            | PARENTECIS_ABRE expresion:e PARENTECIS_CIERRA {:
+                                                                RESULT = new Produccion(new Nodo("Expresion Aritmetica"),
+                                                                    new Operacion((Operacion)e.getInstruccion(), Operacion.TipoOperacion.CON_PARENTECIS));
+                                                                RESULT.addHijo("(");
+                                                                RESULT.addHijo(e);
+                                                                RESULT.addHijo(")");
+                                                            :} 
+            
+            | literales:li {:
+                                RESULT = li;
+                            :}
+
+            | VARIABLE:v {: 
+                        //System.out.println(v);
+                        RESULT = new Produccion(new Nodo("VARS"),
+                        new Operacion(v, Operacion.TipoOperacion.VARIABLE), new LinkedList<>()); 
+                         RESULT.addInstruccion( new Operacion(v, Operacion.TipoOperacion.VARIABLE));
+                         RESULT.addHijo(v);
+                    :}
+;
+
+
+expresion_relacional ::= expresion:a MAYOR expresion:b {:
+                                                            RESULT = new Produccion(new Nodo("Expresion Relacional"),
+                                                                    new Operacion((Operacion)a.getInstruccion(), (Operacion)b.getInstruccion(),
+                                                                    Operacion.TipoOperacion.MAYOR));
+                                                            RESULT.addHijo(a);
+                                                            RESULT.addHijo("MAYOR");
+                                                            RESULT.addHijo(b);
+                                                        :}
+
+                        | expresion:a MENOR expresion:b {:
+                                                            RESULT = new Produccion(new Nodo("Expresion Relacional"),
+                                                                    new Operacion((Operacion)a.getInstruccion(), (Operacion)b.getInstruccion(),
+                                                                    Operacion.TipoOperacion.MENOR));
+                                                            RESULT.addHijo(a);
+                                                            RESULT.addHijo("MENOR");
+                                                            RESULT.addHijo(b);
+                                                        :}
+                        | expresion:a MAYOR_O_IGUAL expresion:b {:
+                                                            RESULT = new Produccion(new Nodo("Expresion Relacional"),
+                                                                    new Operacion((Operacion)a.getInstruccion(), (Operacion)b.getInstruccion(),
+                                                                    Operacion.TipoOperacion.MAYOR_O_IGUAL));
+                                                            RESULT.addHijo(a);
+                                                            RESULT.addHijo("MAYOR_O_IGUAL");
+                                                            RESULT.addHijo(b);
+                                                        :}
+
+                        | expresion:a MENOR_O_IGUAL expresion:b {:
+                                                            RESULT = new Produccion(new Nodo("Expresion Relacional"),
+                                                                    new Operacion((Operacion)a.getInstruccion(), (Operacion)b.getInstruccion(),
+                                                                    Operacion.TipoOperacion.MENOR_O_IGUAL));
+                                                        :}
+                        | expresion:a ES_IGUAL expresion:b {:
+                                                            RESULT = new Produccion(new Nodo("Expresion Relacional"),
+                                                                    new Operacion((Operacion)a.getInstruccion(), (Operacion)b.getInstruccion(),
+                                                                    Operacion.TipoOperacion.ES_IGUAL));
+                                                            RESULT.addHijo(a);
+                                                            RESULT.addHijo("ES_IGUAL");
+                                                            RESULT.addHijo(b);
+                                                        :}
+                        | expresion:a ES_DIFERENTE expresion:b {:
+                                                            RESULT = new Produccion(new Nodo("Expresion Relacional"),
+                                                                    new Operacion((Operacion)a.getInstruccion(), (Operacion)b.getInstruccion(),
+                                                                    Operacion.TipoOperacion.ES_DIFERENTE));
+                                                            RESULT.addHijo(a);
+                                                            RESULT.addHijo("ES_DIFERENTE");
+                                                            RESULT.addHijo(b);
+                                                        :}
+                        | PARENTECIS_ABRE expresion_relacional:e PARENTECIS_CIERRA {:
+                                                                RESULT = new Produccion(new Nodo("Expresion Relacional"),
+                                                                    e.getInstruccion());
+                                                                RESULT.addHijo("(");
+                                                                RESULT.addHijo(e);
+                                                                RESULT.addHijo(")");
+                                                            :} 
+;
+
+expresion_logica ::= expresion_relacional:a AND expresion_relacional:b {:
+                                                                            RESULT = new Produccion(new Nodo("Expresion logica"),
+                                                                                    new Operacion((Operacion)a.getInstruccion(), (Operacion)b.getInstruccion(),
+                                                                                    Operacion.TipoOperacion.AND));
+                                                                            RESULT.addHijo(a);
+                                                                            RESULT.addHijo("AND");
+                                                                            RESULT.addHijo(b);
+                                                                        :}
+                    | expresion_relacional:a OR expresion_relacional:b {:
+                                                                            RESULT = new Produccion(new Nodo("Expresion logica"),
+                                                                                    new Operacion((Operacion)a.getInstruccion(), (Operacion)b.getInstruccion(),
+                                                                                    Operacion.TipoOperacion.OR));
+                                                                            RESULT.addHijo(a);
+                                                                            RESULT.addHijo("OR");
+                                                                            RESULT.addHijo(b);
+                                                                        :}
+                    | NOT expresion_relacional:e {:
+                                                    RESULT = new Produccion(new Nodo("Expresion logica"),
+                                                                    e.getInstruccion());
+                                                    RESULT.addHijo("Not");
+                                                    RESULT.addHijo(e);
+                                                                
+                                                :}
+
+;

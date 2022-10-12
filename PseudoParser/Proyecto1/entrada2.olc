@@ -1,0 +1,8 @@
+inicio
+
+mientras _v1_ es_igual _v2_  hacer
+	imprimir _variable1_;
+fin_mientras
+
+
+fin

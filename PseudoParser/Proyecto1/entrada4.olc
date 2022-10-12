@@ -1,0 +1,45 @@
+inicio
+Ingresar _variable1_      coMo NumEro cOn_valor 5;
+Ingresar _variable2_      coMo NumEro cOn_valor 50;   //ERROR sintactico, reportar que falta un punto y coma, recuperarse del error
+ingresaR _v1_, _v2_, _v3_ cOmo CadenA con_vAlor "esta es una cadena";
+ingresaR _curso1_         cOmo cadena con_vAlor "olc";
+
+ingresaR _curso2_         cOmo cadena con_vAlor "olc";
+ingresaR _curso3_         cOmo cadena con_vAlor "olc";
+ingresar _pi1_            como numero con_valor 3;
+ingresar _pi2_            como numero con_valor 3.1;
+ingresar _pi3_            como numero con_valor 3.14;
+ingresar _pi4_            como numero con_valor 3.141;
+ingresar _anio1_          como numero con_valor 1;
+ingresar _anio2_          como numero con_valor 9;
+ingresar _anio3_          como numero con_valor 4;
+ingresar _anio4_          como numero con_valor 5;
+
+ingresar _encabezado1_    como cadena con_valor "Universidad San Carlos de Guatemala...;";
+ingresar _encabezado2_    como cadena con_valor "Escuela de Ciencias y Sistemas
+Segundo semestre
+";
+
+
+/* Tercer prueba */
+ingresar _flag1_          como boolean  con_valor verdadero;
+ingresar _flag2_          como boolean  con_valor falso;
+ingresar _name1_          como caracter con_valor 'f';
+ingresar _name2_          como caracter con_valor 'e';
+ingresar _name3_          como caracter con_valor 'r';
+ingresar _name4_, _name6_ como caracter con_valor 'n';
+ingresar _name5_          como caracter con_valor 'a';
+ingresar _name7_          como caracter con_valor '${100}';
+ingresar _name8_          como caracter con_valor '${111}';
+
+/* Cuarta prueba */
+ingresar _operaciones1Basica_      como numero con_valor 1+(1);               //2 el resultado
+ingresar _operaciones1Basica2_      como numero con_valor _operaciones1Basica_+_operaciones1Basica_;               //               
+ingresar _operaciones1Intermedia_  Como nUmero con_valor 15+(9*8)+200/8*3+9;  //171 el resultado
+ingresar _operaciones1Avanzadas1_  ComO numeRo con_valor ((15+9)*8+200/8*3+9);   //291 el resultado
+ingresar _operaciones1Avanzadas2_  coMo numero con_valor 30 potencia [22.2-2.2] + (2);   
+ingresar _operaciones1Avanzadas3_  como nuMero con_valor (30 potencia [2]) + (2);   
+ingresar _operaciones1Avanzadas4_  Como numeRo con_valor (30 potencia [10-8+9-4*2-1]) + (2) ;  
+ingresar _operaciones1Avanzadas6_  Como numeRo con_valor (5*8) mod (1+5+6);   //4 es el resultado
+
+fin

@@ -1,0 +1,59 @@
+package analizadores;
+import java.beans.Statement;
+import java.util.LinkedList;
+import java_cup.runtime.*;
+import java_cup.runtime.XMLElement;
+
+parser code {:
+    public String codigoTraducido = "";
+
+:}
+
+/* Terminals */
+terminal INICIO, FIN, INGRESAR, VARIABLE, COMO, CON_VALOR, 
+BOOLEAN, NUMERO, CARACTER, CADENA, LIT_NUMERO, MAYOR, MENOR, 
+MAYOR_O_IGUAL, MENOR_O_IGUAL, ES_IGUAL, ES_DIFERENTE, PUNTO_COMA;
+
+
+terminal LIT_CARACTER, LIT_CADENA, LIT_BOOLEAN, ASIGNACION, SI, FIN_SI, O_SI,
+ENTONCES, DE_LO_CONTRARIO, SEGUN, HACER, INTERROGACION_ABRE, INTERROGACION_CIERRA,
+FIN_SEGUN, IMPRIMIR, IMPRIMIR_NL, PARA, HASTA, FIN_PARA;
+
+// Simbolos para operaciones basicas
+terminal RESTA, SUMA, DIVISION, MULTIPLICACION, POTENCIA, MODULO, PARENTECIS_ABRE,
+PARENTECIS_CIERRA, CORCHETE_ABRE, CORCHETE_CIERRA, COMA;
+
+/* Non terminals */
+non terminal iniciar, lista_instrucciones, expresion, operaciones_basicas, declaracion, tipo_dato, literal;
+non terminal instrucciones, asignacion, condicionales, operador, literal_booleana, 
+expresion_booleana, osi, imprimir, valor, casos, ciclos, expresion_aritmetica, operando_potencia, potencia,
+valor_inicial, metodo;
+
+/*test*/
+non terminal declaracion1, var, tipo_valor, declaracion2;
+
+/* Precedences */
+
+/* The grammar rules */
+start with iniciar;
+
+iniciar ::= INICIO lista_instrucciones FIN {: System.out.println("codigo traducido");:}
+            | INICIO FIN
+;
+
+lista_instrucciones ::= lista_instrucciones expresion_aritmetica PUNTO_COMA
+                    | expresion_aritmetica:e PUNTO_COMA {: System.out.println(e);:}
+;
+
+
+expresion_aritmetica ::= expresion_aritmetica SUMA expresion_aritmetica
+                        | expresion_aritmetica RESTA expresion_aritmetica
+                        | expresion_aritmetica MULTIPLICACION expresion_aritmetica
+                        | expresion_aritmetica DIVISION expresion_aritmetica
+                        | expresion_aritmetica MODULO expresion_aritmetica
+                        | PARENTECIS_ABRE expresion_aritmetica PARENTECIS_CIERRA
+                        | LIT_NUMERO
+;
+
+
+
