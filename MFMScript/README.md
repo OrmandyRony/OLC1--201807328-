@@ -25,6 +25,17 @@ Para el analisis del lenguaje MFMScript se utiliza la herramienta Jison.
 git clone https://github.com/OrmandyRony/OLC1--201807328-.git
 
 ```
+### Comandos
+```Bash
+npm init -y # Inicializar el proyecto
+npm i --save-dev typescript ts-node nodemon # instalacion dependencias de desarrollo, y creacion de carpeta node modules
+npx tsc --init # iniciar el proyecto de typescript crea el archivo de configuracion de las reglas que vamos usar en ts
+npm i --save express dotenv morgan cors body-parser config lodash #jison // dependencias glbales morgan para verificar el trafico
+npm i --save-dev @types/express @types/cors @types/morgan @types/node @types/config @types/lodash # copy rimraf // para usar los tipos de cada una de las dependencias
+
+```
+
+
 
 ## Compilador
 Un compilador es un programa que puede leer un lenguaje (el lenguaje fuente) y traducilo en un programa equivalente  en otro lenguaje (lenguaje destino).
