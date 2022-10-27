@@ -35,7 +35,8 @@ npm i --save-dev @types/express @types/cors @types/morgan @types/node @types/con
 
 ```
 
-
+## Diagramas
+[Diagrama de clases](https://lucid.app/documents/view/819f7438-04b5-4b21-8f68-741c820ca911)
 
 ## Compilador
 Un compilador es un programa que puede leer un lenguaje (el lenguaje fuente) y traducilo en un programa equivalente  en otro lenguaje (lenguaje destino).
@@ -77,3 +78,47 @@ Para este lenguaje
 ```
 
 ### Operadores
+
+
+## Recuperacion de errores
+se opto por el punto coma 
+
+## Referencias
+<dl compact="compact">
+<dt>
+<a name="dragonbook">[1]</a> 
+</dt>
+<dd>
+A. Aho, R. Sethi, and J. Ullman, 
+<i>Compilers: Principles, Techniques, and Tools</i>, 
+Addison-Wesley Publishing,
+Reading, MA, 
+1986.
+</dd>
+</dl>
+
+<dl compact="compact">
+    <dt>
+        <a name="manualcup" href="http://www2.cs.tum.edu/projects/cup/docs.php#intro">[2]</a> 
+    </dt>
+    <dd>
+    <i> CUP User's Manual<i>
+Michael Petter, Technische Universität München
+Scott E. Hudson
+Graphics Visualization and Usability Center
+Georgia Institute of Technology
+    </dd>
+</dl>
+
+<dl compact="compact">
+    <dt>
+        <a name="proyecto 2">[4]</a> 
+    </dt>
+    <dd>
+    <i>Proyecto 1,<i>
+Universidad San Carlos de Guatemala
+Facultad de Ingeniería
+Escuela de Ciencias y Sistemas
+Organización de Lenguajes y Compiladores 1
+    </dd>
+</dl>
