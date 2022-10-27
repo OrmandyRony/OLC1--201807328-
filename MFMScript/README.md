@@ -37,6 +37,10 @@ npm i --save-dev @types/express @types/cors @types/morgan @types/node @types/con
 
 ## Diagramas
 [Diagrama de clases](https://lucid.app/documents/view/819f7438-04b5-4b21-8f68-741c820ca911)
+![](./img/SymbolTable.png)
+
+### Tabla de simbolos
+
 
 ## Compilador
 Un compilador es un programa que puede leer un lenguaje (el lenguaje fuente) y traducilo en un programa equivalente  en otro lenguaje (lenguaje destino).
