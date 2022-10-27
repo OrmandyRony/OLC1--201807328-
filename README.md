@@ -23,5 +23,3 @@
 #### Compilador
 - [Jison](https://gerhobbelt.github.io/jison/docs/)
 
-
-mensaje de pureba
