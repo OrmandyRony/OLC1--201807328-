@@ -20,6 +20,6 @@ export default class Imprimir extends Instruccion {
             return valor;
         }
 
-        arbol.actulizarConsola(valor + '');
+        arbol.actualizarConsola(valor + '');
     }
 }

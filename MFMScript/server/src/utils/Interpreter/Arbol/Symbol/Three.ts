@@ -35,8 +35,8 @@ export default class Three {
      * actulizarConsola
      * Ejemplo si tenemos dos impresciones en cada impresion la actualizamos
      */
-    public actulizarConsola(uptoDate: String) {
-        this.consola = `${this.consola}${update}\n`;
+    public actualizarConsola(uptoDate: String) {
+        this.consola = `${this.consola}${uptoDate}\n`;
     }
 
     /**

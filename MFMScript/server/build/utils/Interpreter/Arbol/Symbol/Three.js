@@ -3,7 +3,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const lodash_1 = require("lodash");
 const SymbolTable_1 = __importDefault(require("./SymbolTable"));
 class Three {
     constructor(instrucciones) {
@@ -29,8 +28,8 @@ class Three {
      * actulizarConsola
      * Ejemplo si tenemos dos impresciones en cada impresion la actualizamos
      */
-    actulizarConsola(uptoDate) {
-        this.consola = `${this.consola}${lodash_1.update}\n`;
+    actualizarConsola(uptoDate) {
+        this.consola = `${this.consola}${uptoDate}\n`;
     }
     /**
      * getInstrucciones

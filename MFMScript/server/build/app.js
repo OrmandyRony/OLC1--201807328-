@@ -21,7 +21,7 @@ const api_routers_1 = __importDefault(require("./routes/api.routers"));
 const makeApp = () => __awaiter(void 0, void 0, void 0, function* () {
     const app = (0, express_1.default)();
     app.use((0, morgan_1.default)('dev', {
-        skip: (req) => req.url === '/api/ping'
+        skip: (req) => req.url === '/api/ping/user'
     }));
     app.use((0, cors_1.default)());
     app.use(body_parser_1.default.urlencoded({ extended: false, limit: '100mb' }));

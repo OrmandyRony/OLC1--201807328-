@@ -9,7 +9,7 @@ const makeApp = async () : Promise<typeof application> => {
     const app = express();
 
     app.use(morgan('dev', {
-        skip: (req: Request) => req.url === '/api/ping'
+        skip: (req: Request) => req.url === '/api/ping/user'
     }));
 
     app.use(cors());

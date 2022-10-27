@@ -39,7 +39,7 @@ class Imprimir extends Instruccion_1.Instruccion {
         if (valor instanceof Error_1.default) {
             return valor;
         }
-        arbol.actulizarConsola(valor + '');
+        arbol.actualizarConsola(valor + '');
     }
 }
 exports.default = Imprimir;

@@ -1,5 +1,8 @@
 %{
     //codigo js, importaciones
+    const impresion = require('./Instruccions/Imprimir');
+    const nativo = require('./Expresions/Native');
+    const Tipo = require('./Symbol/Type');
  
 %}
 %lex 
@@ -9,7 +12,9 @@
 //inicio analisis lexico
 %%
 
-"imprimir"      return 'RESPRINT';
+
+// Print
+"print"         return 'RESPRINT';
 ";"             return 'PTCOMA';
 "("             return 'PARABRE';
 ")"             return 'PARCIERRA';
@@ -48,9 +53,9 @@ INSTRUCCION : IMPRIMIR                {$$=$1;}
 
 // INTRUCCION IMPRIMIR
 IMPRIMIR : 
-    RESPRINT PARABRE EXPRESION PARCIERRA PTCOMA {;}
+    RESPRINT PARABRE EXPRESION PARCIERRA PTCOMA {$$= new impresion.default($3, @1.first_line, @1.first_column);}
 ;
 
-EXPRESION : ENTERO
-    | CADENA
+EXPRESION : ENTERO {$$= new nativo.default(new Tipo.default(Tipo.DataType.ENTERO),$1, @1.first_line, @1.first_column);}
+    | CADENA {$$= new nativo.default(new Tipo.default(Tipo.DataType.CADENA),$1, @1.first_line, @1.first_column);}
 ;
