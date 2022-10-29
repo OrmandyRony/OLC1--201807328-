@@ -11,60 +11,31 @@ class Three {
         this.tablaGlobal = new SymbolTable_1.default();
         this.errores = new Array();
     }
-    /**
-     * getConsola
-     */
-    getConsola() {
+    getconsola() {
         return this.consola;
     }
-    /**
-     * setConsola
-     */
-    setConsola(value) {
+    setconsola(value) {
         this.consola = value;
     }
-    /**
-     *
-     * actulizarConsola
-     * Ejemplo si tenemos dos impresciones en cada impresion la actualizamos
-     */
-    actualizarConsola(uptoDate) {
-        this.consola = `${this.consola}${uptoDate}\n`;
+    actualizaConsola(uptodate) {
+        this.consola = `${this.consola}${uptodate}\n`;
     }
-    /**
-     * getInstrucciones
-     */
-    getInstrucciones() {
+    getinstrucciones() {
         return this.instrucciones;
     }
-    /**
-     * setInstrucciones
-     */
-    setInstrucciones(value) {
+    setinstrucciones(value) {
         this.instrucciones = value;
     }
-    /**
-     * getErrores
-     */
     getErrores() {
         return this.errores;
     }
-    /**
-     * setErrores
-     */
-    setErrores(value) {
+    seterrores(value) {
         this.errores = value;
     }
-    /**
-     * getTablaGlobal
-     */
-    getTablaGlobal() {
+    gettablaGlobal() {
         return this.tablaGlobal;
     }
-    /**
-     * setTablaGlobal
-     */
-    setTablaGlobal(value) {
+    settablaGlobal(value) {
         this.tablaGlobal = value;
     }
 }

@@ -5,35 +5,30 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.parse = exports.listaErrores = void 0;
 const Error_1 = __importDefault(require("../../utils/Interpreter/Arbol/Exceptions/Error"));
-const SymbolTable_1 = __importDefault(require("../../utils/Interpreter/Arbol/Symbol/SymbolTable"));
 const Three_1 = __importDefault(require("../../utils/Interpreter/Arbol/Symbol/Three"));
-const fs = require('fs');
+const SymbolTable_1 = __importDefault(require("../../utils/Interpreter/Arbol/Symbol/SymbolTable"));
+const Instruccion_1 = require("../../utils/Interpreter/Arbol/Abstract/Instruccion");
+exports.listaErrores = [];
 const parse = (req, res) => {
-    console.log('Si llega');
     exports.listaErrores = new Array();
     let parser = require('../../utils/Interpreter/Arbol/analizador');
-    console.log("Despues\n\n");
-    console.log(req.body);
     const { peticion } = req.body;
     try {
-        //console.log(parser.parse(peticion));
         let ast = new Three_1.default(parser.parse(peticion));
         var tabla = new SymbolTable_1.default();
-        ast.setTablaGlobal(tabla);
-        for (let i of ast.getInstrucciones()) {
+        ast.settablaGlobal(tabla);
+        for (let i of ast.getinstrucciones()) {
             if (i instanceof Error_1.default) {
                 exports.listaErrores.push(i);
-                ast.actualizarConsola(i.returnError());
+                ast.actualizaConsola(i.returnError());
             }
-            var resultado = i.interpretar(ast, tabla);
-            console.log(ast);
-            if (resultado instanceof Error_1.default) {
-                exports.listaErrores.push(resultado);
-                ast.actualizarConsola(resultado.returnError());
+            var resultador = i instanceof Instruccion_1.Instruccion ? i.interpretar(ast, tabla) : new Error_1.default("ERROR SEMANTICO", "no se puede ejecutar la instruccion", 0, 0);
+            if (resultador instanceof Error_1.default) {
+                exports.listaErrores.push(resultador);
+                ast.actualizaConsola(resultador.returnError());
             }
         }
-        //console.log(resultado);
-        res.json({ consola: ast.getConsola(), errores: exports.listaErrores, simbolos: [] });
+        res.json({ consola: ast.getconsola(), errores: exports.listaErrores, simbolos: [] });
     }
     catch (err) {
         console.log(err);

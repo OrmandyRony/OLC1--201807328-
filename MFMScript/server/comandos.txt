@@ -1,0 +1,5 @@
+npm init -y
+npm i --save-dev typescript ts-node nodemon
+npx tsc --init
+npm i --save express dotenv morgan cors body-parser config lodash jison
+npm i --save-dev @types/express @types/cors @types/morgan @types/node @types/config @types/lodash copy rimraf

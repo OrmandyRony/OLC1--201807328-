@@ -1,46 +1,34 @@
-
 import { Response, Request } from "express";
-import Errores from "../../utils/Interpreter/Arbol/Exceptions/Error";
-import SymbolTable from "../../utils/Interpreter/Arbol/Symbol/SymbolTable";
+import Errores from '../../utils/Interpreter/Arbol/Exceptions/Error';
 import Three from "../../utils/Interpreter/Arbol/Symbol/Three";
+import SymbolTable from "../../utils/Interpreter/Arbol/Symbol/SymbolTable";
+import { Instruccion } from "../../utils/Interpreter/Arbol/Abstract/Instruccion";
 
-export let listaErrores: Array<Errores>
-
-const fs = require('fs')
+export let listaErrores: Array<Errores> = [];
 
 export const parse = (req: Request & unknown, res: Response): void => {
-    console.log('Si llega');
     listaErrores = new Array<Errores>();
     let parser = require('../../utils/Interpreter/Arbol/analizador');
-    console.log("Despues\n\n");
-    console.log(req.body);
     const { peticion } = req.body;
 
-    try {
-        //console.log(parser.parse(peticion));
-        let ast = new Three(parser.parse(peticion));
-        var tabla = new SymbolTable();
-        ast.setTablaGlobal(tabla);
-
-        for (let i of ast.getInstrucciones()) {
-            if (i instanceof Errores) {
-                listaErrores.push(i);
-                ast.actualizarConsola((<Errores>i).returnError());
-            }
-
-            var resultado = i.interpretar(ast, tabla);
-            console.log(ast);
-            if (resultado instanceof Errores) {
-                listaErrores.push(resultado);
-                ast.actualizarConsola((<Errores>resultado).returnError());
-            }
-        
-            
+    try { 
+      let ast = new Three(parser.parse(peticion));
+      var tabla = new SymbolTable();
+      ast.settablaGlobal(tabla);
+      for (let i of ast.getinstrucciones()) {
+        if (i instanceof Errores) {
+          listaErrores.push(i);
+          ast.actualizaConsola((<Errores>i).returnError());
         }
-        //console.log(resultado);
-        res.json({ consola: ast.getConsola(), errores: listaErrores, simbolos: []})
+        var resultador = i instanceof Instruccion ? i.interpretar(ast, tabla) : new Errores("ERROR SEMANTICO", "no se puede ejecutar la instruccion", 0, 0);
+        if (resultador instanceof Errores) {
+          listaErrores.push(resultador);
+          ast.actualizaConsola((<Errores>resultador).returnError());
+        }        
+      }
+      res.json({ consola: ast.getconsola(), errores: listaErrores, simbolos: [] });
     } catch (err) {
-        console.log(err);
+        console.log(err)
         res.json({ consola: '', error: err, errores: listaErrores, simbolos: [] });
     }
 }

@@ -1,51 +1,27 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 class Symbol {
-    /**
-     *  Datos que se almacenaran
-     * @param tipo {Tipo}
-     * @param identificador {String}
-     * @param valor {any}
-     */
     constructor(tipo, identificador, valor) {
         this.tipo = tipo;
         this.identificador = identificador;
         this.valor = valor;
     }
-    /**
-     * getTipo
-     */
-    getTipo() {
+    gettipo() {
         return this.tipo;
     }
-    /**
-     * setTipo
-     */
-    setTipo(value) {
+    settipo(value) {
         this.tipo = value;
     }
-    /**
-     * getIdentificador
-     */
-    getIdentificador() {
+    getidentificador() {
         return this.identificador;
     }
-    /**
-     * setIdentificador
-     */
-    setIdentificador(value) {
+    setidentificador(value) {
         this.identificador = value;
     }
-    /**
-     * getValor
-     */
-    getValor() {
+    getvalor() {
         return this.valor;
     }
-    /**
-     * setValor
-     */
-    setValor(value) {
+    setvalor(value) {
         this.valor = value;
     }
 }
