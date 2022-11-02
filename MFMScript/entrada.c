@@ -8,8 +8,8 @@
 
 //Seccion de declaraciones
 
-int varible_1;
-double varible_2;
+int varible_1; // asignacion listo
+double varible_2; // 
 boolean varible_3;
 char varible_4;
 string varible_5; // Declaracion multiple

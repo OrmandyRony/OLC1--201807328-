@@ -39,21 +39,30 @@
 "else"          return 'RESELSE';
 "while"      return 'RESWHILE';
 
+/* Operaciones aritmeticas */
+"+"             return 'MAS';
+"-"             return 'MENOS';
+"*"             return 'POR';
+
+
 ">"             return 'MAYOR_QUE';
 
 "||"            return 'OR';
-"-"             return 'MENOS';
+
 "="             return 'IGUAL';
-"+"             return 'MAS';
+
+
 ";"             return 'PTCOMA';
 "("             return 'PARABRE';
 ")"             return 'PARCIERRA';
 "{"             return 'LLAVIZQ';
 "}"             return 'LLAVDER';
-
+","             return 'COMA';
 
 [ \r\t]+ { }
 \n {}
+"//".*                              // comentario simple línea
+[/][*][^*]*[*]+([^/*][^*]*[*]+)*[/] // comentario multiple líneas
 
 
 /* Literales */
@@ -104,6 +113,24 @@ INSTRUCCIONES :
         };
     }
 ;
+
+IDENTIFICADORES: 
+    IDENTIFICADORES COMA  IDENTIFICADOR {
+        $$={
+            returnInstruction: [...$1.returnInstruction, $3.returnInstruction], 
+            nodeInstruction: (new Nodo('DECLARACION_MULTIPLE')).generateProduction([$1.nodeInstruction, (new Nodo('IDENTIFICADOR')).generateProduction([$3])])
+        }
+    }
+    | 
+    IDENTIFICADOR  {
+        $$ = {
+                returnInstruction: [$1],
+                nodeInstruction: (new Nodo('IDENTIFICADOR')).generateProduction([$1])
+            }
+        }
+        
+;
+
 
 INSTRUCCION :
     IMPRIMIR                {
@@ -168,42 +195,80 @@ TIPO_DATO:
 
 /*Declaraciones */
 DECLARACION:
-    INT IDENTIFICADOR IGUAL EXPRESION PTCOMA {
+
+    INT IDENTIFICADORES IGUAL EXPRESION PTCOMA {
         $$={
-            returnInstruction: new declaracion.default($2, new Tipo.default(Tipo.DataType.ENTERO), $4.returnInstruction, @1.first_line, @1.first_column), 
-            nodeInstruction: (new Nodo('Declaracion')).generateProduction([$1, 'identificador', 'igual', $4.nodeInstruction, 'ptcoma'])
+            returnInstruction: new declaracion.default($2.returnInstruction, new Tipo.default(Tipo.DataType.ENTERO), $4.returnInstruction, @1.first_line, @1.first_column), 
+            nodeInstruction: (new Nodo('Declaracion')).generateProduction([$1, $2.nodeInstruction, 'igual', $4.nodeInstruction, 'ptcoma'])
         }
     }
     |
-    DOUBLE IDENTIFICADOR IGUAL EXPRESION PTCOMA {
+    DOUBLE IDENTIFICADORES IGUAL EXPRESION PTCOMA {
         $$={
-            returnInstruction: new declaracion.default($2, new Tipo.default(Tipo.DataType.DECIMAL), $4.returnInstruction, @1.first_line, @1.first_column), 
-            nodeInstruction: (new Nodo('Declaracion')).generateProduction([$1, 'identificador', 'igual', $4.nodeInstruction, 'ptcoma'])
-        }
-    }
-    |
-    BOOLEAN IDENTIFICADOR IGUAL EXPRESION PTCOMA {
-        $$={
-            returnInstruction: new declaracion.default($2, new Tipo.default(Tipo.DataType.BOOLEAN), $4.returnInstruction, @1.first_line, @1.first_column), 
-            nodeInstruction: (new Nodo('Declaracion')).generateProduction([$1, 'identificador', 'igual', $4.nodeInstruction, 'ptcoma'])
-        }
-    }
-    |
-    CHAR IDENTIFICADOR IGUAL EXPRESION PTCOMA {
-        console.log("Soy un char ------------");
-        $$={
-            returnInstruction: new declaracion.default($2, new Tipo.default(Tipo.DataType.CARACTER), $4.returnInstruction, @1.first_line, @1.first_column), 
+            returnInstruction: new declaracion.default($2.returnInstruction, new Tipo.default(Tipo.DataType.DECIMAL), $4.returnInstruction, @1.first_line, @1.first_column), 
             nodeInstruction: (new Nodo('Declaracion')).generateProduction([$1, $2, 'igual', $4.nodeInstruction, 'ptcoma'])
         }
     }
     |
-    STRING IDENTIFICADOR IGUAL EXPRESION PTCOMA {
+    BOOLEAN IDENTIFICADORES IGUAL EXPRESION PTCOMA {
         $$={
-            returnInstruction: new declaracion.default($2, new Tipo.default(Tipo.DataType.CADENA), $4.returnInstruction, @1.first_line, @1.first_column), 
+            returnInstruction: new declaracion.default($2.returnInstruction, new Tipo.default(Tipo.DataType.BOOLEAN), $4.returnInstruction, @1.first_line, @1.first_column), 
             nodeInstruction: (new Nodo('Declaracion')).generateProduction([$1, $2, 'igual', $4.nodeInstruction, 'ptcoma'])
+        }
+    }
+    |
+    CHAR IDENTIFICADORES IGUAL EXPRESION PTCOMA {
+        $$={
+            returnInstruction: new declaracion.default($2.returnInstruction, new Tipo.default(Tipo.DataType.CARACTER), $4.returnInstruction, @1.first_line, @1.first_column), 
+            nodeInstruction: (new Nodo('Declaracion')).generateProduction([$1, $2, 'igual', $4.nodeInstruction, 'ptcoma'])
+        }
+    }
+    |
+    STRING IDENTIFICADORES IGUAL EXPRESION PTCOMA {
+        $$={
+            returnInstruction: new declaracion.default($2.returnInstruction, new Tipo.default(Tipo.DataType.CADENA), $4.returnInstruction, @1.first_line, @1.first_column), 
+            nodeInstruction: (new Nodo('Declaracion')).generateProduction([$1, $2, 'igual', $4.nodeInstruction, 'ptcoma'])
+        }
+    }
+    |
+    // Declarasion sin asignacion
+    INT IDENTIFICADORES PTCOMA {
+        $$={
+            returnInstruction: new declaracion.default($2.returnInstruction, new Tipo.default(Tipo.DataType.ENTERO),  new nativo.default(new Tipo.default(Tipo.DataType.ENTERO), 0, @1.first_line, @1.first_column), @1.first_line, @1.first_column), 
+            nodeInstruction: (new Nodo('Declaracion')).generateProduction([$1, $2, (new Nodo('VALOR_POR_DEFECTO')).generateProduction(['0']), 'ptcoma'])
+        }
+    }
+    |
+    DOUBLE IDENTIFICADORES PTCOMA {
+        $$={
+            returnInstruction: new declaracion.default($2.returnInstruction, new Tipo.default(Tipo.DataType.DECIMAL),  new nativo.default(new Tipo.default(Tipo.DataType.DECIMAL), 0.0, @1.first_line, @1.first_column), @1.first_line, @1.first_column), 
+            nodeInstruction: (new Nodo('Declaracion')).generateProduction([$1, $2, (new Nodo('VALOR_POR_DEFECTO')).generateProduction(['0.0']), 'ptcoma'])
+        }
+    }
+    |
+    BOOLEAN IDENTIFICADORES PTCOMA {
+        $$={
+            returnInstruction: new declaracion.default($2.returnInstruction, new Tipo.default(Tipo.DataType.BOOLEAN),  new nativo.default(new Tipo.default(Tipo.DataType.boolean), true, @1.first_line, @1.first_column), @1.first_line, @1.first_column), 
+            nodeInstruction: (new Nodo('Declaracion')).generateProduction([$1, $2, (new Nodo('VALOR_POR_DEFECTO')).generateProduction(['true']), 'ptcoma'])
+        }
+    }
+    |
+    CHAR IDENTIFICADORES PTCOMA {
+        $$={
+            returnInstruction: new declaracion.default($2.returnInstruction, new Tipo.default(Tipo.DataType.CARACTER),  new nativo.default(new Tipo.default(Tipo.DataType.CARACTER), '0', @1.first_line, @1.first_column), @1.first_line, @1.first_column), 
+            nodeInstruction: (new Nodo('Declaracion')).generateProduction([$1, $2, (new Nodo('VALOR_POR_DEFECTO')).generateProduction(['\'0\'']), 'ptcoma'])
+        }
+    }
+    |
+    STRING IDENTIFICADORES PTCOMA {
+        $$={
+            returnInstruction: new declaracion.default($2.returnInstruction, new Tipo.default(Tipo.DataType.CADENA),  new nativo.default(new Tipo.default(Tipo.DataType.CADENA), "", @1.first_line, @1.first_column), @1.first_line, @1.first_column), 
+            nodeInstruction: (new Nodo('Declaracion')).generateProduction([$1, $2, (new Nodo('VALOR_POR_DEFECTO')).generateProduction(['""']), 'ptcoma'])
         }
     }
 ;
+
+
 
 IMPRIMIBLE:
     EXPRESION {$$=$1;}  
@@ -233,6 +298,12 @@ EXPRESION :
         $$={
             returnInstruction: new aritmetico.default(aritmetico.tipoOp.RESTA, $1.returnInstruction, $3.returnInstruction, @1.first_line, @1.first_column),
             nodeInstruction: (new Nodo('EXPRESION')).generateProduction([$1.nodeInstruction, 'MENOS', $3.nodeInstruction])
+        }
+    }
+    | EXPRESION POR EXPRESION {
+        $$={
+            returnInstruction: new aritmetico.default(aritmetico.tipoOp.MULTIPLICACION, $1.returnInstruction, $3.returnInstruction, @1.first_line, @1.first_column),
+            nodeInstruction: (new Nodo('EXPRESION')).generateProduction([$1.nodeInstruction, 'POR', $3.nodeInstruction])
         }
     }
     | IDENTIFICADOR {

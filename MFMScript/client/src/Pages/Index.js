@@ -3,11 +3,17 @@ import NavBar from "../Components/NavBar";
 import Editor2 from "../Components/Editor";
 import Service from "../Services/Service";
 import TextEditor from "@monaco-editor/react";
+import { Graphviz } from 'graphviz-react';
 
 function Index() {
     const [ value, setValue ] = useState("")
     const [ response, setResponse ] = useState("")
-
+    const [ arbolito, setArbolito ] = useState(`graph {
+        grandparent -- "parent A";
+        child;
+        "parent B" -- child;
+        grandparent --  "parent B";
+        }`);
 
   const [contentMarkdown, setContentMarkdown] = useState('');
   const editorRef = useRef(null);
@@ -18,8 +24,9 @@ function Index() {
 
     const handlerPostParse = () => {
         Service.parse(value)
-        .then(({consola}) => {
-            setResponse(consola)
+        .then(({consola, arbol}) => {
+            
+            setResponse(consola);
         })
 
     }
@@ -41,7 +48,8 @@ function Index() {
     
     const handleSave = () => {
         Service.parse(editorRef.current.getValue())
-        .then(({consola}) => {
+        .then(({consola, arbol}) => {
+            setArbolito(arbol);
             setResponse(consola)
         })
 
@@ -65,6 +73,10 @@ function Index() {
             onMount={handleEditorDidMount}
             />
             <Editor2  value={response} rows={10}/>
+            <Graphviz dot={arbolito} 
+
+                options = {{zoom: true, height:1500, width:1800}}
+            />
         </>
     )
 }

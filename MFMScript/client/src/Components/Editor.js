@@ -14,6 +14,9 @@ function Editor(props) {
                 <textarea class="form-control" id="exampleFormControlTextarea1" rows={props.rows} onChange={handlerChangeEditor} value={props.value}></textarea>
                 {props.comp}
             </div>
+            <div id="lienzo">
+
+            </div>
         </>
     )
 }
