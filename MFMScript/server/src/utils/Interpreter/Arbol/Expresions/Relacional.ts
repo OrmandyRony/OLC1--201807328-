@@ -16,21 +16,24 @@ export default class Relacional extends Instruccion {
     this.operacionDer = opDer;
   }
 
-    interpretar(arbol: Arbol, tabla: tablaSimbolo) {
-        const validTypesOperations = [DataType.ENTERO, DataType.DECIMAL]
+  interpretar(arbol: Arbol, tabla: tablaSimbolo) {
+    const validTypesOperations = [DataType.ENTERO, DataType.DECIMAL]
+    
+    let valueIzq = this.operacionIzq.interpretar(arbol, tabla);
+    let valueDer = this.operacionDer.interpretar(arbol, tabla);
 
-        let valueIzq = this.operacionIzq.interpretar(arbol, tabla);
-        let valueDer = this.operacionDer.interpretar(arbol, tabla);
-        if(validTypesOperations.includes(this.operacionIzq.tipoDato.getTipo())
-            && validTypesOperations.includes(this.operacionDer.tipoDato.getTipo())) {
-            if(this.tipo===tipoOp.MAYOR){        
-                this.tipoDato = new Tipo(DataType.BOOLEAN);
-                return valueIzq > valueDer;
-            }
-        }  else {
-            return null;
+    if (validTypesOperations.includes(this.operacionIzq.tipoDato.getTipo())
+      && validTypesOperations.includes(this.operacionDer.tipoDato.getTipo())) {
+      
+        if (this.tipo===tipoOp.MAYOR) {        
+          this.tipoDato = new Tipo(DataType.BOOLEAN);
+          return valueIzq > valueDer;
         }
-    }  
+        
+    } else {
+        return null;
+    }
+  }  
 }
 
 export enum tipoOp{

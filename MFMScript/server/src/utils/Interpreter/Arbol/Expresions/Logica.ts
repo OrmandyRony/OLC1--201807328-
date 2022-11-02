@@ -21,9 +21,11 @@ export default class Logica extends Instruccion {
 
         let valueIzq = this.operacionIzq.interpretar(arbol, tabla);
         let valueDer = this.operacionDer.interpretar(arbol, tabla);
-        if(validTypesOperations.includes(this.operacionIzq.tipoDato.getTipo())
+
+        if (validTypesOperations.includes(this.operacionIzq.tipoDato.getTipo())
             && validTypesOperations.includes(this.operacionDer.tipoDato.getTipo())) {
-            if(this.tipo===tipoOp.OR){      
+                
+            if (this.tipo === tipoOp.OR){      
                 this.tipoDato = new Tipo(DataType.BOOLEAN);  
                 return valueIzq || valueDer;
             }

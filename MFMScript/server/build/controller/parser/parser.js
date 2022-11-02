@@ -14,21 +14,27 @@ const parse = (req, res) => {
     let parser = require('../../utils/Interpreter/Arbol/analizador');
     const { peticion } = req.body;
     try {
+        const returnThree = parser.parse(peticion);
+        // console.log(parser.parse(peticion));
         let ast = new Three_1.default(parser.parse(peticion));
         var tabla = new SymbolTable_1.default();
-        ast.settablaGlobal(tabla);
+        ast.setTablaGlobal(tabla);
+        // Se recorre el array de instrucciones
         for (let i of ast.getinstrucciones()) {
             if (i instanceof Error_1.default) {
                 exports.listaErrores.push(i);
                 ast.actualizaConsola(i.returnError());
             }
+            // 
             var resultador = i instanceof Instruccion_1.Instruccion ? i.interpretar(ast, tabla) : new Error_1.default("ERROR SEMANTICO", "no se puede ejecutar la instruccion", 0, 0);
             if (resultador instanceof Error_1.default) {
                 exports.listaErrores.push(resultador);
                 ast.actualizaConsola(resultador.returnError());
             }
         }
-        res.json({ consola: ast.getconsola(), errores: exports.listaErrores, simbolos: [] });
+        const arbolGrafo = ast.getTree("ast");
+        console.log(arbolGrafo);
+        res.json({ consola: ast.getconsola(), arbol: arbolGrafo, errores: exports.listaErrores, simbolos: [] });
     }
     catch (err) {
         console.log(err);

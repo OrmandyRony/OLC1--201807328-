@@ -17,8 +17,12 @@ var DataType;
 (function (DataType) {
     DataType[DataType["ENTERO"] = 0] = "ENTERO";
     DataType[DataType["CADENA"] = 1] = "CADENA";
-    DataType[DataType["BOOLEAN"] = 2] = "BOOLEAN";
-    DataType[DataType["DECIMAL"] = 3] = "DECIMAL";
-    DataType[DataType["IDENTIFICADOR"] = 4] = "IDENTIFICADOR";
-    DataType[DataType["INDEFINIDO"] = 5] = "INDEFINIDO";
+    DataType[DataType["CHAR"] = 2] = "CHAR";
+    DataType[DataType["BOOLEAN"] = 3] = "BOOLEAN";
+    // EL TIPO DE DATO BOOLEAN SE EXTIENDEN A DOS
+    DataType[DataType["TRUE"] = 4] = "TRUE";
+    DataType[DataType["FALSE"] = 5] = "FALSE";
+    DataType[DataType["DECIMAL"] = 6] = "DECIMAL";
+    DataType[DataType["IDENTIFICADOR"] = 7] = "IDENTIFICADOR";
+    DataType[DataType["INDEFINIDO"] = 8] = "INDEFINIDO";
 })(DataType = exports.DataType || (exports.DataType = {}));

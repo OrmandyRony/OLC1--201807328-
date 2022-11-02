@@ -13,10 +13,14 @@ export default class Type {
 }
   
 export enum DataType {
-    ENTERO,
-    CADENA,
-    BOOLEAN,
-    DECIMAL,
-    IDENTIFICADOR,
-    INDEFINIDO
+  ENTERO,
+  CADENA,
+  CHAR,
+  BOOLEAN,
+  // EL TIPO DE DATO BOOLEAN SE EXTIENDEN A DOS
+  TRUE,
+  FALSE,
+  DECIMAL,
+  IDENTIFICADOR,
+  INDEFINIDO
 }

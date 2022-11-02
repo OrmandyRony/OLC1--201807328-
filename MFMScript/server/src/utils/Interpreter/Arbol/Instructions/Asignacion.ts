@@ -8,26 +8,20 @@ import Tipo, {DataType} from '../Symbol/Type';
 /**
  * tipo Identificador = valor
  */
-export default class Declaracion extends Instruccion {
+export default class Asignacion extends Instruccion {
     private id: String;
-    private tipo: Tipo;
     private valor: Instruccion;
 
-    constructor(id: String, tipo: Tipo, valor: Instruccion, linea: number, columna: number) {
+    constructor(id: String, valor: Instruccion, linea: number, columna: number) {
         super(new Tipo(DataType.INDEFINIDO), linea, columna);
         this.id = id;
-        this.tipo = tipo;
         this.valor = valor;
-        // console.log("Declarando ------")
+        console.log("Declarando ------")
     }
 
     public interpretar(arbol: Arbol, tabla: tablaSimbolo) {
-        if (this.tipo) {
-            
-        } else {
-            
-        }
-        tabla.setValor(this.id, new Simbolo(this.tipo, this.id, this.valor.interpretar(arbol, tabla)));
+        const valorToAsign = this.valor.interpretar(arbol, tabla);
+        tabla.setValor(this.id, new Simbolo(this.valor.tipoDato, this.id, valorToAsign), false);
         return null;
     }
 }

@@ -28,6 +28,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const Instruccion_1 = require("../Abstract/Instruccion");
 const Type_1 = __importStar(require("../Symbol/Type"));
+// Para tratar archivos JSON
 const get_1 = __importDefault(require("lodash/get"));
 class Nativo extends Instruccion_1.Instruccion {
     constructor(tipo, valor, fila, columna) {
@@ -38,13 +39,23 @@ class Nativo extends Instruccion_1.Instruccion {
         if (this.tipoDato.getTipo() === Type_1.DataType.ENTERO) {
             return this.valor;
         }
+        else if (this.tipoDato.getTipo() === Type_1.DataType.DECIMAL) {
+            return this.valor;
+        }
         else if (this.tipoDato.getTipo() === Type_1.DataType.CADENA) {
             return this.valor.toString();
         }
+        else if (this.tipoDato.getTipo() === Type_1.DataType.TRUE) {
+            return true;
+        }
+        else if (this.tipoDato.getTipo() === Type_1.DataType.FALSE) {
+            return false;
+        }
         else if (this.tipoDato.getTipo() === Type_1.DataType.IDENTIFICADOR) {
+            // console.log("Valor 2: ", this.valor);
             let value = tabla.getValor(this.valor);
-            this.tipoDato = (0, get_1.default)(value, 'tipo', new Type_1.default(Type_1.DataType.INDEFINIDO));
-            return (0, get_1.default)(value, 'valor');
+            this.tipoDato = (0, get_1.default)(value, "tipo", new Type_1.default(Type_1.DataType.INDEFINIDO));
+            return (0, get_1.default)(value, "valor");
         }
     }
 }

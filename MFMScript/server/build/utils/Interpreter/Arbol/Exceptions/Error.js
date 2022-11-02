@@ -1,14 +1,14 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 class Error {
-    constructor(tipo, desc, fila, columna) {
+    constructor(tipo, descripcion, fila, columna) {
         this.tipoError = tipo;
-        this.desc = desc;
+        this.descripcion = descripcion;
         this.fila = fila;
         this.columna = columna;
     }
-    getDesc() {
-        return this.desc;
+    getDescripcion() {
+        return this.descripcion;
     }
     getTipoError() {
         return this.tipoError;
@@ -22,8 +22,8 @@ class Error {
     returnError() {
         return ('Se obtuvo: ' +
             this.tipoError +
-            ' desc:{' +
-            this.desc +
+            ' descripcion:{' +
+            this.descripcion +
             '} en la fila: ' +
             this.fila +
             ' en la columna: ' +

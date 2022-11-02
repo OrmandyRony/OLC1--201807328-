@@ -12,21 +12,29 @@ export const parse = (req: Request & unknown, res: Response): void => {
     const { peticion } = req.body;
 
     try { 
+      const returnThree = parser.parse(peticion);
+
+      // console.log(parser.parse(peticion));
       let ast = new Three(parser.parse(peticion));
       var tabla = new SymbolTable();
-      ast.settablaGlobal(tabla);
+      ast.setTablaGlobal(tabla);
+
+      // Se recorre el array de instrucciones
       for (let i of ast.getinstrucciones()) {
         if (i instanceof Errores) {
           listaErrores.push(i);
           ast.actualizaConsola((<Errores>i).returnError());
         }
+        // 
         var resultador = i instanceof Instruccion ? i.interpretar(ast, tabla) : new Errores("ERROR SEMANTICO", "no se puede ejecutar la instruccion", 0, 0);
         if (resultador instanceof Errores) {
           listaErrores.push(resultador);
           ast.actualizaConsola((<Errores>resultador).returnError());
         }        
       }
-      res.json({ consola: ast.getconsola(), errores: listaErrores, simbolos: [] });
+      const arbolGrafo = ast.getTree("ast");
+      console.log(arbolGrafo);
+      res.json({ consola: ast.getconsola(), arbol: arbolGrafo, errores: listaErrores, simbolos: [] });
     } catch (err) {
         console.log(err)
         res.json({ consola: '', error: err, errores: listaErrores, simbolos: [] });

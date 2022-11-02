@@ -59,7 +59,7 @@ function Index() {
 
             height='50vh'
             theme='vs-dark'
-            defaultLanguage='c'
+            defaultLanguage='java'
             value='// Welcome at MFMScript'
             onChange={(value) => setContentMarkdown(value)}
             onMount={handleEditorDidMount}
