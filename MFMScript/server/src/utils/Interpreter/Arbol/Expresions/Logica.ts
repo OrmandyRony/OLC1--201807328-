@@ -18,9 +18,15 @@ export default class Logica extends Instruccion {
 
     interpretar(arbol: Arbol, tabla: tablaSimbolo) {
         const validTypesOperations = [DataType.BOOLEAN]
-
-        let valueIzq = this.operacionIzq.interpretar(arbol, tabla);
         let valueDer = this.operacionDer.interpretar(arbol, tabla);
+        
+        if (this.tipo === tipoOp.NOT) {
+            console.log("iNTENTANDO INTERPRETAR");
+            this.tipoDato = new Tipo(DataType.BOOLEAN);  
+            return !(valueDer);
+        }
+        
+        let valueIzq = this.operacionIzq.interpretar(arbol, tabla);
 
         if (validTypesOperations.includes(this.operacionIzq.tipoDato.getTipo())
             && validTypesOperations.includes(this.operacionDer.tipoDato.getTipo())) {
@@ -28,7 +34,10 @@ export default class Logica extends Instruccion {
             if (this.tipo === tipoOp.OR){      
                 this.tipoDato = new Tipo(DataType.BOOLEAN);  
                 return valueIzq || valueDer;
-            }
+            } else if (this.tipo === tipoOp.AND) {
+                this.tipoDato = new Tipo(DataType.BOOLEAN);  
+                return valueIzq && valueDer;
+            } 
         }  else {
             return null;
         }

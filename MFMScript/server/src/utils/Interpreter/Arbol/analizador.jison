@@ -58,7 +58,10 @@
 '!='            return 'DIFERENTE';
 
 
-"||"            return 'OR';
+/* Operadores Logicos */
+'||' return "OR";
+'&&' return "AND";
+'!' return "NOT";
 
 
 
@@ -90,10 +93,11 @@
 
 // rEVISAR PRESENDENCIAS
 %left 'OR'
+%left 'AND' 
 %left 'MAYOR_QUE' 'MENOR_QUE' 'MAYOR_IGUAL' 'MENOR_IGUAL' 'IGUAL' 'DIFERENTE'
 %left 'POR' 'DIVIDIDO'  'POTENCIA' 'MODULO'
 %left 'MAS' 'MENOS'
-
+%right 'NOT'
 
 
 
@@ -340,7 +344,6 @@ EXPRESION :
 
 LITERALES: 
     | ENTERO {
-        console.log("Encontre un entero-----------------------------------------");
         $$={
             returnInstruction: new nativo.default(new Tipo.default(Tipo.DataType.ENTERO),$1, @1.first_line, @1.first_column),
             nodeInstruction: (new Nodo('EXPRESION')).generateProduction(['ENTERO'])
@@ -361,7 +364,6 @@ LITERALES:
         }
     }
     | CARACTER {
-        console.log("Encontre un CARACTER-----------------------------------------");
         $$={
             returnInstruction: new nativo.default(new Tipo.default(Tipo.DataType.CARACTER),$1, @1.first_line, @1.first_column),
             nodeInstruction: (new Nodo('EXPRESION')).generateProduction(['CARACTER'])
@@ -426,15 +428,37 @@ EXPRESION_RELACIONAL
             nodeInstruction: (new Nodo('EXPRESION_RELACIONAL')).generateProduction([$1.nodeInstruction, 'DIFERENTE', $3.nodeInstruction])
         }
     }
+    |
+    PARABRE EXPRESION_RELACIONAL PARCIERRA { 
+        $$={
+            returnInstruction: $2.returnInstruction,
+            nodeInstruction: $2.nodeInstruction
+        }
+    }
 ;
 
 // eSRO HAY QUYE HACERO RECURSIVO
-EXPRESION_LOGICA :
+EXPRESION_LOGICA
+    :
     EXPRESION_RELACIONAL OR EXPRESION_RELACIONAL {
         $$={
             returnInstruction: new logica.default(logica.tipoOp.OR, $1.returnInstruction, $3.returnInstruction, @1.first_line, @1.first_column),
             nodeInstruction: (new Nodo('EXPRESION_LOGICA')).generateProduction([$1.nodeInstruction, 'OR', $3.nodeInstruction])
         }
     }
-  
+    |
+    EXPRESION_RELACIONAL AND EXPRESION_RELACIONAL {
+        $$={
+            returnInstruction: new logica.default(logica.tipoOp.AND, $1.returnInstruction, $3.returnInstruction, @1.first_line, @1.first_column),
+            nodeInstruction: (new Nodo('EXPRESION_LOGICA')).generateProduction([$1.nodeInstruction, 'AND', $3.nodeInstruction])
+        }
+    }
+    |
+
+    NOT EXPRESION_RELACIONAL {
+        $$={
+            returnInstruction: new logica.default(logica.tipoOp.NOT, null, $2.returnInstruction, @1.first_line, @1.first_column),
+            nodeInstruction: (new Nodo('EXPRESION_LOGICA')).generateProduction(['NOT', $2.nodeInstruction])
+        }
+    }
 ;
