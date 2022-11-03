@@ -27,7 +27,10 @@ export default class Relacional extends Instruccion {
       
         if (this.tipo === tipoOp.MAYOR) {        
           this.tipoDato = new Tipo(DataType.BOOLEAN);
-          return valueIzq > valueDer;
+          const result =  (parseInt(valueIzq) > parseInt(valueDer));
+          console.log(valueIzq, "   ", valueDer)
+          console.log("Resulta " + result);
+          return result;
         } else if (this.tipo === tipoOp.MENOR) {
           this.tipoDato = new Tipo(DataType.BOOLEAN);
           return valueIzq < valueDer;

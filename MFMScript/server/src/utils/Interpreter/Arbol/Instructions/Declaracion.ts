@@ -22,11 +22,6 @@ export default class Declaracion extends Instruccion {
     }
 
     public interpretar(arbol: Arbol, tabla: tablaSimbolo) {
-        if (this.tipo) {
-            
-        } else {
-            
-        }
         tabla.setValor(this.id, new Simbolo(this.tipo, this.id, this.valor.interpretar(arbol, tabla)));
         return null;
     }
