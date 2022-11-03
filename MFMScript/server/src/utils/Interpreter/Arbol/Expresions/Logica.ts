@@ -37,5 +37,6 @@ export default class Logica extends Instruccion {
 
 export enum tipoOp{
     AND,
-    OR
+    OR,
+    NOT
 }

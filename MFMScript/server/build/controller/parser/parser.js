@@ -13,9 +13,10 @@ const parse = (req, res) => {
     exports.listaErrores = new Array();
     let parser = require('../../utils/Interpreter/Arbol/analizador');
     const { peticion } = req.body;
+    console.log(peticion);
     try {
-        const returnThree = parser.parse(peticion);
-        // console.log(parser.parse(peticion));
+        //const returnThree = parser.parse(peticion);
+        console.log(parser.parse(peticion));
         let ast = new Three_1.default(parser.parse(peticion));
         var tabla = new SymbolTable_1.default();
         ast.setTablaGlobal(tabla);

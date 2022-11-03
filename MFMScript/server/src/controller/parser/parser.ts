@@ -10,11 +10,12 @@ export const parse = (req: Request & unknown, res: Response): void => {
     listaErrores = new Array<Errores>();
     let parser = require('../../utils/Interpreter/Arbol/analizador');
     const { peticion } = req.body;
+    console.log(peticion);
 
     try { 
-      const returnThree = parser.parse(peticion);
-
-      // console.log(parser.parse(peticion));
+      //const returnThree = parser.parse(peticion);
+    
+      console.log(parser.parse(peticion));
       let ast = new Three(parser.parse(peticion));
       var tabla = new SymbolTable();
       ast.setTablaGlobal(tabla);

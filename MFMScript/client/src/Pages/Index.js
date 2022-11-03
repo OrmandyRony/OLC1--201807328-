@@ -9,10 +9,6 @@ function Index() {
     const [ value, setValue ] = useState("")
     const [ response, setResponse ] = useState("")
     const [ arbolito, setArbolito ] = useState(`graph {
-        grandparent -- "parent A";
-        child;
-        "parent B" -- child;
-        grandparent --  "parent B";
         }`);
 
   const [contentMarkdown, setContentMarkdown] = useState('');

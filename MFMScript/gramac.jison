@@ -19,9 +19,7 @@
 %options case-insensitive 
 //inicio analisis lexico
 %%
-\s+											// se ignoran espacios en blanco
-"//".*										// comentario simple línea
-[/][*][^*]*[*]+([^/*][^*]*[*]+)*[/]			// comentario multiple líneas
+
 /* Palabras Reservadas*/
 
 // Tipos de datos
@@ -49,16 +47,21 @@
 '^'             return 'POTENCIA';
 '%'             return 'MODULO';
 
+
+/* Operadores Logicos */
+'||' return "OR";
+'&&' return "AND";
+'!' return "NOT";
+
+
 /* Operaciones relacionales */
-'<='            return 'MENOR_IGUAL';
-'>='            return 'MAYOR_IGUAL';
-">"             return 'MAYOR_QUE';
-'<'             return 'MENOR_QUE';
-"=="            return 'IGUAL';
-'!='            return 'DIFERENTE';
-
-
-"||"            return 'OR';
+// Operadores relacionales
+'==' return 'IGUAL';
+'!=' return 'DIFERENTE';
+'>' return 'MAYOR_QUE';
+'<' return 'MENOR_QUE';
+'>=' return 'MAYOR_IGUAL';
+'<=' return 'MENOR_IGUAL';
 
 
 
@@ -71,6 +74,8 @@
 
 [ \r\t]+ { }
 \n {}
+"//".*                              // comentario simple línea
+[/][*][^*]*[*]+([^/*][^*]*[*]+)*[/] // comentario multiple líneas
 
 
 /* Literales */
@@ -88,12 +93,13 @@
 
 /lex
 
-// rEVISAR PRESENDENCIAS
-%left 'MAYOR_QUE' 'MENOR_QUE' 'MAYOR_IGUAL' 'MENOR_IGUAL' 'IGUAL' 'DIFERENTE'
+// PRESEDENCIAS
+%left 'OR'
+%left 'AND' 
 %left 'POR' 'DIVIDIDO'  'POTENCIA' 'MODULO'
 %left 'MAS' 'MENOS'
-
-%left 'OR'
+%left 'MAYOR_QUE' 'MENOR_QUE' 'MAYOR_IGUAL' 'MENOR_IGUAL' 'IGUAL' 'DIFERENTE'
+%right 'NOT'
 
 
 %start INIT
@@ -206,35 +212,36 @@ TIPO_DATO:
 /*Declaraciones */
 DECLARACION:
 
-    INT IDENTIFICADORES IGUAL EXPRESION PTCOMA {
+    INT IDENTIFICADORES IGUAL EXPRESIONES PTCOMA {
+        console.log("Reconozco entero--------------");
         $$={
             returnInstruction: new declaracion.default($2.returnInstruction, new Tipo.default(Tipo.DataType.ENTERO), $4.returnInstruction, @1.first_line, @1.first_column), 
             nodeInstruction: (new Nodo('Declaracion')).generateProduction([$1, $2.nodeInstruction, 'igual', $4.nodeInstruction, 'ptcoma'])
         }
     }
     |
-    DOUBLE IDENTIFICADORES IGUAL EXPRESION PTCOMA {
+    DOUBLE IDENTIFICADORES IGUAL EXPRESIONES PTCOMA {
         $$={
             returnInstruction: new declaracion.default($2.returnInstruction, new Tipo.default(Tipo.DataType.DECIMAL), $4.returnInstruction, @1.first_line, @1.first_column), 
             nodeInstruction: (new Nodo('Declaracion')).generateProduction([$1, $2, 'igual', $4.nodeInstruction, 'ptcoma'])
         }
     }
     |
-    BOOLEAN IDENTIFICADORES IGUAL EXPRESION PTCOMA {
+    BOOLEAN IDENTIFICADORES IGUAL EXPRESIONES PTCOMA {
         $$={
             returnInstruction: new declaracion.default($2.returnInstruction, new Tipo.default(Tipo.DataType.BOOLEAN), $4.returnInstruction, @1.first_line, @1.first_column), 
             nodeInstruction: (new Nodo('Declaracion')).generateProduction([$1, $2, 'igual', $4.nodeInstruction, 'ptcoma'])
         }
     }
     |
-    CHAR IDENTIFICADORES IGUAL EXPRESION PTCOMA {
+    CHAR IDENTIFICADORES IGUAL EXPRESIONES PTCOMA {
         $$={
             returnInstruction: new declaracion.default($2.returnInstruction, new Tipo.default(Tipo.DataType.CARACTER), $4.returnInstruction, @1.first_line, @1.first_column), 
             nodeInstruction: (new Nodo('Declaracion')).generateProduction([$1, $2, 'igual', $4.nodeInstruction, 'ptcoma'])
         }
     }
     |
-    STRING IDENTIFICADORES IGUAL EXPRESION PTCOMA {
+    STRING IDENTIFICADORES IGUAL EXPRESIONES PTCOMA {
         $$={
             returnInstruction: new declaracion.default($2.returnInstruction, new Tipo.default(Tipo.DataType.CADENA), $4.returnInstruction, @1.first_line, @1.first_column), 
             nodeInstruction: (new Nodo('Declaracion')).generateProduction([$1, $2, 'igual', $4.nodeInstruction, 'ptcoma'])
@@ -281,8 +288,7 @@ DECLARACION:
 
 
 IMPRIMIBLE:
-    EXPRESION {$$=$1;}  
-    | EXPRESION_RELACIONAL {$$=$1;}  
+    EXPRESIONES {$$=$1;}  
 ;
 
 IMPRIMIR : 
@@ -296,6 +302,11 @@ IMPRIMIR :
 ;
 
 /* EXPRESIONES  Y LITERALES */
+EXPRESIONES: 
+    EXPRESION {$$=$1;}
+    | EXPRESION_LOGICA {$$=$1;}
+    | EXPRESION_RELACIONAL {$$=$1;}
+;
 
 EXPRESION : 
     EXPRESION MAS EXPRESION {
@@ -334,7 +345,7 @@ EXPRESION :
             nodeInstruction: (new Nodo('EXPRESION')).generateProduction(['IDENTIFICADOR'])
         }
     }
-   | LITERALES {$$=$1; }
+    | LITERALES {console.log("Buscando literal");$$=$1; }
 ;
 
 LITERALES: 
@@ -382,58 +393,27 @@ LITERALES:
     }
 ;
 
-EXPRESION_RELACIONAL
-    :
-    EXPRESION MAYOR_QUE EXPRESION {
-        $$={
-            returnInstruction: new relacional.default(relacional.tipoOp.MAYOR, $1.returnInstruction, $3.returnInstruction, @1.first_line, @1.first_column),
-            nodeInstruction: (new Nodo('EXPRESION_RELACIONAL')).generateProduction([$1.nodeInstruction, 'MAYOR_QUE', $3.nodeInstruction])
-        }
-    }
+EXPRESION_RELACIONAL :
+    EXPRESION MAYOR_QUE EXPRESION {$$ = new relacional.default(relacional.tipoOp.MAYOR, $1, $3, @1.first_line, @1.first_column);}
     |
-    EXPRESION MENOR_QUE EXPRESION {
-        $$={
-            returnInstruction: new relacional.default(relacional.tipoOp.MENOR, $1.returnInstruction, $3.returnInstruction, @1.first_line, @1.first_column),
-            nodeInstruction: (new Nodo('EXPRESION_RELACIONAL')).generateProduction([$1.nodeInstruction, 'MENOR_QUE', $3.nodeInstruction])
-        }
-    }
+    EXPRESION MENOR_QUE EXPRESION {$$ = new relacional.default(relacional.tipoOp.MENOR_QUE, $1, $3, @1.first_line, @1.first_column);}
     |
-    EXPRESION MAYOR_IGUAL EXPRESION {
-        $$={
-            returnInstruction: new relacional.default(relacional.tipoOp.MAYOR_IGUAL, $1.returnInstruction, $3.returnInstruction, @1.first_line, @1.first_column),
-            nodeInstruction: (new Nodo('EXPRESION_RELACIONAL')).generateProduction([$1.nodeInstruction, 'MAYOR_IGUAL', $3.nodeInstruction])
-        }
-    }
+    EXPRESION MAYOR_IGUAL EXPRESION {$$ = new relacional.default(relacional.tipoOp.MAYOR_IGUAL, $1, $3, @1.first_line, @1.first_column);}
     |
-    EXPRESION MENOR_IGUAL EXPRESION {
-        $$={
-            returnInstruction: new relacional.default(relacional.tipoOp.MENOR_IGUAL, $1.returnInstruction, $3.returnInstruction, @1.first_line, @1.first_column),
-            nodeInstruction: (new Nodo('EXPRESION_RELACIONAL')).generateProduction([$1.nodeInstruction, 'MENOR_IGUAL', $3.nodeInstruction])
-        }
-    }
+    EXPRESION MENOR_IGUAL EXPRESION {$$ = new relacional.default(relacional.tipoOp.MENOR_IGUAL, $1, $3, @1.first_line, @1.first_column);}
     |
-    EXPRESION IGUAL EXPRESION {
-        $$={
-            returnInstruction: new relacional.default(relacional.tipoOp.IGUAL, $1.returnInstruction, $3.returnInstruction, @1.first_line, @1.first_column),
-            nodeInstruction: (new Nodo('EXPRESION_RELACIONAL')).generateProduction([$1.nodeInstruction, 'IGUAL', $3.nodeInstruction])
-        }
-    }
+    EXPRESION IGUAL EXPRESION {$$ = new relacional.default(relacional.tipoOp.IGUAL, $1, $3, @1.first_line, @1.first_column);}
     |
-    EXPRESION DIFERENTE EXPRESION {
-        $$={
-            returnInstruction: new relacional.default(relacional.tipoOp.DIFERENTE, $1.returnInstruction, $3.returnInstruction, @1.first_line, @1.first_column),
-            nodeInstruction: (new Nodo('EXPRESION_RELACIONAL')).generateProduction([$1.nodeInstruction, 'DIFERENTE', $3.nodeInstruction])
-        }
-    }
+    EXPRESION DIFERENTE EXPRESION {$$ = new relacional.default(relacional.tipoOp.DIFERENTE, $1, $3, @1.first_line, @1.first_column);}
+    |
+    PARABRE EXPRESION_RELACIONAL PARCIERRA {$$=$1;}
 ;
 
 // eSRO HAY QUYE HACERO RECURSIVO
 EXPRESION_LOGICA :
-    EXPRESION_LOGICA OR EXPRESION_RELACIONAL {
-        $$={
-            returnInstruction: new logica.default(logica.tipoOp.OR, $1, $3, @1.first_line, @1.first_column),
-            nodeInstruction: (new Nodo('EXPRESION_LOGICA')).generateProduction([$1.nodeInstruction, 'OR', $3.nodeInstruction])
-        }
-    }
-    | EXPRESION_RELACIONAL                       {$$ = $1;}
+    EXPRESION_RELACIONAL OR EXPRESION_RELACIONAL {$$ = new logica.default(logica.tipoOp.OR, $1, $3, @1.first_line, @1.first_column);}
+    |
+    EXPRESION_RELACIONAL AND EXPRESION_RELACIONAL {$$ = new logica.default(logica.tipoOp.AND, $1, $3, @1.first_line, @1.first_column);}
+    |
+    NOT EXPRESION_RELACIONAL {$$ = new logica.default(logica.tipoOp.NOT, null, $2, @1.first_line, @1.first_column);}
 ;
