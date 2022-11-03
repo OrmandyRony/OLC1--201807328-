@@ -89,10 +89,11 @@
 /* Literales */
 [0-9]+("."[0-9]+)\b             return 'DECIMAL';
 [0-9]+                          return 'ENTERO';
-[A-Za-z]+["_"0-9A-Za-z]*        return 'IDENTIFICADOR';
-\"[^\"]*\"                      { yytext=yytext.substr(1,yyleng-2); return 'CADENA'; }
 "true"                          return 'TRUE';            
 "false"                         return 'FALSE';
+[A-Za-z]+["_"0-9A-Za-z]*        return 'IDENTIFICADOR';
+\"[^\"]*\"                      { yytext=yytext.substr(1,yyleng-2); return 'CADENA'; }
+
 \'[^]\'                         return 'CARACTER';
 
 

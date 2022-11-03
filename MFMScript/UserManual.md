@@ -300,7 +300,7 @@ Donde ```<valor>``` puede ser una variable o una expresión aritmética.
 ### Ciclos
 Este tipo de instrucción permite realizar tareas repetitivas en base a una condición dada. Cada una de las instrucciones necesita de una condición de forma obligatoria.
 
-#### Ciclo “Para”
+#### Ciclo “Para--Sin Implementar”
 Este ciclo ejecuta un conjunto de instrucciones, con un límite de repeticiones. Es necesario ingresar un *valor inicial* y también un *valor final*, el valor final es el que le indica al ciclo, en momento para terminar de realizar las repeticiones. Otro de los elementos necesarios en este ciclo es el *número de pasos que realizará entre cada repetición*. Cuando el ciclo no tiene definido el número de pasos, se tomará como defecto el incremento en 1. Es posible que la lista de instrucciones esté vacía.
 
 ```C++
@@ -322,7 +322,7 @@ fin_para
 
 Donde ```<valor inicial>``` y ```<valor final>``` puede ser considerado como el nombre de una *variable, un número o una expresión aritmética*.
 
-#### Ciclo “Mientras”
+#### Ciclo “While”
 Este ciclo ejecuta un conjunto de instrucciones sin límite definido. Para poder realizar una repetición es necesario que exista una condición. Es posible que la lista de instrucciones esté vacía.
 
 ```C++
@@ -335,18 +335,35 @@ mientras <condicion> hacer
 fin_mientas
 ```
 
-#### Ciclo “Repetir hasta”
-Este ciclo ejecuta un conjunto de instrucciones sin límite definido. A diferencia del ciclo anterior, este ciclo realiza una única repetición sin restricción. Para poder realizar las demás repeticiones es necesario que exista una condición. Es posible que la lista de instrucciones esté vacía.
+#### Ciclo “Do While”
+El ciclo o bucle Do-While, es una sentencia que ejecuta al menos una vez el conjunto de
+instrucciones que se encuentran dentro de ella y que se sigue ejecutando mientras la
+condición sea verdadera.
 
-```C++
-repetir
-    <instrucciones>
-hasta_que <condición>
-
-repetir
-    //null
-hasta_que <condición>
+```Java
+‘do’ ‘{‘
+[<INSTRUCCIONES>]
+‘}’ ‘while’ ‘(’[<EXPRESION>] ‘)’ ‘;’
 ```
+*Ejemplo*
+
+```Java
+//Ejemplo de cómo se implementar un ciclo do-while 
+Int a=5;
+
+do{
+    if (a>=1 && a <3){
+        Println(true)
+    }
+    else{
+        Println(false)
+    }
+    a--;
+} while (a>0);
+/*RESULTADO
+false false false true true */
+```
+
 
 ### Retorno
 Esta instrucción está encargada de devolver un valor específicamente. Esta instrucción puede reconocer una ```<condición>``` , un número o una ```<expresión aritmética>```.
