@@ -10,6 +10,7 @@
     const ifIns = require('./Instructions/IfIns');    
     const declaracion = require('./Instructions/Declaracion')
     const mientras = require('./Instructions/Mientras');
+    const doWhile = require('./Instructions/DoWhile');
     const asignacion = require('./Instructions/Asignacion');
     const { Nodo } = require('./Symbol/Three')
 %}
@@ -42,8 +43,11 @@
 "else"          return 'RESELSE';
 'elif'          return 'RES_ELIF';
 
-
+/*Ciclos*/
 "while"         return 'RESWHILE';
+'for'           return "RES_FOR";
+'do'            return "RES_DO";
+'until'         return 'RES_UNTIL';
 
 /* Operaciones aritmeticas */
 "+"             return 'MAS';
@@ -162,7 +166,8 @@ INSTRUCCION :
         };
     }                
     | WHILEINS              {$$=$1;}
-    | REASIGNACION            {$$=$1;} // cuidado con esta clase
+    | DO_WHILE_INS          {$$=$1;}
+    | REASIGNACION          {$$=$1;} // cuidado con esta clase
     | IFINS                 {$$=$1;}
     | DECLARACION           {
         $$={
@@ -179,8 +184,23 @@ INSTRUCCION :
 /*CICLOS*/
 /* While */
 WHILEINS:
-    RESWHILE PARABRE EXPRESION_LOGICA PARCIERRA LLAVIZQ INSTRUCCIONES LLAVDER
-            {$$ = new mientras.default($3, $6, @1.first_line, @1.first_column)}
+    RESWHILE PARABRE EXPRESIONES PARCIERRA LLAVIZQ INSTRUCCIONES LLAVDER {
+        $$={
+            returnInstruction: new mientras.default($3.returnInstruction, $6.returnInstruction, @1.first_line, @1.first_column), 
+            nodeInstruction: (new Nodo("WHILE")).generateProduction(["WHILE","(", $3.nodeInstruction, ")", "{", $6.nodeInstruction, "}"]) 
+        }
+    }
+;
+
+/* Do while */
+DO_WHILE_INS:
+    RES_DO LLAVIZQ INSTRUCCIONES LLAVDER RESWHILE PARABRE EXPRESIONES PARCIERRA PTCOMA {
+        console.log("Detecte un dowhile");
+        $$={
+            returnInstruction: new doWhile.default($7.returnInstruction, $3.returnInstruction, @1.first_line, @1.first_column), 
+            nodeInstruction: (new Nodo("DO_WHILE")).generateProduction(["DO","{", $3.nodeInstruction, "}", "WHILE","{", $7.nodeInstruction, "}"]) 
+        }
+    }
 ;
 
 /*CONDICIONALES*/
@@ -189,7 +209,7 @@ IFINS:
     SIMPLEIF                {$$ = $1;}
     | /*Else if*/
     RESIF PARABRE EXPRESIONES PARCIERRA LLAVIZQ INSTRUCCIONES LLAVDER  RESELSE LLAVIZQ INSTRUCCIONES LLAVDER {
-        console.log("Soy un else if");
+        // console.log("Soy un else if");
         $$={
             returnInstruction: new ifIns.default($3.returnInstruction, $6.returnInstruction, undefined, $10.returnInstruction, @1.first_line, @1.first_column), 
             nodeInstruction: (new Nodo("ELSE_IF")).generateProduction(["IF","(", $3.nodeInstruction, ")", "{", $6.nodeInstruction, "}", "ELSE", "{", $10.nodeInstruction, "}"]) 
@@ -197,8 +217,8 @@ IFINS:
     }                            
     | 
     RESIF PARABRE EXPRESIONES PARCIERRA LLAVIZQ INSTRUCCIONES LLAVDER ELSEIFSINS RESELSE LLAVIZQ INSTRUCCIONES LLAVDER {
-        console.log("Soy un else ELIF if");
-        console.log($8);
+        // console.log("Soy un else ELIF if");
+        // console.log($8);
         $$={
             returnInstruction: new ifIns.default($3.returnInstruction, $6.returnInstruction, $8.returnInstruction, $11.returnInstruction, @1.first_line, @1.first_column), 
             nodeInstruction: (new Nodo("SIMPLE_IF")).generateProduction(["IF","(", $3.nodeInstruction, ")", "{", $6.nodeInstruction, "}", $8.nodeInstruction, "ELSE", "{", $11.nodeInstruction, "}"]) 
@@ -268,7 +288,7 @@ REASIGNACION
     :
     IDENTIFICADOR ASIGNACION EXPRESION PTCOMA {
         $$={
-            returnInstruction: new asignacion.default($1.returnInstruction, $3.returnInstruction, @1.first_line, @1.first_column), 
+            returnInstruction: new asignacion.default($1, $3.returnInstruction, @1.first_line, @1.first_column), 
             nodeInstruction: (new Nodo('REASIGNACION')).generateProduction([$1, 'ASIGNACION', $3.nodeInstruction, 'ptcoma'])
         }
     }
