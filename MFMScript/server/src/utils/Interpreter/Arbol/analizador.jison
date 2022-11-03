@@ -89,11 +89,12 @@
 /lex
 
 // rEVISAR PRESENDENCIAS
+%left 'OR'
 %left 'MAYOR_QUE' 'MENOR_QUE' 'MAYOR_IGUAL' 'MENOR_IGUAL' 'IGUAL' 'DIFERENTE'
 %left 'POR' 'DIVIDIDO'  'POTENCIA' 'MODULO'
 %left 'MAS' 'MENOS'
 
-%left 'OR'
+
 
 
 %start INIT
@@ -282,7 +283,7 @@ DECLARACION:
 
 IMPRIMIBLE:
     EXPRESION {$$=$1;}  
-    | EXPRESION_RELACIONAL {$$=$1;}  
+    | EXPRESION_LOGICA {$$=$1;}  
 ;
 
 IMPRIMIR : 
@@ -429,11 +430,11 @@ EXPRESION_RELACIONAL
 
 // eSRO HAY QUYE HACERO RECURSIVO
 EXPRESION_LOGICA :
-    EXPRESION_LOGICA OR EXPRESION_RELACIONAL {
+    EXPRESION_RELACIONAL OR EXPRESION_RELACIONAL {
         $$={
-            returnInstruction: new logica.default(logica.tipoOp.OR, $1, $3, @1.first_line, @1.first_column),
+            returnInstruction: new logica.default(logica.tipoOp.OR, $1.returnInstruction, $3.returnInstruction, @1.first_line, @1.first_column),
             nodeInstruction: (new Nodo('EXPRESION_LOGICA')).generateProduction([$1.nodeInstruction, 'OR', $3.nodeInstruction])
         }
     }
-    | EXPRESION_RELACIONAL                       {$$ = $1;}
+  
 ;
