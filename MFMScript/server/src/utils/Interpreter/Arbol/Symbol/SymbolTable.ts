@@ -1,4 +1,5 @@
 import Simbolo from './Symbol';
+import Tipo, { DataType } from "../Symbol/Type";
 
 export default class SymbolTable {
   private tablaAnterior: SymbolTable | any;
@@ -33,8 +34,61 @@ export default class SymbolTable {
       while(actual){
         if(actual.getTabla().get(id)){
           oldValue = actual.getTabla().get(id);
+          console.log("Valor viejo: ", oldValue?.getvalor() );
           actual.getTabla().delete(id);
           actual.getTabla().set(id, valor);
+          break;
+        }
+        actual = actual.getAnterior();
+      }
+      if(!oldValue) console.log('Error la variable no existe')
+    }
+    
+    return null;
+  }
+
+  public setValorIncremento(id: String, declaration = true): any{
+    if (declaration) {
+    
+    } else {
+      let actual: SymbolTable = this
+      let oldValue = null
+
+      // Busqueda del entorno de la tabla, las tabla da error si no se usan sus metododos nativos
+      while(actual){
+        if(actual.getTabla().get(id)){
+          oldValue = actual.getTabla().get(id);
+          const incremento = Number(Number(oldValue?.getvalor()) + 1);
+      
+          
+          actual.getTabla().delete(id);
+          actual.getTabla().set(id, new Simbolo(new Tipo(DataType.ENTERO), id, incremento));
+          break;
+        }
+        actual = actual.getAnterior();
+      }
+      if(!oldValue) console.log('Error la variable no existe')
+    }
+    
+    return null;
+  }
+
+  public setValorDecremento(id: String, declaration = true): any{
+    if (declaration) {
+    
+    } else {
+      let actual: SymbolTable = this
+      let oldValue = null
+
+      // Busqueda del entorno de la tabla, las tabla da error si no se usan sus metododos nativos
+      while(actual){
+        if(actual.getTabla().get(id)){
+          oldValue = actual.getTabla().get(id);
+          const decremento = Number(Number(oldValue?.getvalor()) - 1);
+      
+          
+          actual.getTabla().delete(id);
+          actual.getTabla().set(id, new Simbolo(new Tipo(DataType.ENTERO), id, decremento));
           break;
         }
         actual = actual.getAnterior();

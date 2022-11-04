@@ -66,6 +66,20 @@ export default class Aritmetico extends Instruccion {
           return Number(valueIzq) / Number(valueDer);
         }
       }
+    } else if (this.tipo === tipoOp.MODULO) {
+      let valueIzq = this.operacionIzq.interpretar(arbol, tabla);
+      let valueDer = this.operacionDer.interpretar(arbol, tabla);
+
+      if (this.operacionIzq.tipoDato.getTipo() === DataType.ENTERO) {
+        if (this.operacionDer.tipoDato.getTipo() === DataType.ENTERO) {
+          this.tipoDato.setTipo(DataType.ENTERO);
+          return Number(valueIzq) % Number(valueDer);
+        }
+      }
+    } else if (this.tipo === tipoOp.NEGATIVO) {
+      let valueDer = this.operacionDer.interpretar(arbol, tabla);
+      return (Number(valueDer)*-1);
+
     }
 
     return null;
@@ -79,6 +93,7 @@ export enum tipoOp {
   MULTIPLICACION,
   // Sin adjuntar interpretacion
   POTENCIA,
-  MODULO
+  MODULO,
+  NEGATIVO
 
 }
