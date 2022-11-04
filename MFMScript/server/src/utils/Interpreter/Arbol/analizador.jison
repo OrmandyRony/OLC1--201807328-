@@ -251,6 +251,13 @@ FOR_INS:
             nodeInstruction: (new Nodo("FOR_INS")).generateProduction(["FOR","(", $3.nodeInstruction, $4.nodeInstruction, $6.nodeInstruction,")", "{", $9.nodeInstruction, "}"]) 
         }
     }
+    | RES_FOR PARABRE REASIGNACION EXPRESIONES PTCOMA SUGAR_SINTACTIC PARCIERRA LLAVIZQ INSTRUCCIONES LLAVDER {
+        console.log("reconi el for REASIGNACION--------------------------------------");
+        $$={
+            returnInstruction: new cicloFor.default($3.returnInstruction, $4.returnInstruction, $6.returnInstruction, $9.returnInstruction, @1.first_line, @1.first_column), 
+            nodeInstruction: (new Nodo("FOR_INS")).generateProduction(["FOR","(", $3.nodeInstruction, $4.nodeInstruction, $6.nodeInstruction,")", "{", $9.nodeInstruction, "}"]) 
+        }
+    }
 ;
 
 /* Do while */
@@ -515,6 +522,10 @@ EXPRESION :
         }
     }
    | LITERALES {$$=$1; }
+;
+
+EXPRESION_CADENA
+    : EXPRESION_CADENA MAS EXPRESION_CADENA
 ;
 
 LITERALES: 
