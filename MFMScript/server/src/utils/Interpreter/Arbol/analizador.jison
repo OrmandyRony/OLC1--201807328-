@@ -12,6 +12,7 @@
     const mientras = require('./Instructions/Mientras');
     const doWhile = require('./Instructions/DoWhile');
     const doUntil = require('./Instructions/DoUntil');
+    const cicloFor = require('./Instructions/CicloFor');
     const asignacion = require('./Instructions/Asignacion');
     const sugar = require('./Instructions/SyntacticSugar');
     const sugarDecremento = require('./Instructions/Decremento');
@@ -182,6 +183,7 @@ INSTRUCCION :
     | WHILEINS              {$$=$1;}
     | DO_WHILE_INS          {$$=$1;}
     | DO_UNTIL_INS          {$$=$1;}
+    | FOR_INS               {$$=$1;}
     | REASIGNACION          {$$=$1;} // cuidado con esta clase
     | IFINS                 {$$=$1;}
     | DECLARACION           {
@@ -198,7 +200,7 @@ INSTRUCCION :
 /* Azucar sintactica */
 SUGAR_SINTACTIC:
     IDENTIFICADOR INCREMENTO PTCOMA  {
-        console.log("Azucar");
+        console.log("Azucar++");
         $$={
             returnInstruction: new sugar.default($1, @1.first_line, @1.first_column),
             nodeInstruction: (new Nodo('Incremento')).generateProduction([$1 + "++"])
@@ -206,6 +208,22 @@ SUGAR_SINTACTIC:
     }
     |
     IDENTIFICADOR DECREMENTO PTCOMA {
+        console.log("Azucar");
+        $$={
+            returnInstruction: new sugarDecremento.default($1, @1.first_line, @1.first_column),
+            nodeInstruction: (new Nodo('Decremento')).generateProduction([$1 + "--"])
+        }
+    }
+    |
+    IDENTIFICADOR INCREMENTO   {
+        console.log("Azucar++");
+        $$={
+            returnInstruction: new sugar.default($1, @1.first_line, @1.first_column),
+            nodeInstruction: (new Nodo('Incremento')).generateProduction([$1 + "++"])
+        }
+    }
+    |
+    IDENTIFICADOR DECREMENTO  {
         console.log("Azucar");
         $$={
             returnInstruction: new sugarDecremento.default($1, @1.first_line, @1.first_column),
@@ -221,6 +239,16 @@ WHILEINS:
         $$={
             returnInstruction: new mientras.default($3.returnInstruction, $6.returnInstruction, @1.first_line, @1.first_column), 
             nodeInstruction: (new Nodo("WHILE")).generateProduction(["WHILE","(", $3.nodeInstruction, ")", "{", $6.nodeInstruction, "}"]) 
+        }
+    }
+;
+
+FOR_INS:
+    RES_FOR PARABRE DECLARACION EXPRESIONES PTCOMA SUGAR_SINTACTIC PARCIERRA LLAVIZQ INSTRUCCIONES LLAVDER {
+        console.log("reconi el for--------------------------------------");
+        $$={
+            returnInstruction: new cicloFor.default($3.returnInstruction, $4.returnInstruction, $6.returnInstruction, $9.returnInstruction, @1.first_line, @1.first_column), 
+            nodeInstruction: (new Nodo("FOR_INS")).generateProduction(["FOR","(", $3.nodeInstruction, $4.nodeInstruction, $6.nodeInstruction,")", "{", $9.nodeInstruction, "}"]) 
         }
     }
 ;
@@ -342,6 +370,7 @@ REASIGNACION
 DECLARACION:
 
     INT IDENTIFICADORES ASIGNACION EXPRESION PTCOMA {
+        console.log("Declarando entero");
         $$={
             returnInstruction: new declaracion.default($2.returnInstruction, new Tipo.default(Tipo.DataType.ENTERO), $4.returnInstruction, @1.first_line, @1.first_column), 
             nodeInstruction: (new Nodo('Declaracion')).generateProduction([$1, $2.nodeInstruction, 'ASIGNACION', $4.nodeInstruction, 'ptcoma'])
@@ -542,6 +571,7 @@ EXPRESION_RELACIONAL
     }
     |
     EXPRESION MENOR_QUE EXPRESION {
+        console.log("Detecto una expresion relacional");
         $$={
             returnInstruction: new relacional.default(relacional.tipoOp.MENOR, $1.returnInstruction, $3.returnInstruction, @1.first_line, @1.first_column),
             nodeInstruction: (new Nodo('EXPRESION_RELACIONAL')).generateProduction([$1.nodeInstruction, 'MENOR_QUE', $3.nodeInstruction])
