@@ -16,7 +16,10 @@
     const asignacion = require('./Instructions/Asignacion');
     const sugar = require('./Instructions/SyntacticSugar');
     const sugarDecremento = require('./Instructions/Decremento');
+    const TypeOf = require('./Instructions/TypeOf');
+    const ToString = require('./Instructions/ToString');
     const { Nodo } = require('./Symbol/Three')
+    
 %}
 %lex 
 
@@ -36,12 +39,14 @@
 'char'          return 'CHAR';
 'string'        return 'STRING';
 
-
-
 /* cierrre */
-/* Imprimir */
-"print"(ln)?         return 'RESPRINT';
-
+/* Funciones nativas */
+"print"(ln)?    return 'RESPRINT';
+"typeof"        return 'TYPE_OF';
+'tolower'       return 'TO_LOWER';
+'toUpper'       return 'TO_UPPER';
+'tostring'      return 'TO_STRING';
+'round'         return 'ROUND';
 
 /* Condicionales */
 "if"            return 'RESIF';
@@ -65,8 +70,6 @@
 "/"             return 'DIVIDIDO';
 '^'             return 'POTENCIA';
 '%'             return 'MODULO';
-
-
 
 
 /* Operaciones relacionales */
@@ -154,6 +157,8 @@ INSTRUCCIONES :
     }
 ;
 
+
+
 IDENTIFICADORES: 
     IDENTIFICADORES COMA  IDENTIFICADOR {
         $$={
@@ -192,11 +197,49 @@ INSTRUCCION :
             nodeInstruction: (new Nodo("INSTRUCCION")).generateProduction([$1.nodeInstruction]) 
         };
     }
+    | FUNCIONES_NATIVAS     {$$=$1;}
     | SUGAR_SINTACTIC       {$$=$1;}
     | INVALID               {controller.listaErrores.push(new errores.default('ERROR LEXICO',$1, @1.first_line, @1.first_column));}
     | error  PTCOMA         {console.log("ERRORES", @1.first_line, @1.first_column); controller.listaErrores.push(new errores.default(`ERROR SINTACTICO`,"Se esperaba token", @1.first_line, @1.first_column));}
 ;
 
+/* funciones nativas */
+FUNCIONES_NATIVAS
+    : STRING IDENTIFICADORES ASIGNACION TYPE_OF_INS  {
+        $$={
+            returnInstruction: new declaracion.default($2.returnInstruction, new Tipo.default(Tipo.DataType.CADENA), $4.returnInstruction, @1.first_line, @1.first_column), 
+            nodeInstruction: (new Nodo('Declaracion')).generateProduction([$1, $2, 'ASIGNACION', $4.nodeInstruction, 'ptcoma'])
+        }
+    }
+    | STRING IDENTIFICADORES ASIGNACION TO_STRING_INS  {
+        $$={
+            returnInstruction: new declaracion.default($2.returnInstruction, new Tipo.default(Tipo.DataType.CADENA), $4.returnInstruction, @1.first_line, @1.first_column), 
+            nodeInstruction: (new Nodo('Declaracion')).generateProduction([$1, $2, 'ASIGNACION', $4.nodeInstruction, 'ptcoma'])
+        }
+    }
+;
+
+
+
+TYPE_OF_INS
+    : TYPE_OF PARABRE EXPRESIONES PARCIERRA PTCOMA {
+        console.log("type of");
+        $$={
+            returnInstruction: new TypeOf.default($3.returnInstruction, @1.first_line, @1.first_column), 
+            nodeInstruction: (new Nodo('TYPE_OF')).generateProduction([$3.nodeInstruction, 'ptcoma'])
+        }
+    }
+;
+
+TO_STRING_INS
+    :  TO_STRING PARABRE EXPRESIONES PARCIERRA PTCOMA {
+        console.log("type String");
+        $$={
+            returnInstruction: new ToString.default($3.returnInstruction, @1.first_line, @1.first_column), 
+            nodeInstruction: (new Nodo('TO_STRING')).generateProduction([$3.nodeInstruction, 'ptcoma'])
+        }
+    }
+;
 /* Azucar sintactica */
 SUGAR_SINTACTIC:
     IDENTIFICADOR INCREMENTO PTCOMA  {
