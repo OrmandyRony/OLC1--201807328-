@@ -43,6 +43,12 @@ function NavBar(props) {
                 </li>
 
                 </ul>
+                <div>
+                { props.entradaA }
+                </div>
+                <div>
+                { props.guardar }
+                </div>
                 {props.com}
                 <div >
                 {props.limpi}

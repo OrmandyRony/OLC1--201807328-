@@ -4,8 +4,11 @@ import Editor2 from "../Components/Editor";
 import Service from "../Services/Service";
 import TextEditor from "@monaco-editor/react";
 import { Graphviz } from 'graphviz-react';
+import { saveAs } from "file-saver";
 
 function Index() {
+    const [myValue, setMyValue] = useState('');
+
     const [ value, setValue ] = useState("")
     const [ response, setResponse ] = useState("")
     const [ arbolito, setArbolito ] = useState(`graph {
@@ -51,20 +54,45 @@ function Index() {
 
     }
 
+    const createFile = () => {
+        const blob = new Blob([ editorRef.current.getValue() ], {type: 'text/plain;charset=utf-8'})
+        saveAs(blob, 'mi-archivo.txt');
+    }
+
+    const readFile= ( e ) => {
+        const file = e.target.files[0];
+
+        if ( !file ) return;
+
+        const fileReader = new FileReader();
+        fileReader.readAsText( file );
+
+        fileReader.onload = () => {
+            console.log( fileReader.result );
+            setMyValue(fileReader.result );
+        }
+        
+        fileReader.onerror = () => {
+            console.log( fileReader.error );
+        }
+    }
+
     const buttonTraducir = <button type="button" class="btn btn-outline-success" onClick={handleSave}>Run</button>
     const buttonVivo = <button type="button" class="btn btn-outline-warning" onClick={handlerGetServerInfo}>Traducir</button>
     const buttonLimpiar = <button type="button" class="btn btn-outline-danger" onClick={handlerClear}>Clean</button>
-
+    const guardarArchivo =  <button type="button" class="btn btn-outline-warning" onClick={ createFile }>Guardar</button>;
+    const entrada =  <input type="file" multiple={ false } onChange={ readFile }></input>;
+   
     return (
         <>
-            <NavBar com={buttonTraducir} limpi={buttonLimpiar} />
-
+            <NavBar entradaA={entrada}  guardar={guardarArchivo} com={buttonTraducir} limpi={buttonLimpiar} />
+  
             <TextEditor
 
             height='50vh'
             theme='vs-dark'
             defaultLanguage='java'
-            value='// Welcome at MFMScript'
+            value= { myValue }
             onChange={(value) => setContentMarkdown(value)}
             onMount={handleEditorDidMount}
             />
