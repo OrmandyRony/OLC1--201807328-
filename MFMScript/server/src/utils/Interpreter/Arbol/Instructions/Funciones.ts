@@ -13,7 +13,6 @@ export default class Funciones extends Instruccion {
     private listaParametros: Instruccion[];
 
     private tipo: Tipo;
-    private valor: Instruccion;
     private listaInstrucciones: Instruccion[];
 
     constructor(
@@ -29,11 +28,11 @@ export default class Funciones extends Instruccion {
         this.listaParametros = listaParametros;
         this.tipo = tipo;
         this.listaInstrucciones = listaInstrucciones;
-        // console.log("Declarando ------")
+        // console.log("Declarando ------")sf
     }
 
     public interpretar(arbol: Arbol, tabla: tablaSimbolo) {
-        tabla.setValor(this.id, new Simbolo(this.tipo, this.id, this.valor.interpretar(arbol, tabla)));
+       
         return null;
     }
 }
