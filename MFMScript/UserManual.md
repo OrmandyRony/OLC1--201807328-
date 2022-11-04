@@ -1,6 +1,6 @@
-[comment]: # "Documentacion usuario del proyecto 1 de Organizacion de Lenguajes y Compiladores"
+[comment]: # "Documentacion usuario del proyecto 2 de Organizacion de Lenguajes y Compiladores"
 
-# Pseudo-Parser Manual de Usuario
+# MFMScript Manual de Usuario
 
 ## Tabla de contenido
 
