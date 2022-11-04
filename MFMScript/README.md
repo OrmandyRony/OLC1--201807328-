@@ -35,12 +35,6 @@ npm i --save-dev @types/express @types/cors @types/morgan @types/node @types/con
 
 ```
 
-## Diagramas
-[Diagrama de clases](https://lucid.app/documents/view/819f7438-04b5-4b21-8f68-741c820ca911)
-
-Estrutura de la tabla de simbolos
-![](./img/SymbolTable.png)
-
 ### Tabla de simbolos
 
 
@@ -85,9 +79,14 @@ Para este lenguaje
 
 ### Operadores
 
+## Diagramas
+[Diagrama de clases](https://lucid.app/documents/view/819f7438-04b5-4b21-8f68-741c820ca911)
+
+Estrutura de la tabla de simbolos
+![](./img/SymbolTable.png)
 
 ## Recuperacion de errores
-se opto por el punto coma 
+Se opto por el punto coma .
 
 ## Referencias
 <dl compact="compact">
@@ -103,25 +102,13 @@ Reading, MA,
 </dd>
 </dl>
 
-<dl compact="compact">
-    <dt>
-        <a name="manualcup" href="http://www2.cs.tum.edu/projects/cup/docs.php#intro">[2]</a> 
-    </dt>
-    <dd>
-    <i> CUP User's Manual<i>
-Michael Petter, Technische Universität München
-Scott E. Hudson
-Graphics Visualization and Usability Center
-Georgia Institute of Technology
-    </dd>
-</dl>
 
 <dl compact="compact">
     <dt>
-        <a name="proyecto 2">[4]</a> 
+        <a name="proyecto 2">[2]</a> 
     </dt>
     <dd>
-    <i>Proyecto 1,<i>
+    <i>Proyecto 2,<i>
 Universidad San Carlos de Guatemala
 Facultad de Ingeniería
 Escuela de Ciencias y Sistemas

@@ -58,18 +58,18 @@ Para este proyecto solo haremos uso del analisi lexico y sintactico.
 **Análisis Léxico:**
 El analizador léxico reconoce el flujo de caracteres que componene el programa fuente y los agrupa en secuencias significativadas, conocidas como _lexemas_.
 
-Para esta fase se usara la herramienta [JFlex](https://www.jflex.de/).
+
 
 **Análisis Sintáctico:**
 El parser (analizador sintáctico) utiliza los primeros componentes de los tokens producidos por el analizador de léxico para crear una representación intermedia en forma de árbol que describa la estructura gramatical del flujo de tokens.
 
-Para esta fase se usara la herramienta [CUP](http://www2.cs.tum.edu/projects/cup/).
+En estas dos fase se usa Jison.
 
-## Sintaxis Pseudocodigo
+## Sintaxis MFMScript
 
 ### Conjunto de caracteres
 
-El conjunto basico de caracteres fuente de Pseudo-Parser incluye los caracteres:
+El conjunto basico de caracteres fuente de MFMScript incluye los caracteres:
 
 - Letras minusculas y mayusculas del alfabeto latino basico: `a-aA-Z`
 - Cifras decimales: `0-9`
@@ -77,53 +77,74 @@ El conjunto basico de caracteres fuente de Pseudo-Parser incluye los caracteres:
 
 ### Palabras Reservadas
 
-- inicio
-- fin
-- si
-- o_si
-- de_lo_contrario
-- fin_si
-- segun
-- para
-- fin_para
-- hasta
-- hacer
-- mientras
-- fin_mientras
-- repetir
-- hasta_que
-- retornar
-- metodo
-- fin_metodo
-- funcion
-- fin_funcion
-- ejecutar
-- imprimir
-- imprimir_nl
-- mod
-- ingresar
-- como
-- con_valor
-- mayor
-- menor
-- mayor_o_igual
-- menor_o_igual
-- es_igual
-- es_diferente
-- or
-- and
-- not
-- numero
-- cadena
-- caracter
-- boolean
-- verdadero
-- falso
+'int'     
+'double'     
+'boolean'     
+'char'     
+'string'     
+
+
+/* Funciones nativas */
+"print" 
+"println" 
+"typeof"      
+'tolower'      
+'toUpper'      
+'tostring'      
+'round'     
+
+/* Condicionales */
+"if"        
+"else"        
+'elif'         
+
+/*Ciclos*/
+"while"        
+'for'         
+'do'         
+'until'         
+
+/* incremento y decremento*/
+"++"            
+"--"            
+
+/* Operaciones aritmeticas */
+"+"     
+"-"       
+"*"     
+"/"          
+'^'          
+'%'        
+':'            
+
+/* Operaciones relacionales */
+'<='            
+'>='            
+">"           
+'<'           
+"=="      
+'!='          
+
+/*  */
+'='             
+/* Operadores Logicos */
+'||'           
+'&&'            
+'!'             
+
+
+
+";"          
+"("           
+")"             
+"{"           
+"}"           
+","        
 
 ### Operadores
 
 - aritmética: `+, -, *, /,%`
-- asignación: `->`
+- asignación: `=`
 
 - prueba de igualdad:` ==,!=`
 - funciones de llamada: `( )`
@@ -133,20 +154,20 @@ El conjunto basico de caracteres fuente de Pseudo-Parser incluye los caracteres:
 
 | Operador          | Ejemplo                           |
 | ----------------- | --------------------------------- |
-| Mayor             | Expresion mayor Expresion         |
-| Menor             | Expresion mayor Expresion         |
-| Mayor o igual que | Expresion mayor_o_igual Expresion |
-| Menor o igual que | Expresion menor_o_igual Expresion |
-| Igual             | Expresion es_igual Expresion      |
-| Diferente         | Expresion es_diferente Expresion  |
+| >                 | Expresion mayor Expresion         |
+| <                 | Expresion menor Expresion         |
+| >=                | Expresion mayor_o_igual Expresion |
+| <=                | Expresion menor_o_igual Expresion |
+| ==                | Expresion es_igual Expresion      |
+| !=                | Expresion es_diferente Expresion  |
 
 Operadores lógicos
 
 | Operador | Ejemplo                 |
 | -------- | ----------------------- |
-| Or       | Expresion or Expresion  |
-| And      | Enpresion and Expresion |
-| Not      | not Expresion           |
+| ||       | Expresion or Expresion  |
+| &&       | Enpresion and Expresion |
+| !        | not Expresion           |
 
 ### Comentarios
 
@@ -181,13 +202,13 @@ ingresar <lista de nombre> como <tipo de dato> con_valor <expresión>;
 <lista de nombre>= <nombre1>, <nombre2>, <nombre3> …
 ```
 
-Para declarar un nombre de una variable es **obligatorio** iniciar con _un carácter guión bajo y al finalizar también el mismo carácter_.
+Ejemplo para declarar un nombre de una variables.
 
 ```Java
-_myname_
-_lastname_
-_phone1_
-_phone2last_
+myname_
+lastname_
+phone1_
+phone2last_
 
 ```
 
@@ -561,45 +582,17 @@ git clone https://github.com/OrmandyRony/OLC1--201807328-.git
 
 ### Ejecutando el programa
 
-Se recomienda el uso de netbeans para ejecutar el programa ya que no es un jar.
-Interfaz del programa
+Se recomienda el uso de navegadores actualizados.
+#### Iniciando
 
-![](img/1.png)
+![](img/interfaz.png)
 
-#### Primer paso
+Pruebe cualquiera de los ejempos anteriores y de click en el boton run y vera una salida con su codigo ejecutado.
 
-De click en file y selescione open para abrir un proyecto luego seleccione el archivo que desea traducir si no desea codificars desde el area de texto.
+![](img/ast.png)
 
-![](img/2.png)
+A la vez se deplegara un AST de una gramatica LR.
 
-#### Segundo paso
-
-Elija el archivo
-
-![](img/3.png)
-
-#### Tercer paso
-
-Ejecute el archivo dando click sobre run.
-![](img/4.png)
-
-#### Cuarto paso
-
-Se genraran los archivos traducidos con un numero dependiendo las veces que le de run.
-
-![](img/6.png)
-
-#### Quinto paso
-
-Si ubieran errores se generaran reportes de los mismos
-
-![](img/7.png)
-
-#### Sexto paso
-
-Si no hay errore se genera una imagen del arbol concreto del codigo
-
-![](img/8.png)
 
 ## Referencias
 
