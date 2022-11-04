@@ -70,7 +70,7 @@
 "/"             return 'DIVIDIDO';
 '^'             return 'POTENCIA';
 '%'             return 'MODULO';
-
+':'             return 'DOS_PUNTOS';
 
 /* Operaciones relacionales */
 '<='            return 'MENOR_IGUAL';
@@ -202,6 +202,12 @@ INSTRUCCION :
     | INVALID               {controller.listaErrores.push(new errores.default('ERROR LEXICO',$1, @1.first_line, @1.first_column));}
     | error  PTCOMA         {console.log("ERRORES", @1.first_line, @1.first_column); controller.listaErrores.push(new errores.default(`ERROR SINTACTICO`,"Se esperaba token", @1.first_line, @1.first_column));}
 ;
+
+/* Funciones */
+FUNCIONES
+    : IDENTIFICADOR PARABRE PARAMETROS PARCIERRA DOS_PUNTOS TIPO_DATO LLAVIZQ INSTRUCCIONES LLAVDER {$$=$1;}
+;
+
 
 /* funciones nativas */
 FUNCIONES_NATIVAS
@@ -395,7 +401,7 @@ ELSEIFSINS :
 ;
 */
 /* TipoS de dato */
-/*
+
 TIPO_DATO: 
     INT             {$$ = $1;}
     | DOUBLE        {$$ = $1;}
@@ -403,7 +409,7 @@ TIPO_DATO:
     | CHAR          {$$ = $1;}    
     | STRING        {$$ = $1;}
 ;
-*/
+
 
 /* Asignacion cambiarle nombre a reasinacion */
 REASIGNACION 
