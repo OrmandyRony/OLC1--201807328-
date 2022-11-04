@@ -10,14 +10,25 @@ import Tipo, {DataType} from '../Symbol/Type';
  */
 export default class Funciones extends Instruccion {
     private id: String;
+    private listaParametros: Instruccion[];
+
     private tipo: Tipo;
     private valor: Instruccion;
+    private listaInstrucciones: Instruccion[];
 
-    constructor(id: String, tipo: Tipo, valor: Instruccion, linea: number, columna: number) {
+    constructor(
+        id: String, 
+        listaParametros: Instruccion[],
+        tipo: Tipo, 
+        listaInstrucciones: Instruccion[],
+        linea: number, 
+        columna: number
+        ) {
         super(new Tipo(DataType.INDEFINIDO), linea, columna);
         this.id = id;
+        this.listaParametros = listaParametros;
         this.tipo = tipo;
-        this.valor = valor;
+        this.listaInstrucciones = listaInstrucciones;
         // console.log("Declarando ------")
     }
 
