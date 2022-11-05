@@ -341,7 +341,7 @@ Donde `<valor>` puede ser una variable o una expresión aritmética.
 
 Este tipo de instrucción permite realizar tareas repetitivas en base a una condición dada. Cada una de las instrucciones necesita de una condición de forma obligatoria.
 
-#### Ciclo “Para--Sin Implementar”
+#### Ciclo “For"
 
 Este ciclo ejecuta un conjunto de instrucciones, con un límite de repeticiones. Es necesario ingresar un _valor inicial_ y también un _valor final_, el valor final es el que le indica al ciclo, en momento para terminar de realizar las repeticiones. Otro de los elementos necesarios en este ciclo es el _número de pasos que realizará entre cada repetición_. Cuando el ciclo no tiene definido el número de pasos, se tomará como defecto el incremento en 1. Es posible que la lista de instrucciones esté vacía.
 

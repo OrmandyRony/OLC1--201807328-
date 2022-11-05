@@ -52,7 +52,7 @@ function Index() {
     const handleSave = () => {
         Service.parse(editorRef.current.getValue())
         .then(({consola, arbol, errores}) => {
-            console.log(errores);
+       
             setArbolito(arbol);
 
             let tabla = "";
@@ -71,7 +71,7 @@ function Index() {
             
             console.log(tabla);
             
-            setResponse(JSON.stringify(errores) + "\n"+ consola);
+            setResponse(consola);
             tala.innerHTML = tabla;
         })
 

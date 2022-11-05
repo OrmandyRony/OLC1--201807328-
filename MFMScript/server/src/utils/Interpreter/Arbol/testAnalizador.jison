@@ -161,19 +161,20 @@ INSTRUCCIONES :
 
 IDENTIFICADORES: 
     IDENTIFICADORES COMA  IDENTIFICADOR {
+        console.log("declaracion multiple");
         $$={
             returnInstruction: [...$1.returnInstruction, $3.returnInstruction], 
             nodeInstruction: (new Nodo('DECLARACION_MULTIPLE')).generateProduction([$1.nodeInstruction, (new Nodo('IDENTIFICADOR')).generateProduction([$3])])
         }
     }
     | 
-    IDENTIFICADOR  {
-        console.log("Un identificador");
-        $$ = {
-                returnInstruction: $1,
-                nodeInstruction: (new Nodo('IDENTIFICADOR')).generateProduction([$1])
-            }
-        }       
+    IDENTIFICADOR {
+        console.log('Declara');
+        $$={
+            returnInstruction: [new declaracion.default($1, new Tipo.default(Tipo.DataType.ENTERO),  new nativo.default(new Tipo.default(Tipo.DataType.ENTERO), 0, @1.first_line, @1.first_column), @1.first_line, @1.first_column)], 
+            nodeInstruction: (new Nodo('Declaracion')).generateProduction(["int", $1, (new Nodo('VALOR_POR_DEFECTO')).generateProduction(['0'])])
+        }
+    }   
 ;
 
 LISTA_PARAMETROS
@@ -445,7 +446,7 @@ DECLARACION:
     INT IDENTIFICADORES ASIGNACION EXPRESION PTCOMA {
         console.log("Declarando entero");
         $$={
-            returnInstruction: new declaracion.default($2.returnInstruction, new Tipo.default(Tipo.DataType.ENTERO), $4.returnInstruction, @1.first_line, @1.first_column), 
+            returnInstruction: $2.returnInstruction, 
             nodeInstruction: (new Nodo('Declaracion')).generateProduction([$1, $2.nodeInstruction, 'ASIGNACION', $4.nodeInstruction, 'ptcoma'])
         }
     }

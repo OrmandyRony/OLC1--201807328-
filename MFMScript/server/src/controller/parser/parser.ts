@@ -14,7 +14,7 @@ export const parse = (req: Request & unknown, res: Response): void => {
 
     try { 
       //const returnThree = parser.parse(peticion);
-    
+      console.log("Parser");
       console.log(parser.parse(peticion));
       let ast = new Three(parser.parse(peticion));
       var tabla = new SymbolTable();
@@ -26,16 +26,16 @@ export const parse = (req: Request & unknown, res: Response): void => {
           listaErrores.push(i);
           ast.actualizaConsola((<Errores>i).returnError());
         }
-        console.log("LISTA DE ERRRORES");
-        console.log(listaErrores);
+        //console.log("LISTA DE ERRRORES");
+        //console.log(listaErrores);
         // 
         var resultador = i instanceof Instruccion ? i.interpretar(ast, tabla) : new Errores("ERROR SEMANTICO", "no se puede ejecutar la instruccion", 0, 0);
         if (resultador instanceof Errores) {
           listaErrores.push(resultador);
           ast.actualizaConsola((<Errores>resultador).returnError());
         }
-        console.log("LISTA DE ERRRORES--------------------");
-        console.log(listaErrores);        
+        //console.log("LISTA DE ERRRORES--------------------");
+        //console.log(listaErrores);        
       }
       const arbolGrafo = ast.getTree("ast");
       //console.log(arbolGrafo);
