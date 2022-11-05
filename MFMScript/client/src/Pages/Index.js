@@ -1,14 +1,17 @@
 import React, { useRef, useState } from "react";
 import NavBar from "../Components/NavBar";
+import Tabla from "../Components/Tabla";
 import Editor2 from "../Components/Editor";
 import Service from "../Services/Service";
 import TextEditor from "@monaco-editor/react";
 import { Graphviz } from 'graphviz-react';
 import { saveAs } from "file-saver";
+import { json } from "react-router-dom";
 
 function Index() {
     const [myValue, setMyValue] = useState('');
 
+    const [tab, setTab] = useState('');
     const [ value, setValue ] = useState("")
     const [ response, setResponse ] = useState("")
     const [ arbolito, setArbolito ] = useState(`graph {
@@ -45,14 +48,36 @@ function Index() {
         editorRef.current = editor;
     }
     
+    var tala = document.getElementById("tabla"); 
     const handleSave = () => {
         Service.parse(editorRef.current.getValue())
-        .then(({consola, arbol}) => {
+        .then(({consola, arbol, errores}) => {
+            console.log(errores);
             setArbolito(arbol);
-            setResponse(consola)
+
+            let tabla = "";
+            let i = 1;
+        
+            for (let err of errores) {
+                tabla = "<tr>\n";
+                tabla += `\t<th scope="row">${i}</th>\n`
+                tabla += `\t<td>${err.tipoError}</td>\n`
+                tabla += `\t<td>${err.descripcion}</td>\n`  
+                tabla += `\t<td>${err.fila}</td>\n`  
+                tabla += `\t<td>${err.columna}</td>\n`
+                tabla += "</tr>\n";  
+
+            }
+            
+            console.log(tabla);
+            
+            setResponse(JSON.stringify(errores) + "\n"+ consola);
+            tala.innerHTML = tabla;
         })
 
     }
+
+
 
     const createFile = () => {
         const blob = new Blob([ editorRef.current.getValue() ], {type: 'text/plain;charset=utf-8'})
@@ -101,6 +126,7 @@ function Index() {
 
                 options = {{zoom: true, height:1500, width:1800}}
             />
+            <Tabla/>
         </>
     )
 }

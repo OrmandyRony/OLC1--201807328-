@@ -26,15 +26,19 @@ const parse = (req, res) => {
                 exports.listaErrores.push(i);
                 ast.actualizaConsola(i.returnError());
             }
+            console.log("LISTA DE ERRRORES");
+            console.log(exports.listaErrores);
             // 
             var resultador = i instanceof Instruccion_1.Instruccion ? i.interpretar(ast, tabla) : new Error_1.default("ERROR SEMANTICO", "no se puede ejecutar la instruccion", 0, 0);
             if (resultador instanceof Error_1.default) {
                 exports.listaErrores.push(resultador);
                 ast.actualizaConsola(resultador.returnError());
             }
+            console.log("LISTA DE ERRRORES--------------------");
+            console.log(exports.listaErrores);
         }
         const arbolGrafo = ast.getTree("ast");
-        console.log(arbolGrafo);
+        //console.log(arbolGrafo);
         res.json({ consola: ast.getconsola(), arbol: arbolGrafo, errores: exports.listaErrores, simbolos: [] });
     }
     catch (err) {

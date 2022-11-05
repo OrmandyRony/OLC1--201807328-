@@ -161,22 +161,37 @@ INSTRUCCIONES :
 
 IDENTIFICADORES: 
     IDENTIFICADORES COMA  IDENTIFICADOR {
+        console.log("declaracion multiple");
         $$={
             returnInstruction: [...$1.returnInstruction, $3.returnInstruction], 
             nodeInstruction: (new Nodo('DECLARACION_MULTIPLE')).generateProduction([$1.nodeInstruction, (new Nodo('IDENTIFICADOR')).generateProduction([$3])])
         }
     }
     | 
-    IDENTIFICADOR  {
-        console.log("Un identificador");
-        $$ = {
-                returnInstruction: $1,
-                nodeInstruction: (new Nodo('IDENTIFICADOR')).generateProduction([$1])
-            }
+    IDENTIFICADOR {
+        console.log('Declara');
+        $$={
+            returnInstruction: [new declaracion.default($1, new Tipo.default(Tipo.DataType.ENTERO),  new nativo.default(new Tipo.default(Tipo.DataType.ENTERO), 0, @1.first_line, @1.first_column), @1.first_line, @1.first_column)], 
+            nodeInstruction: (new Nodo('Declaracion')).generateProduction(["int", $1, (new Nodo('VALOR_POR_DEFECTO')).generateProduction(['0'])])
         }
-        
+    }   
 ;
 
+LISTA_PARAMETROS
+    : LISTA_PARAMETROS COMA INT IDENTIFICADOR    {
+        console.log("Ando lista de parametros");
+        $$={
+            returnInstruction: [...$1.returnInstruction, $4.returnInstruction], 
+            nodeInstruction: (new Nodo('LISTA_PARAMETROS')).generateProduction([$1.nodeInstruction])
+        }
+    }
+    | INT IDENTIFICADOR {
+        $$={
+            returnInstruction: new declaracion.default($2.returnInstruction, new Tipo.default(Tipo.DataType.ENTERO),  new nativo.default(new Tipo.default(Tipo.DataType.ENTERO), 0, @1.first_line, @1.first_column), @1.first_line, @1.first_column), 
+            nodeInstruction: (new Nodo('Declaracion')).generateProduction([$1, $2, (new Nodo('VALOR_POR_DEFECTO')).generateProduction(['0'])])
+        }
+    }
+;
 
 INSTRUCCION :
     IMPRIMIR                {
@@ -198,6 +213,7 @@ INSTRUCCION :
         };
     }
     | FUNCIONES_NATIVAS     {$$=$1;}
+    | FUNCIONES      {$$=$1;}
     | SUGAR_SINTACTIC       {$$=$1;}
     | INVALID               {controller.listaErrores.push(new errores.default('ERROR LEXICO',$1, @1.first_line, @1.first_column));}
     | error  PTCOMA         {console.log("ERRORES", @1.first_line, @1.first_column); controller.listaErrores.push(new errores.default(`ERROR SINTACTICO`,"Se esperaba token", @1.first_line, @1.first_column));}
@@ -205,8 +221,10 @@ INSTRUCCION :
 
 /* Funciones */
 FUNCIONES
-    : IDENTIFICADOR PARABRE PARAMETROS PARCIERRA DOS_PUNTOS TIPO_DATO LLAVIZQ INSTRUCCIONES LLAVDER {$$=$1;}
+    : IDENTIFICADOR PARABRE LISTA_PARAMETROS PARCIERRA { console.log("Encontre una funcion"); $$=$3;}
 ;
+
+
 
 
 /* funciones nativas */
@@ -428,7 +446,7 @@ DECLARACION:
     INT IDENTIFICADORES ASIGNACION EXPRESION PTCOMA {
         console.log("Declarando entero");
         $$={
-            returnInstruction: new declaracion.default($2.returnInstruction, new Tipo.default(Tipo.DataType.ENTERO), $4.returnInstruction, @1.first_line, @1.first_column), 
+            returnInstruction: $2.returnInstruction, 
             nodeInstruction: (new Nodo('Declaracion')).generateProduction([$1, $2.nodeInstruction, 'ASIGNACION', $4.nodeInstruction, 'ptcoma'])
         }
     }

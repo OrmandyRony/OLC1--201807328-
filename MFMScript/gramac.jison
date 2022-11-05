@@ -12,8 +12,14 @@
     const mientras = require('./Instructions/Mientras');
     const doWhile = require('./Instructions/DoWhile');
     const doUntil = require('./Instructions/DoUntil');
+    const cicloFor = require('./Instructions/CicloFor');
     const asignacion = require('./Instructions/Asignacion');
+    const sugar = require('./Instructions/SyntacticSugar');
+    const sugarDecremento = require('./Instructions/Decremento');
+    const TypeOf = require('./Instructions/TypeOf');
+    const ToString = require('./Instructions/ToString');
     const { Nodo } = require('./Symbol/Three')
+    
 %}
 %lex 
 
@@ -33,12 +39,14 @@
 'char'          return 'CHAR';
 'string'        return 'STRING';
 
-
-
 /* cierrre */
-/* Imprimir */
-"print"(ln)?         return 'RESPRINT';
-
+/* Funciones nativas */
+"print"(ln)?    return 'RESPRINT';
+"typeof"        return 'TYPE_OF';
+'tolower'       return 'TO_LOWER';
+'toUpper'       return 'TO_UPPER';
+'tostring'      return 'TO_STRING';
+'round'         return 'ROUND';
 
 /* Condicionales */
 "if"            return 'RESIF';
@@ -51,6 +59,10 @@
 'do'            return "RES_DO";
 'until'         return 'RES_UNTIL';
 
+/* incremento y decremento*/
+"++"             return 'INCREMENTO';
+"--"             return 'DECREMENTO';
+
 /* Operaciones aritmeticas */
 "+"             return 'MAS';
 "-"             return 'MENOS';
@@ -58,6 +70,7 @@
 "/"             return 'DIVIDIDO';
 '^'             return 'POTENCIA';
 '%'             return 'MODULO';
+':'             return 'DOS_PUNTOS';
 
 /* Operaciones relacionales */
 '<='            return 'MENOR_IGUAL';
@@ -112,7 +125,8 @@
 %left 'MAS' 'MENOS'
 %left 'POR' 'DIVIDIDO'  
 %left 'POTENCIA' 'MODULO'
-%right UMENOS
+
+
 
 
 %start INIT
@@ -143,6 +157,8 @@ INSTRUCCIONES :
     }
 ;
 
+
+
 IDENTIFICADORES: 
     IDENTIFICADORES COMA  IDENTIFICADOR {
         $$={
@@ -157,10 +173,24 @@ IDENTIFICADORES:
                 returnInstruction: $1,
                 nodeInstruction: (new Nodo('IDENTIFICADOR')).generateProduction([$1])
             }
-        }
-        
+        }       
 ;
 
+LISTA_PARAMETROS
+    : LISTA_PARAMETROS COMA INT IDENTIFICADOR    {
+        console.log("Ando lista de parametros");
+        $$={
+            returnInstruction: [...$1.returnInstruction, $4.returnInstruction], 
+            nodeInstruction: (new Nodo('LISTA_PARAMETROS')).generateProduction([$1.nodeInstruction])
+        }
+    }
+    | INT IDENTIFICADOR {
+        $$={
+            returnInstruction: new declaracion.default($2.returnInstruction, new Tipo.default(Tipo.DataType.ENTERO),  new nativo.default(new Tipo.default(Tipo.DataType.ENTERO), 0, @1.first_line, @1.first_column), @1.first_line, @1.first_column), 
+            nodeInstruction: (new Nodo('Declaracion')).generateProduction([$1, $2, (new Nodo('VALOR_POR_DEFECTO')).generateProduction(['0'])])
+        }
+    }
+;
 
 INSTRUCCION :
     IMPRIMIR                {
@@ -172,6 +202,7 @@ INSTRUCCION :
     | WHILEINS              {$$=$1;}
     | DO_WHILE_INS          {$$=$1;}
     | DO_UNTIL_INS          {$$=$1;}
+    | FOR_INS               {$$=$1;}
     | REASIGNACION          {$$=$1;} // cuidado con esta clase
     | IFINS                 {$$=$1;}
     | DECLARACION           {
@@ -180,11 +211,92 @@ INSTRUCCION :
             nodeInstruction: (new Nodo("INSTRUCCION")).generateProduction([$1.nodeInstruction]) 
         };
     }
-    | INVALID               {controller.listaErrores.push(new errores.default('ERROR LEXICO',$1,@1.first_line,@1.first_column));}
-    | error  PTCOMA         {controller.listaErrores.push(new errores.default(`ERROR SINTACTICO`,"Se esperaba token",@1.first_line,@1.first_column));}
+    | FUNCIONES_NATIVAS     {$$=$1;}
+    | FUNCIONES      {$$=$1;}
+    | SUGAR_SINTACTIC       {$$=$1;}
+    | INVALID               {controller.listaErrores.push(new errores.default('ERROR LEXICO',$1, @1.first_line, @1.first_column));}
+    | error  PTCOMA         {console.log("ERRORES", @1.first_line, @1.first_column); controller.listaErrores.push(new errores.default(`ERROR SINTACTICO`,"Se esperaba token", @1.first_line, @1.first_column));}
+;
+
+/* Funciones */
+FUNCIONES
+    : IDENTIFICADOR PARABRE LISTA_PARAMETROS PARCIERRA { console.log("Encontre una funcion"); $$=$3;}
 ;
 
 
+
+
+/* funciones nativas */
+FUNCIONES_NATIVAS
+    : STRING IDENTIFICADORES ASIGNACION TYPE_OF_INS  {
+        $$={
+            returnInstruction: new declaracion.default($2.returnInstruction, new Tipo.default(Tipo.DataType.CADENA), $4.returnInstruction, @1.first_line, @1.first_column), 
+            nodeInstruction: (new Nodo('Declaracion')).generateProduction([$1, $2, 'ASIGNACION', $4.nodeInstruction, 'ptcoma'])
+        }
+    }
+    | STRING IDENTIFICADORES ASIGNACION TO_STRING_INS  {
+        $$={
+            returnInstruction: new declaracion.default($2.returnInstruction, new Tipo.default(Tipo.DataType.CADENA), $4.returnInstruction, @1.first_line, @1.first_column), 
+            nodeInstruction: (new Nodo('Declaracion')).generateProduction([$1, $2, 'ASIGNACION', $4.nodeInstruction, 'ptcoma'])
+        }
+    }
+;
+
+
+
+TYPE_OF_INS
+    : TYPE_OF PARABRE EXPRESIONES PARCIERRA PTCOMA {
+        console.log("type of");
+        $$={
+            returnInstruction: new TypeOf.default($3.returnInstruction, @1.first_line, @1.first_column), 
+            nodeInstruction: (new Nodo('TYPE_OF')).generateProduction([$3.nodeInstruction, 'ptcoma'])
+        }
+    }
+;
+
+TO_STRING_INS
+    :  TO_STRING PARABRE EXPRESIONES PARCIERRA PTCOMA {
+        console.log("type String");
+        $$={
+            returnInstruction: new ToString.default($3.returnInstruction, @1.first_line, @1.first_column), 
+            nodeInstruction: (new Nodo('TO_STRING')).generateProduction([$3.nodeInstruction, 'ptcoma'])
+        }
+    }
+;
+/* Azucar sintactica */
+SUGAR_SINTACTIC:
+    IDENTIFICADOR INCREMENTO PTCOMA  {
+        console.log("Azucar++");
+        $$={
+            returnInstruction: new sugar.default($1, @1.first_line, @1.first_column),
+            nodeInstruction: (new Nodo('Incremento')).generateProduction([$1 + "++"])
+        }
+    }
+    |
+    IDENTIFICADOR DECREMENTO PTCOMA {
+        console.log("Azucar");
+        $$={
+            returnInstruction: new sugarDecremento.default($1, @1.first_line, @1.first_column),
+            nodeInstruction: (new Nodo('Decremento')).generateProduction([$1 + "--"])
+        }
+    }
+    |
+    IDENTIFICADOR INCREMENTO   {
+        console.log("Azucar++");
+        $$={
+            returnInstruction: new sugar.default($1, @1.first_line, @1.first_column),
+            nodeInstruction: (new Nodo('Incremento')).generateProduction([$1 + "++"])
+        }
+    }
+    |
+    IDENTIFICADOR DECREMENTO  {
+        console.log("Azucar");
+        $$={
+            returnInstruction: new sugarDecremento.default($1, @1.first_line, @1.first_column),
+            nodeInstruction: (new Nodo('Decremento')).generateProduction([$1 + "--"])
+        }
+    }
+;
 
 /*CICLOS*/
 /* While */
@@ -193,6 +305,23 @@ WHILEINS:
         $$={
             returnInstruction: new mientras.default($3.returnInstruction, $6.returnInstruction, @1.first_line, @1.first_column), 
             nodeInstruction: (new Nodo("WHILE")).generateProduction(["WHILE","(", $3.nodeInstruction, ")", "{", $6.nodeInstruction, "}"]) 
+        }
+    }
+;
+
+FOR_INS:
+    RES_FOR PARABRE DECLARACION EXPRESIONES PTCOMA SUGAR_SINTACTIC PARCIERRA LLAVIZQ INSTRUCCIONES LLAVDER {
+        console.log("reconi el for--------------------------------------");
+        $$={
+            returnInstruction: new cicloFor.default($3.returnInstruction, $4.returnInstruction, $6.returnInstruction, $9.returnInstruction, @1.first_line, @1.first_column), 
+            nodeInstruction: (new Nodo("FOR_INS")).generateProduction(["FOR","(", $3.nodeInstruction, $4.nodeInstruction, $6.nodeInstruction,")", "{", $9.nodeInstruction, "}"]) 
+        }
+    }
+    | RES_FOR PARABRE REASIGNACION EXPRESIONES PTCOMA SUGAR_SINTACTIC PARCIERRA LLAVIZQ INSTRUCCIONES LLAVDER {
+        console.log("reconi el for REASIGNACION--------------------------------------");
+        $$={
+            returnInstruction: new cicloFor.default($3.returnInstruction, $4.returnInstruction, $6.returnInstruction, $9.returnInstruction, @1.first_line, @1.first_column), 
+            nodeInstruction: (new Nodo("FOR_INS")).generateProduction(["FOR","(", $3.nodeInstruction, $4.nodeInstruction, $6.nodeInstruction,")", "{", $9.nodeInstruction, "}"]) 
         }
     }
 ;
@@ -289,7 +418,7 @@ ELSEIFSINS :
 ;
 */
 /* TipoS de dato */
-/*
+
 TIPO_DATO: 
     INT             {$$ = $1;}
     | DOUBLE        {$$ = $1;}
@@ -297,7 +426,7 @@ TIPO_DATO:
     | CHAR          {$$ = $1;}    
     | STRING        {$$ = $1;}
 ;
-*/
+
 
 /* Asignacion cambiarle nombre a reasinacion */
 REASIGNACION 
@@ -314,6 +443,7 @@ REASIGNACION
 DECLARACION:
 
     INT IDENTIFICADORES ASIGNACION EXPRESION PTCOMA {
+        console.log("Declarando entero");
         $$={
             returnInstruction: new declaracion.default($2.returnInstruction, new Tipo.default(Tipo.DataType.ENTERO), $4.returnInstruction, @1.first_line, @1.first_column), 
             nodeInstruction: (new Nodo('Declaracion')).generateProduction([$1, $2.nodeInstruction, 'ASIGNACION', $4.nodeInstruction, 'ptcoma'])
@@ -407,13 +537,6 @@ EXPRESIONES
 ;
 
 EXPRESION : 
-    MENOS EXPRESION %prec UMENOS {
-        $$={
-            returnInstruction: new aritmetico.default(aritmetico.tipoOp.NEGATIVO, $1, $2.returnInstruction, @1.first_line, @1.first_column),
-            nodeInstruction: (new Nodo('EXPRESION')).generateProduction(['-', $2.nodeInstruction])
-        }
-    }
-    |
     EXPRESION MAS EXPRESION {
          //console.log("declaracion suma");
         $$={
@@ -465,6 +588,10 @@ EXPRESION :
         }
     }
    | LITERALES {$$=$1; }
+;
+
+EXPRESION_CADENA
+    : EXPRESION_CADENA MAS EXPRESION_CADENA
 ;
 
 LITERALES: 
@@ -521,6 +648,7 @@ EXPRESION_RELACIONAL
     }
     |
     EXPRESION MENOR_QUE EXPRESION {
+        console.log("Detecto una expresion relacional");
         $$={
             returnInstruction: new relacional.default(relacional.tipoOp.MENOR, $1.returnInstruction, $3.returnInstruction, @1.first_line, @1.first_column),
             nodeInstruction: (new Nodo('EXPRESION_RELACIONAL')).generateProduction([$1.nodeInstruction, 'MENOR_QUE', $3.nodeInstruction])

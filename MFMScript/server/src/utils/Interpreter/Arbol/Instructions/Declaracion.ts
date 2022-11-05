@@ -18,7 +18,7 @@ export default class Declaracion extends Instruccion {
         this.id = id;
         this.tipo = tipo;
         this.valor = valor;
-        // console.log("Declarando ------")
+        console.log("Declarandose ------")
     }
 
     public interpretar(arbol: Arbol, tabla: tablaSimbolo) {
